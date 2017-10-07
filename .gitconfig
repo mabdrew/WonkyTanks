@@ -1,0 +1,2 @@
+[guitool "refresh-upstream"]
+	cmd = git fetch -f upstream && git branch -f master upstream/master && git push -f origin master
