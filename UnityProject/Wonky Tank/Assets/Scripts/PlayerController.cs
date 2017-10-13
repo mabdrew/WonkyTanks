@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour {
         {
             if (GObj.CompareTag("Game"))
             {
+                print("Found game");
                 OwningGame = GObj;
                 break;
             }
@@ -81,9 +82,9 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate ()
     {
-
-        byte[] FrameNumberAndTankID = {CurrentFrame,TankID};
-        gameObject.SendMessage("MoveTank", FrameNumberAndTankID);
+        byte[] FrameNumberAndTankID = {CurrentFrame, TankID };
+        //gameObject.SendMessage("MoveTank", FrameNumberAndTankID);
+        OwningGame.SendMessage("MoveTank", FrameNumberAndTankID);
 
         CurrentFrame++;
         if (CurrentFrame == 30)
