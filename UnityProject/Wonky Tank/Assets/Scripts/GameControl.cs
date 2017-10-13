@@ -25,7 +25,7 @@ public class GameControl : MonoBehaviour {
         foreach (var child in Children)
         {
             if (child.CompareTag("Tanks"))
-            {
+            {   //madbrew -- general question : should we try and prune message forwarding when necessary?
                 child.SendMessage("MoveTank", fno_and_tid);
                 break;
             }
