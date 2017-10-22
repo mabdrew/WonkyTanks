@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Game
   - Tanks
+  - Map
+  - Network_Manager
+  - Enemies
+  - Projectiles
   layers:
   - Default
   - TransparentFX

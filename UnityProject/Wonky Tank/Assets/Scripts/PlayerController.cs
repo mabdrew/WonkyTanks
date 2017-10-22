@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+//using UnityEngine.Time;
+using TankMessages;
+
 
 public class PlayerController : MonoBehaviour {
 
@@ -16,7 +19,7 @@ public class PlayerController : MonoBehaviour {
     public KeyCode Right;
 
     GameObject OwningGame;
-    byte CurrentFrame; //Q : figure out how to fix framerates. Better way to track frames?
+    int CurrentFrame; //Q : figure out how to fix framerates. Better way to track frames?
     public byte TankID;
 
     byte GetTankID()
@@ -55,7 +58,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     void MoveForward()
-    {
+    {   
         //move Forward
         if (Input.GetKey(Forward))
         {
@@ -71,29 +74,26 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    void MoveTank(byte[] fno_and_tid)
-    {
-        if (fno_and_tid[1] != TankID)
+    void MoveTank(MoveTankMsg fno_tid)
+    {   //Q : what to do with frame no?
+        if (fno_tid.TankID != TankID)
             return;//if your tank id doesn't match, then ignore the message to move
         MoveForward();
         Turn();
-    }  
+    }
 
 	// Update is called once per frame
 	void FixedUpdate ()
     {
-        byte[] FrameNumberAndTankID = {CurrentFrame, TankID };
-        //gameObject.SendMessage("MoveTank", FrameNumberAndTankID);
-        OwningGame.SendMessage("MoveTank", FrameNumberAndTankID);
-
-        CurrentFrame++;
-        if (CurrentFrame == 30)
-            CurrentFrame = 0;
+        CurrentFrame = Time.frameCount;
+        MoveTankMsg FrameNumberAndTankID = new MoveTankMsg(TankID, CurrentFrame);
+        OwningGame.SendMessage("MoveTank", FrameNumberAndTankID, SendMessageOptions.DontRequireReceiver); 
+        //MAKE forward and rotate individual events
+            //madbrew : what about order on recieving end?
     }
 
     void OnTriggerEnter(Collider other)
     {
-
         if (other.gameObject.CompareTag("Finish"))
         {
             // Loads title screen.

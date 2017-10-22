@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TankMessages;
 
 public class GameControl : MonoBehaviour {
 
@@ -20,19 +21,17 @@ public class GameControl : MonoBehaviour {
 	}
 
 
-    void MoveTank(byte[] fno_and_tid) 
+    void MoveTank(MoveTankMsg fno_tid) 
     { //send move msg's to all child tanks
         foreach (var child in Children)
         {
             if (child.CompareTag("Tanks"))
             {   //madbrew -- general question : should we try and prune message forwarding when necessary?
-                child.SendMessage("MoveTank", fno_and_tid);
-                break;
+                child.SendMessage("MoveTank", fno_tid, SendMessageOptions.DontRequireReceiver);
             }
         }
     }
-    //madison : unity will complain if the function flatout doesn't exist. It seems exessive to have to have an empty implementation for every function that must traverse the tree
-
+    
 	// Update is called once per frame
 	void Update () {
 		

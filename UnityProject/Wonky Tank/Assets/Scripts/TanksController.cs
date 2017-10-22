@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TankMessages;
 
 public class TanksController : MonoBehaviour {
 
@@ -19,13 +20,12 @@ public class TanksController : MonoBehaviour {
         }
 	}
 
-    void MoveTank(byte[] fno_and_tid) 
+    void MoveTank(MoveTankMsg fno_tid) 
     {
         foreach (var child in Children)
-                child.SendMessage("MoveTank", fno_and_tid);
+            child.SendMessage("MoveTank", fno_tid, SendMessageOptions.DontRequireReceiver);
     }
-    //madison : unity will complain if the function flatout doesn't exist. It seems exessive to have to have an empty implementation for every function that must traverse the tree
-	
+   
 	// Update is called once per frame
 	void Update () {
 		
