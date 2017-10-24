@@ -43,7 +43,7 @@ class DamageTankMsg
     }
 
     public byte TankID;
-    int FrameNo;
+    public int FrameNo;
     public float Amount; 
 }
 
