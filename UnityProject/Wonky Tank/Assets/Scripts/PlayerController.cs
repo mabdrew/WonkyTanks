@@ -12,15 +12,23 @@ public class PlayerController : MonoBehaviour {
 
     public float PlayerSpeed;
     public float RotateSpeed;
+    public float StrafeSpeed;
 
     public KeyCode Forward;
     public KeyCode Backward;
     public KeyCode Left;
     public KeyCode Right;
+    public KeyCode StrafeLeft;
+    public KeyCode StrafeRight;
+
 
     GameObject OwningGame;
     int CurrentFrame; //Q : figure out how to fix framerates. Better way to track frames?
     public byte TankID;
+
+    private float Stamina;
+    private float health;
+
 
     byte GetTankID()
     {
@@ -34,19 +42,16 @@ public class PlayerController : MonoBehaviour {
         Backward = KeyCode.S;
         Left = KeyCode.A;
         Right = KeyCode.D;
+        StrafeLeft = KeyCode.Z;
+        StrafeRight = KeyCode.X;
 
         //on start up find your parent game
-        var RootGMs = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
-        
-        foreach (var GObj in RootGMs)
-        {
-            if (GObj.CompareTag("Game"))
-            {
-                print("Found game");
-                OwningGame = GObj;
-                break;
-            }
-        }
+        GameUtilities.FindGame(ref OwningGame);
+
+        StrafeSpeed = 2.0f;
+
+        Stamina = 100.0f;
+        health = 100.0f;
     }
 
     void Turn() //rotate Left or Right
@@ -74,12 +79,47 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    void Strafe()
+    {   
+        if(Input.GetKey(StrafeRight) || Input.GetKey(StrafeLeft))
+            if(Stamina>0.0f)
+                Stamina -= 3.0f;
+        if(Input.GetKey(StrafeLeft))
+        {
+            if(Stamina>0.0f)
+                transform.position -= transform.right * Time.deltaTime * StrafeSpeed;
+        }
+        if(Input.GetKey(StrafeRight))
+        {
+            if(Stamina>0.0f)
+                transform.position += transform.right * Time.deltaTime * StrafeSpeed;
+        }
+        if(!Input.GetKey(StrafeRight) && !Input.GetKey(StrafeRight))
+        {
+            if (Stamina > 100.0f)
+                Stamina = 100.0f;
+            else if (Stamina<100.0f)
+            {
+                Stamina += .125f;
+            }
+        }
+    }
+
     void MoveTank(MoveTankMsg fno_tid)
     {   //Q : what to do with frame no?
         if (fno_tid.TankID != TankID)
             return;//if your tank id doesn't match, then ignore the message to move
         MoveForward();
         Turn();
+        Strafe();
+    }
+
+    void DamageTank(DamageTankMsg dmsg)
+    {
+        if(dmsg.TankID==TankID)
+        {
+            health -= dmsg.Amount;
+        }
     }
 
 	// Update is called once per frame

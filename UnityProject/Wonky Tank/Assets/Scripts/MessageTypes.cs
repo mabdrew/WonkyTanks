@@ -2,6 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+class GameUtilities
+{   //broad, useful functions for the game
+
+    public static void FindGame(ref GameObject game_in)
+    {   //finds the main game object
+        var RootGMs = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+
+        foreach (var GObj in RootGMs)
+        {
+            if (GObj.CompareTag("Game"))
+            {
+                game_in = GObj;
+                break;
+            }
+        }
+    }
+}
 
 namespace TankMessages
 {
@@ -14,5 +31,20 @@ class MoveTankMsg
     public byte TankID;
     public int FrameNo;
 };
+
+class DamageTankMsg
+{
+    public DamageTankMsg() { TankID = 0; FrameNo = 0; Amount = 0.0f; }
+    public DamageTankMsg(byte tid, int fno, float amt)
+    {
+        TankID = tid;
+        FrameNo = fno;
+        Amount = amt;
+    }
+
+    public byte TankID;
+    int FrameNo;
+    public float Amount; 
+}
 
 }
