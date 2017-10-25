@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 //using UnityEngine.Time;
 using TankMessages;
+using System;
 
 
 public class PlayerController : MonoBehaviour {
@@ -29,7 +30,6 @@ public class PlayerController : MonoBehaviour {
     private float Stamina;
     private float health;
 
-
     byte GetTankID()
     {
         return TankID;
@@ -49,69 +49,117 @@ public class PlayerController : MonoBehaviour {
         GameUtilities.FindGame(ref OwningGame);
 
         StrafeSpeed = 2.0f;
-
         Stamina = 100.0f;
         health = 100.0f;
     }
 
-    void Turn() //rotate Left or Right
+    void TurnTank(RotateTankMsg msg) //rotate Left or Right
     {
-        if (Input.GetKey(Left) || Input.GetKey(Right))
+        if(msg.TankID==TankID)
         {
-            transform.Rotate(0.0f, Input.GetAxis("Horizontal") * RotateSpeed, 0.0f);
-        }
-    }
-
-    void MoveForward()
-    {   
-        //move Forward
-        if (Input.GetKey(Forward))
-        {
-            transform.position += transform.forward * Time.deltaTime * PlayerSpeed;
-            Turn(); //having a call to turn here enables turning while moving
-        }
-
-        //move Backward
-        else if (Input.GetKey(Backward))
-        {
-            transform.position -= transform.forward * Time.deltaTime * PlayerSpeed;
-            Turn(); //enable turning while moving Backward
-        }
-    }
-
-    void Strafe()
-    {   
-        if(Input.GetKey(StrafeRight) || Input.GetKey(StrafeLeft))
-            if(Stamina>0.0f)
-                Stamina -= 3.0f;
-        if(Input.GetKey(StrafeLeft))
-        {
-            if(Stamina>0.0f)
-                transform.position -= transform.right * Time.deltaTime * StrafeSpeed;
-        }
-        if(Input.GetKey(StrafeRight))
-        {
-            if(Stamina>0.0f)
-                transform.position += transform.right * Time.deltaTime * StrafeSpeed;
-        }
-        if(!Input.GetKey(StrafeRight) && !Input.GetKey(StrafeRight))
-        {
-            if (Stamina > 100.0f)
-                Stamina = 100.0f;
-            else if (Stamina<100.0f)
+            if(msg.Direction)
             {
-                Stamina += .125f;
+                transform.Rotate(0.0f, Input.GetAxis("Horizontal") * RotateSpeed, 0.0f);
+            }
+            else
+            {
+                transform.Rotate(0.0f, Input.GetAxis("Horizontal") * RotateSpeed, 0.0f);
+            }
+        }
+
+        //if (Input.GetKey(Left) || Input.GetKey(Right))
+        //{
+        //    transform.Rotate(0.0f, Input.GetAxis("Horizontal") * RotateSpeed, 0.0f);
+        //}
+    }
+
+    void MoveTank(MoveTankMsg msg)
+    {   
+        if(msg.TankID==TankID)
+        {
+            if (msg.Direction)
+            {   //forward
+                transform.position += transform.forward * Time.deltaTime * PlayerSpeed;
+            }
+            else
+            {   //backward
+                transform.position -= transform.forward * Time.deltaTime * PlayerSpeed;
             }
         }
     }
 
-    void MoveTank(MoveTankMsg fno_tid)
-    {   //Q : what to do with frame no?
-        if (fno_tid.TankID != TankID)
-            return;//if your tank id doesn't match, then ignore the message to move
-        MoveForward();
-        Turn();
-        Strafe();
+    void StrafeTank(StrafeTankMsg msg)
+    {   
+        //dir tid, fno
+        if(msg.TankID==TankID)
+        {
+            if(msg.Direction)
+            {//strafeleft
+                if (Stamina > 0.0f)
+                {
+                    transform.position -= transform.right * Time.deltaTime * StrafeSpeed;
+                    Stamina -= (2.0f + Math.Abs(Stamina / 100f) + .01f);
+                }
+            }
+            else
+            {//straferight
+                if (Stamina > 0.0f)
+                {
+                    transform.position += transform.right * Time.deltaTime * StrafeSpeed;
+                    Stamina -= (2.0f + Math.Abs(Stamina / 100f) + .01f);
+                }
+            }
+        }
+    }
+
+
+    void CheckMoveTank()
+    {
+        if(Input.GetKey(Forward))
+        {   //forward
+            MoveTankMsg msg = new MoveTankMsg(TankID, CurrentFrame, true);
+            OwningGame.SendMessage("MoveTank", msg, GameUtilities.DONT_CARE_RECIEVER);
+        }
+        if(Input.GetKey(Backward))
+        {   //backward
+            MoveTankMsg msg = new MoveTankMsg(TankID, CurrentFrame, false);
+            OwningGame.SendMessage("MoveTank", msg, GameUtilities.DONT_CARE_RECIEVER);
+        }
+    }
+
+    void CheckTurnTank()
+    {
+        if (Input.GetKey(Left))
+        {
+            RotateTankMsg msg = new RotateTankMsg(TankID, CurrentFrame, true);
+            OwningGame.SendMessage("TurnTank", msg, GameUtilities.DONT_CARE_RECIEVER);
+        }
+        if (Input.GetKey(Right))
+        {
+            RotateTankMsg msg = new RotateTankMsg(TankID, CurrentFrame, true);
+            OwningGame.SendMessage("TurnTank", msg, GameUtilities.DONT_CARE_RECIEVER);
+        }
+    }
+
+    void CheckStrafeTank()
+    {
+        if (Input.GetKey(StrafeLeft))
+        {
+            StrafeTankMsg msg = new StrafeTankMsg(TankID, CurrentFrame, true);
+            OwningGame.SendMessage("StrafeTank",msg,GameUtilities.DONT_CARE_RECIEVER);
+        }
+        if (Input.GetKey(StrafeRight))
+        {
+            StrafeTankMsg msg = new StrafeTankMsg(TankID, CurrentFrame, false);
+            OwningGame.SendMessage("StrafeTank", msg, GameUtilities.DONT_CARE_RECIEVER);
+        }
+    }
+
+    void MoveTank()
+    {   
+        CheckMoveTank();
+        CheckTurnTank();
+        CheckStrafeTank();
     }
 
     void DamageTank(DamageTankMsg dmsg)
@@ -122,14 +170,32 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    void HealStamina()
+    {
+        if (Stamina > 100.0f)
+            Stamina = 100.0f;
+        else if (Stamina < 100.0f)
+        {
+            Stamina += Math.Abs(Stamina / 100f) + .01f;
+        }
+        if (Stamina < -5.0f)
+            Stamina = 0.0f;
+        print(Stamina);
+    }
+
 	// Update is called once per frame
 	void FixedUpdate ()
     {
         CurrentFrame = Time.frameCount;
-        MoveTankMsg FrameNumberAndTankID = new MoveTankMsg(TankID, CurrentFrame);
-        OwningGame.SendMessage("MoveTank", FrameNumberAndTankID, SendMessageOptions.DontRequireReceiver); 
+        //MoveTankMsg FrameNumberAndTankID = new MoveTankMsg(TankID, CurrentFrame);
+        //FIXME madbrew : shouldn't send messages each frame, only when move key is pressed. Hack for now.
+        //if (Input.GetKey(Left) || Input.GetKey(Right) || Input.GetKey(Forward) 
+        //    || Input.GetKey(Backward) || Input.GetKey(StrafeLeft) || Input.GetKey(StrafeRight))
+        //    OwningGame.SendMessage("MoveTank", FrameNumberAndTankID, SendMessageOptions.DontRequireReceiver); 
         //MAKE forward and rotate individual events
             //madbrew : what about order on recieving end?
+        MoveTank();
+        HealStamina();
     }
 
     void OnTriggerEnter(Collider other)

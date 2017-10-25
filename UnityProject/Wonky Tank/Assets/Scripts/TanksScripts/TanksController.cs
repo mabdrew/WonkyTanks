@@ -20,10 +20,23 @@ public class TanksController : MonoBehaviour {
         }
 	}
 
-    void MoveTank(MoveTankMsg fno_tid) 
+    //madbrew : is there a better way than implementing each of these functions? some sort of auto-forward, maybe?
+    void StrafeTank(StrafeTankMsg msg)
     {
         foreach (var child in Children)
-            child.SendMessage("MoveTank", fno_tid, SendMessageOptions.DontRequireReceiver);
+                child.SendMessage("StrafeTank", msg, GameUtilities.DONT_CARE_RECIEVER);          
+    }
+
+    void MoveTank(MoveTankMsg msg)
+    {
+        foreach (var child in Children)
+            child.SendMessage("MoveTank", msg, GameUtilities.DONT_CARE_RECIEVER);    
+    }
+
+    void TurnTank(RotateTankMsg msg)
+    {
+        foreach (var child in Children)
+            child.SendMessage("TurnTank", msg, GameUtilities.DONT_CARE_RECIEVER);
     }
    
 	// Update is called once per frame
