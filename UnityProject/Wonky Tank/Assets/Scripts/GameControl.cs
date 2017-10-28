@@ -22,7 +22,7 @@ public class GameControl : MonoBehaviour {
 
     //TANKSTUFF
     //madbrew : is there a better way than implementing each of these functions? some sort of auto-forward, maybe?
-    void MoveTank(MoveTankMsg fno_tid)
+    void MoveTank(TankComponentMovementMsg fno_tid)
     { //send move msg's to all child tanks
         foreach (var child in Children)
         {
@@ -34,7 +34,7 @@ public class GameControl : MonoBehaviour {
         }
     }
 
-    void StrafeTank(StrafeTankMsg msg)
+    void StrafeTank(TankComponentMovementMsg msg)
     {
         foreach (var child in Children)
         {
@@ -46,7 +46,7 @@ public class GameControl : MonoBehaviour {
         }
     }
 
-    void TurnTank(RotateTankMsg msg)
+    void TurnTank(TankComponentMovementMsg msg)
     {
         foreach (var child in Children)
         {
@@ -57,6 +57,31 @@ public class GameControl : MonoBehaviour {
             }
         }
     }
+
+    void MoveGunHorizontal(TankComponentMovementMsg msg)
+    {
+        foreach (var child in Children)
+        {
+            if (child.CompareTag("Tanks"))
+            {   //madbrew -- general question : should we try and prune message forwarding when necessary?
+                child.SendMessage("MoveGunHorizontal", msg, GameUtilities.DONT_CARE_RECIEVER);
+                break;
+            }
+        }
+    }
+
+    void MoveGunVertical(TankComponentMovementMsg msg)
+    {
+        foreach (var child in Children)
+        {
+            if (child.CompareTag("Tanks"))
+            {   //madbrew -- general question : should we try and prune message forwarding when necessary?
+                child.SendMessage("MoveGunVertical", msg, GameUtilities.DONT_CARE_RECIEVER);
+                break;
+            }
+        }
+    }
+
     //ENDTANKSTUFF
 
 	// Update is called once per frame

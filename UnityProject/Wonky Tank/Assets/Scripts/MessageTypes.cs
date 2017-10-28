@@ -25,36 +25,36 @@ class GameUtilities
 
 namespace TankMessages
 {
-
-    class MoveTankMsg
+    //madbrew : refactor into a single message type. A lot of these have identical data
+    class TankComponentMovementMsg
     {
-        public MoveTankMsg() { TankID = 0; FrameNo = 0; Direction = false; }
-        public MoveTankMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
+        public TankComponentMovementMsg() { TankID = 0; FrameNo = 0; Direction = false; }
+        public TankComponentMovementMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
 
         public bool Direction;
         public byte TankID;
         public int FrameNo;
     };
 
-    class RotateTankMsg
-    {
-        public RotateTankMsg() { TankID = 0; FrameNo = 0; Direction = false; }
-        public RotateTankMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
+    //class RotateTankMsg
+    //{
+    //    public RotateTankMsg() { TankID = 0; FrameNo = 0; Direction = false; }
+    //    public RotateTankMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
 
-        public bool Direction;
-        public byte TankID;
-        public int FrameNo;
-    };
+    //    public bool Direction;
+    //    public byte TankID;
+    //    public int FrameNo;
+    //};
 
-    class StrafeTankMsg
-    {
-        public StrafeTankMsg() { TankID = 0; FrameNo = 0; Direction = false; }
-        public StrafeTankMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
+    //class StrafeTankMsg
+    //{
+    //    public StrafeTankMsg() { TankID = 0; FrameNo = 0; Direction = false; }
+    //    public StrafeTankMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
 
-        public bool Direction;
-        public byte TankID;
-        public int FrameNo;
-    };
+    //    public bool Direction;
+    //    public byte TankID;
+    //    public int FrameNo;
+    //};
 
     class DamageTankMsg
     {
@@ -71,12 +71,23 @@ namespace TankMessages
         public float Amount; 
     }
 
-    class MoveGunMsg
-    {
-        public MoveGunMsg() { TankID = 0; FrameNo = 0; }
-        public MoveGunMsg(byte tid, int fno) { TankID = tid; FrameNo = fno; }
+    //class VertGunRotationMsg
+    //{
+    //    public VertGunRotationMsg() { TankID = 0; FrameNo = 0; Direction = false; }
+    //    public VertGunRotationMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
 
-        public byte TankID;
-        public int FrameNo;
-    }
+    //    public bool Direction;
+    //    public byte TankID;
+    //    public int FrameNo;
+    //}
+
+    //class HorzGunRotationMsg
+    //{
+    //    public HorzGunRotationMsg() { TankID = 0; FrameNo = 0; Direction = false; }
+    //    public HorzGunRotationMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
+
+    //    public bool Direction;
+    //    public byte TankID;
+    //    public int FrameNo;
+    //}
 }//TankMessages

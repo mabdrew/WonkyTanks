@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour {
         health = 100.0f;
     }
 
-    void TurnTank(RotateTankMsg msg) //rotate Left or Right
+    void TurnTank(TankComponentMovementMsg msg) //rotate Left or Right
     {
         if(msg.TankID==TankID)
         {
@@ -66,14 +66,9 @@ public class PlayerController : MonoBehaviour {
                 transform.Rotate(0.0f, Input.GetAxis("Horizontal") * RotateSpeed, 0.0f);
             }
         }
-
-        //if (Input.GetKey(Left) || Input.GetKey(Right))
-        //{
-        //    transform.Rotate(0.0f, Input.GetAxis("Horizontal") * RotateSpeed, 0.0f);
-        //}
     }
 
-    void MoveTank(MoveTankMsg msg)
+    void MoveTank(TankComponentMovementMsg msg)
     {   
         if(msg.TankID==TankID)
         {
@@ -88,7 +83,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    void StrafeTank(StrafeTankMsg msg)
+    void StrafeTank(TankComponentMovementMsg msg)
     {   
         //dir tid, fno
         if(msg.TankID==TankID)
@@ -117,12 +112,12 @@ public class PlayerController : MonoBehaviour {
     {
         if(Input.GetKey(Forward))
         {   //forward
-            MoveTankMsg msg = new MoveTankMsg(TankID, CurrentFrame, true);
+            TankComponentMovementMsg msg = new TankComponentMovementMsg(TankID, CurrentFrame, true);
             OwningGame.SendMessage("MoveTank", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
         if(Input.GetKey(Backward))
         {   //backward
-            MoveTankMsg msg = new MoveTankMsg(TankID, CurrentFrame, false);
+            TankComponentMovementMsg msg = new TankComponentMovementMsg(TankID, CurrentFrame, false);
             OwningGame.SendMessage("MoveTank", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
     }
@@ -131,12 +126,12 @@ public class PlayerController : MonoBehaviour {
     {
         if (Input.GetKey(Left))
         {
-            RotateTankMsg msg = new RotateTankMsg(TankID, CurrentFrame, true);
+            TankComponentMovementMsg msg = new TankComponentMovementMsg(TankID, CurrentFrame, true);
             OwningGame.SendMessage("TurnTank", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
         if (Input.GetKey(Right))
         {
-            RotateTankMsg msg = new RotateTankMsg(TankID, CurrentFrame, true);
+            TankComponentMovementMsg msg = new TankComponentMovementMsg(TankID, CurrentFrame, true);
             OwningGame.SendMessage("TurnTank", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
     }
@@ -145,12 +140,12 @@ public class PlayerController : MonoBehaviour {
     {
         if (Input.GetKey(StrafeLeft))
         {
-            StrafeTankMsg msg = new StrafeTankMsg(TankID, CurrentFrame, true);
+            TankComponentMovementMsg msg = new TankComponentMovementMsg(TankID, CurrentFrame, true);
             OwningGame.SendMessage("StrafeTank",msg,GameUtilities.DONT_CARE_RECIEVER);
         }
         if (Input.GetKey(StrafeRight))
         {
-            StrafeTankMsg msg = new StrafeTankMsg(TankID, CurrentFrame, false);
+            TankComponentMovementMsg msg = new TankComponentMovementMsg(TankID, CurrentFrame, false);
             OwningGame.SendMessage("StrafeTank", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
     }
@@ -180,14 +175,14 @@ public class PlayerController : MonoBehaviour {
         }
         if (Stamina < -5.0f)
             Stamina = 0.0f;
-        print(Stamina);
+        //print(Stamina);
     }
 
 	// Update is called once per frame
 	void FixedUpdate ()
     {
         CurrentFrame = Time.frameCount;
-        //MoveTankMsg FrameNumberAndTankID = new MoveTankMsg(TankID, CurrentFrame);
+        //TankComponentMovementMsg FrameNumberAndTankID = new TankComponentMovementMsg(TankID, CurrentFrame);
         //FIXME madbrew : shouldn't send messages each frame, only when move key is pressed. Hack for now.
         //if (Input.GetKey(Left) || Input.GetKey(Right) || Input.GetKey(Forward) 
         //    || Input.GetKey(Backward) || Input.GetKey(StrafeLeft) || Input.GetKey(StrafeRight))

@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TankMessages;
+public class TankOwnerCtl : MonoBehaviour {
 
-public class TanksController : MonoBehaviour {
 
     GameObject[] Children;
-
 	// Use this for initialization
 	void Start () {
         int noChildren = gameObject.transform.childCount;
         Children = new GameObject[noChildren];
 
-        print("tanks has " + noChildren.ToString() + " children");
+        print("TankOwner has " + noChildren.ToString() + " children");
 
         for (int iChild = 0; iChild < noChildren; iChild++)//gather children for easy access
         {
@@ -20,17 +19,16 @@ public class TanksController : MonoBehaviour {
         }
 	}
 
-    //madbrew : is there a better way than implementing each of these functions? some sort of auto-forward, maybe?
     void StrafeTank(TankComponentMovementMsg msg)
     {
         foreach (var child in Children)
-                child.SendMessage("StrafeTank", msg, GameUtilities.DONT_CARE_RECIEVER);          
+            child.SendMessage("StrafeTank", msg, GameUtilities.DONT_CARE_RECIEVER);
     }
 
     void MoveTank(TankComponentMovementMsg msg)
     {
         foreach (var child in Children)
-            child.SendMessage("MoveTank", msg, GameUtilities.DONT_CARE_RECIEVER);    
+            child.SendMessage("MoveTank", msg, GameUtilities.DONT_CARE_RECIEVER);
     }
 
     void TurnTank(TankComponentMovementMsg msg)
@@ -38,7 +36,7 @@ public class TanksController : MonoBehaviour {
         foreach (var child in Children)
             child.SendMessage("TurnTank", msg, GameUtilities.DONT_CARE_RECIEVER);
     }
-    
+
     void MoveGunHorizontal(TankComponentMovementMsg msg)
     {
         foreach (var child in Children)
@@ -51,7 +49,6 @@ public class TanksController : MonoBehaviour {
             child.SendMessage("MoveGunVertical", msg, GameUtilities.DONT_CARE_RECIEVER);
     }
 
-   
 	// Update is called once per frame
 	void Update () {
 		
