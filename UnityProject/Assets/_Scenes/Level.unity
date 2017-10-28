@@ -2209,6 +2209,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GunCamera: {fileID: 315640907}
   TankCamera: {fileID: 2136892571}
+--- !u!1 &1919928950
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1919928951}
+  m_Layer: 0
+  m_Name: BulletSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1919928951
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1919928950}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2026292981}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1993406470 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4320646912511892, guid: a7e07a2aab3e98042bb7cda75528dbd5,
@@ -2277,6 +2305,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2026292981}
   - component: {fileID: 2026292982}
+  - component: {fileID: 2026292983}
   m_Layer: 9
   m_Name: GunBody
   m_TagString: Untagged
@@ -2296,6 +2325,7 @@ Transform:
   m_Children:
   - {fileID: 315640903}
   - {fileID: 1174627295}
+  - {fileID: 1919928951}
   m_Father: {fileID: 406602903}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -2316,6 +2346,20 @@ MonoBehaviour:
   Right: 108
   Up: 105
   Down: 107
+--- !u!114 &2026292983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2026292980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c04d88a78ca8a41a03f79af8fdc57e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WonkyBullet: {fileID: 1692421369768032, guid: 797e80af9dca98a4b9459735f01b65b7,
+    type: 2}
+  BulletSpawn: {fileID: 1919928951}
 --- !u!1001 &2119800114
 Prefab:
   m_ObjectHideFlags: 0
