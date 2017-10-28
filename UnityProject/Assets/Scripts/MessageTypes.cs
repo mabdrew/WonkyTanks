@@ -36,26 +36,6 @@ namespace TankMessages
         public int FrameNo;
     };
 
-    //class RotateTankMsg
-    //{
-    //    public RotateTankMsg() { TankID = 0; FrameNo = 0; Direction = false; }
-    //    public RotateTankMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
-
-    //    public bool Direction;
-    //    public byte TankID;
-    //    public int FrameNo;
-    //};
-
-    //class StrafeTankMsg
-    //{
-    //    public StrafeTankMsg() { TankID = 0; FrameNo = 0; Direction = false; }
-    //    public StrafeTankMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
-
-    //    public bool Direction;
-    //    public byte TankID;
-    //    public int FrameNo;
-    //};
-
     class DamageTankMsg
     {
         public DamageTankMsg() { TankID = 0; FrameNo = 0; Amount = 0.0f; }
@@ -70,24 +50,4 @@ namespace TankMessages
         public int FrameNo;
         public float Amount; 
     }
-
-    //class VertGunRotationMsg
-    //{
-    //    public VertGunRotationMsg() { TankID = 0; FrameNo = 0; Direction = false; }
-    //    public VertGunRotationMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
-
-    //    public bool Direction;
-    //    public byte TankID;
-    //    public int FrameNo;
-    //}
-
-    //class HorzGunRotationMsg
-    //{
-    //    public HorzGunRotationMsg() { TankID = 0; FrameNo = 0; Direction = false; }
-    //    public HorzGunRotationMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
-
-    //    public bool Direction;
-    //    public byte TankID;
-    //    public int FrameNo;
-    //}
 }//TankMessages
