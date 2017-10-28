@@ -16,6 +16,10 @@ public class GunController : MonoBehaviour {
     public KeyCode Down;
 
     private float GunRotateSpeed;
+    private float DeltaY;
+    private int DeviationX;
+    private const int UpperDeviationLimit = 10;
+    private const int LowerDeviationLimit = -2;
 
 	// Use this for initialization
 	void Start () {
@@ -26,6 +30,8 @@ public class GunController : MonoBehaviour {
         Up = KeyCode.U;
         Down = KeyCode.J;
 
+        DeviationX = 0;
+        DeltaY = 6.0f;
         GunRotateSpeed = 20f;
 	}
 
@@ -35,11 +41,19 @@ public class GunController : MonoBehaviour {
         {
             if (msg.Direction)
             {
-                transform.Rotate(Vector3.right, 5 * GunRotateSpeed * Time.deltaTime);
+                if (DeviationX < UpperDeviationLimit)
+                {
+                    transform.Rotate(Vector3.right, -5 * GunRotateSpeed * Time.deltaTime);
+                    DeviationX++;
+                }
             }
             else
             {
-                transform.Rotate(Vector3.right, -5 * GunRotateSpeed * Time.deltaTime);
+                if (DeviationX > LowerDeviationLimit)
+                {
+                    transform.Rotate(Vector3.right, 5 * GunRotateSpeed * Time.deltaTime);
+                    DeviationX--;
+                }
             }
         }
     }
@@ -66,11 +80,18 @@ public class GunController : MonoBehaviour {
         {
             if (msg.Direction)
             {
-                transform.Rotate(Vector3.forward, 5*GunRotateSpeed * Time.deltaTime);
+                Vector3 EAng = transform.rotation.eulerAngles;
+                EAng.y += DeltaY;
+                transform.rotation = Quaternion.Euler(EAng);
+                //transform.Rotate(Vector3.forward, 5*GunRotateSpeed * Time.deltaTime);
             }
             else
-            {
-                transform.Rotate(Vector3.forward, -5 * GunRotateSpeed * Time.deltaTime);
+            {   //madbrew : workaround. If I use the Rotate function with Vector3.forward, I get a Z axis rotation that rotates the gun
+                    // in a plane created by the x rotation
+                Vector3 EAng = transform.rotation.eulerAngles;
+                EAng.y -= DeltaY;
+                transform.rotation = Quaternion.Euler(EAng);
+                //transform.Rotate(Vector3.forward, -5 * GunRotateSpeed * Time.deltaTime);
             }
         }
     }
