@@ -224,6 +224,7 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114000064935042954, guid: 137da33f7ca0ecd439f3fd2ffff35f10, type: 2}
+    - {fileID: 135027276560342484, guid: 137da33f7ca0ecd439f3fd2ffff35f10, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 137da33f7ca0ecd439f3fd2ffff35f10, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &217329910
@@ -416,6 +417,7 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114000064935042954, guid: 137da33f7ca0ecd439f3fd2ffff35f10, type: 2}
+    - {fileID: 135027276560342484, guid: 137da33f7ca0ecd439f3fd2ffff35f10, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 137da33f7ca0ecd439f3fd2ffff35f10, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &369801864
@@ -540,6 +542,7 @@ Prefab:
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 114000064935042954, guid: 137da33f7ca0ecd439f3fd2ffff35f10, type: 2}
+    - {fileID: 135027276560342484, guid: 137da33f7ca0ecd439f3fd2ffff35f10, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 137da33f7ca0ecd439f3fd2ffff35f10, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &394269071
@@ -738,6 +741,7 @@ Prefab:
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 114000064935042954, guid: 137da33f7ca0ecd439f3fd2ffff35f10, type: 2}
+    - {fileID: 135027276560342484, guid: 137da33f7ca0ecd439f3fd2ffff35f10, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 137da33f7ca0ecd439f3fd2ffff35f10, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &758091552
@@ -1777,7 +1781,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1625282960}
   - component: {fileID: 1625282963}
-  - component: {fileID: 1625282962}
   - component: {fileID: 1625282961}
   m_Layer: 9
   m_Name: Cube
@@ -1831,18 +1834,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &1625282962
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1625282959}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &1625282963
 MeshFilter:
   m_ObjectHideFlags: 0
