@@ -1246,7 +1246,7 @@ GameObject:
   - component: {fileID: 1174627293}
   - component: {fileID: 1174627292}
   m_Layer: 0
-  m_Name: Gunnose
+  m_Name: GunNose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2066,7 +2066,7 @@ GameObject:
   - component: {fileID: 2026292981}
   - component: {fileID: 2026292982}
   m_Layer: 0
-  m_Name: GunCenterer
+  m_Name: GunBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2094,14 +2094,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2026292980}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a45317430b0e21f46a7806b79a3470b5, type: 3}
+  m_Script: {fileID: 11500000, guid: 95b50ad5bed543a49b60f36ca06e0b14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   OwningTank: {fileID: 1086280645}
-  Left: 104
-  Right: 107
-  Up: 0
-  Down: 0
+  Left: 106
+  Right: 108
+  Up: 105
+  Down: 107
 --- !u!1001 &2119800114
 Prefab:
   m_ObjectHideFlags: 0

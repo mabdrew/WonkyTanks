@@ -4,7 +4,7 @@ using UnityEngine;
 using TankMessages;
 
 
-public class GunController : MonoBehaviour {
+public class GunBody : MonoBehaviour {
 
     public GameObject OwningTank;
     private GameObject OwningGame;
