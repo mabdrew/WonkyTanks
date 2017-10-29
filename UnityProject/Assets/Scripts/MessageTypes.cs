@@ -25,7 +25,6 @@ class GameUtilities
 
 namespace TankMessages
 {
-    //madbrew : refactor into a single message type. A lot of these have identical data
     class TankComponentMovementMsg
     {
         public TankComponentMovementMsg() { TankID = 0; FrameNo = 0; Direction = false; }

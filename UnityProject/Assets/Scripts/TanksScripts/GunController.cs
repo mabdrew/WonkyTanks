@@ -83,7 +83,6 @@ public class GunController : MonoBehaviour {
                 Vector3 EAng = transform.rotation.eulerAngles;
                 EAng.y += DeltaY;
                 transform.rotation = Quaternion.Euler(EAng);
-                //transform.Rotate(Vector3.forward, 5*GunRotateSpeed * Time.deltaTime);
             }
             else
             {   //madbrew : workaround. If I use the Rotate function with Vector3.forward, I get a Z axis rotation that rotates the gun
@@ -91,7 +90,6 @@ public class GunController : MonoBehaviour {
                 Vector3 EAng = transform.rotation.eulerAngles;
                 EAng.y -= DeltaY;
                 transform.rotation = Quaternion.Euler(EAng);
-                //transform.Rotate(Vector3.forward, -5 * GunRotateSpeed * Time.deltaTime);
             }
         }
     }

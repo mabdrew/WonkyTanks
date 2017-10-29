@@ -5,6 +5,12 @@ using TankMessages;
 
 public class GameControl : MonoBehaviour {
 
+    public Camera GunCamera;
+    public Camera TankCamera;
+    private KeyCode Switch;
+    int FrameSwitched;
+    private const int FrameDelta = 15;
+
     GameObject[] Children;
 
 	// Use this for initialization
@@ -18,6 +24,15 @@ public class GameControl : MonoBehaviour {
         {
             Children[iChild] = gameObject.transform.GetChild(iChild).gameObject;
         }
+
+        Switch = KeyCode.LeftControl;
+        if (GunCamera != null && TankCamera != null)
+        {
+            GunCamera.enabled = true;
+            TankCamera.enabled = false;
+        }
+
+        FrameSwitched = Time.frameCount;
 	}
 
     //TANKSTUFF
@@ -81,11 +96,24 @@ public class GameControl : MonoBehaviour {
             }
         }
     }
-
     //ENDTANKSTUFF
+    
+    void SwitchCameraLocal()
+    {   //on the LOCAL game instance, switch the active camera
+
+        if ((Time.frameCount > FrameSwitched + FrameDelta) && Input.GetKey(Switch))
+        {
+            if (GunCamera != null && TankCamera != null)
+            {
+                GunCamera.enabled = !GunCamera.enabled;
+                TankCamera.enabled = !TankCamera.enabled;
+                FrameSwitched = Time.frameCount;
+            }
+        }
+    }
 
 	// Update is called once per frame
 	void Update () {
-		
+        SwitchCameraLocal();
 	}
 }
