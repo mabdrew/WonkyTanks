@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TankMessages;
-public class TankOwnerCtl : MonoBehaviour {
+public class TankOwner : MonoBehaviour {
 
 
     GameObject[] Children;
