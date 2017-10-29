@@ -37,7 +37,7 @@ public class GunController : MonoBehaviour {
 
     void MoveGunVertical(TankComponentMovementMsg msg)
     {   //
-        if (msg.TankID == OwningTank.GetComponent<PlayerController>().TankID)
+        if (msg.TankID == OwningTank.GetComponent<TankBody>().TankID)
         {
             if (msg.Direction)
             {
@@ -62,13 +62,13 @@ public class GunController : MonoBehaviour {
     {
         if (Input.GetKey(Up))
         {
-            TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<PlayerController>().TankID,
+            TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<TankBody>().TankID,
                                                             Time.frameCount, true);
             OwningGame.SendMessage("MoveGunVertical", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
         if (Input.GetKey(Down))
         {
-            TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<PlayerController>().TankID,
+            TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<TankBody>().TankID,
                                                 Time.frameCount, false);
             OwningGame.SendMessage("MoveGunVertical", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
@@ -76,7 +76,7 @@ public class GunController : MonoBehaviour {
 
     void MoveGunHorizontal(TankComponentMovementMsg msg)
     {
-        if(msg.TankID==OwningTank.GetComponent<PlayerController>().TankID)
+        if(msg.TankID==OwningTank.GetComponent<TankBody>().TankID)
         {
             if (msg.Direction)
             {
@@ -100,13 +100,13 @@ public class GunController : MonoBehaviour {
     {
         if(Input.GetKey(Left))
         {
-            TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<PlayerController>().TankID,
+            TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<TankBody>().TankID,
                                                             Time.frameCount, true);
             OwningGame.SendMessage("MoveGunHorizontal",msg,GameUtilities.DONT_CARE_RECIEVER);
         }
         if (Input.GetKey(Right))
         {
-            TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<PlayerController>().TankID,
+            TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<TankBody>().TankID,
                                                 Time.frameCount, false);
             OwningGame.SendMessage("MoveGunHorizontal", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
