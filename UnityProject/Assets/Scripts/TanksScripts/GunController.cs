@@ -8,6 +8,7 @@ public class GunController : MonoBehaviour {
 
     public GameObject OwningTank;
     private GameObject OwningGame;
+    public Camera GunCamera;
 
     public KeyCode Left;
     public KeyCode Right;
@@ -20,6 +21,7 @@ public class GunController : MonoBehaviour {
     private int DeviationX;
     private const int UpperDeviationLimit = 10;
     private const int LowerDeviationLimit = -2;
+    private KeyCode FireButton;
 
 	// Use this for initialization
 	void Start () {
@@ -33,6 +35,7 @@ public class GunController : MonoBehaviour {
         DeviationX = 0;
         DeltaY = 6.0f;
         GunRotateSpeed = 20f;
+        FireButton = KeyCode.LeftAlt;
 	}
 
     void MoveGunVertical(TankComponentMovementMsg msg)
@@ -115,6 +118,24 @@ public class GunController : MonoBehaviour {
         CheckVerticalMove();
         CheckHorizontalMove();
     }
+
+    void LocalFireSomething()
+    {   //prototype function. For testing purposes only
+        if(Input.GetKey(FireButton)){
+            Vector3 CirclePos = new Vector3();
+            //var EAng = transform.rotation.eulerAngles;
+            //CirclePos.z = Mathf.Sin(EAng.x * (Mathf.PI) / 180f);
+            //CirclePos.y = Mathf.Cos(EAng.x * (Mathf.PI) / 180f);
+            //CirclePos.x = Mathf.Sin(EAng.z * (Mathf.PI) / 180f);
+            //CirclePos *= 2f;
+            //CirclePos += transform.position;
+            CirclePos = transform.position + GunCamera.transform.forward;
+            
+
+            GameObject somecircle = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            somecircle.transform.position = CirclePos;
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -123,5 +144,6 @@ public class GunController : MonoBehaviour {
         NewPos.y += 0.5f;//MAGIC NUMBER
 		transform.position = NewPos;
         MoveGun();
+        LocalFireSomething();
 	}
 }

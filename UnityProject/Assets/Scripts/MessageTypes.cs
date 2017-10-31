@@ -25,6 +25,8 @@ class GameUtilities
 
 namespace TankMessages
 {
+    enum ShotType { Bouncy = 0 }
+
     class TankComponentMovementMsg
     {
         public TankComponentMovementMsg() { TankID = 0; FrameNo = 0; Direction = false; }
