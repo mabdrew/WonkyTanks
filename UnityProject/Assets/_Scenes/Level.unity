@@ -3537,6 +3537,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OwningTank: {fileID: 1086280645}
+  GunCamera: {fileID: 2136892571}
   Left: 104
   Right: 107
   Up: 0
@@ -3706,7 +3707,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2136892567}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -9.999988, z: -5.991929}
+  m_LocalPosition: {x: 0, y: -2, z: -2}
   m_LocalScale: {x: 4, y: 3.9999545, z: 2}
   m_Children: []
   m_Father: {fileID: 2026292981}
