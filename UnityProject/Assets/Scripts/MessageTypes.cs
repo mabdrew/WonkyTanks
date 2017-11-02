@@ -25,7 +25,8 @@ class GameUtilities
 
 namespace TankMessages
 {
-    //madbrew : refactor into a single message type. A lot of these have identical data
+    enum ShotType { Bouncy = 0 }
+
     class TankComponentMovementMsg
     {
         public TankComponentMovementMsg() { TankID = 0; FrameNo = 0; Direction = false; }
@@ -35,26 +36,6 @@ namespace TankMessages
         public byte TankID;
         public int FrameNo;
     };
-
-    //class RotateTankMsg
-    //{
-    //    public RotateTankMsg() { TankID = 0; FrameNo = 0; Direction = false; }
-    //    public RotateTankMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
-
-    //    public bool Direction;
-    //    public byte TankID;
-    //    public int FrameNo;
-    //};
-
-    //class StrafeTankMsg
-    //{
-    //    public StrafeTankMsg() { TankID = 0; FrameNo = 0; Direction = false; }
-    //    public StrafeTankMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
-
-    //    public bool Direction;
-    //    public byte TankID;
-    //    public int FrameNo;
-    //};
 
     class DamageTankMsg
     {
@@ -70,24 +51,4 @@ namespace TankMessages
         public int FrameNo;
         public float Amount; 
     }
-
-    //class VertGunRotationMsg
-    //{
-    //    public VertGunRotationMsg() { TankID = 0; FrameNo = 0; Direction = false; }
-    //    public VertGunRotationMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
-
-    //    public bool Direction;
-    //    public byte TankID;
-    //    public int FrameNo;
-    //}
-
-    //class HorzGunRotationMsg
-    //{
-    //    public HorzGunRotationMsg() { TankID = 0; FrameNo = 0; Direction = false; }
-    //    public HorzGunRotationMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
-
-    //    public bool Direction;
-    //    public byte TankID;
-    //    public int FrameNo;
-    //}
 }//TankMessages
