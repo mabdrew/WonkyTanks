@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TankMessages;
 
-public class TanksController : MonoBehaviour {
+public class Tanks : MonoBehaviour {
 
     GameObject[] Children;
 

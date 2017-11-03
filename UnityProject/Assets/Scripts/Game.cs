@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TankMessages;
 
-public class GameControl : MonoBehaviour {
+public class Game : MonoBehaviour {
 
     public Camera GunCamera;
     public Camera TankCamera;

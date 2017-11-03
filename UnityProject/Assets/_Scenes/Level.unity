@@ -957,7 +957,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 758091552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af1f7368a6877e646b652075e640dd5a, type: 3}
+  m_Script: {fileID: 11500000, guid: 4795f4ac50641634f9cc44aba73598e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &863922530
@@ -2204,7 +2204,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1859727488}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 240619f56e653a54d811a3e14350f43d, type: 3}
+  m_Script: {fileID: 11500000, guid: 565fe2c7974257c48b41f17f70432217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   GunCamera: {fileID: 315640907}

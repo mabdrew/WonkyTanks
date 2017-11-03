@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MapMessages;
 
-public class CollectableController : MonoBehaviour {
+public class Collectable : MonoBehaviour {
 
     private GameObject playerObject;
     private GameObject collectableObject;
