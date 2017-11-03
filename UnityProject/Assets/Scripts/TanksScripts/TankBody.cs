@@ -7,9 +7,9 @@ using TankMessages;
 using System;
 
 
-public class PlayerController : MonoBehaviour {
+public class TankBody : MonoBehaviour {
 
-   // private Rigidbody rigBod;
+    // private Rigidbody rigBod;
 
     public float PlayerSpeed;
     public float RotateSpeed;
@@ -178,17 +178,11 @@ public class PlayerController : MonoBehaviour {
         //print(Stamina);
     }
 
-	// Update is called once per frame
-	void FixedUpdate ()
+    // Update is called once per frame
+    void FixedUpdate ()
     {
         CurrentFrame = Time.frameCount;
-        //TankComponentMovementMsg FrameNumberAndTankID = new TankComponentMovementMsg(TankID, CurrentFrame);
-        //FIXME madbrew : shouldn't send messages each frame, only when move key is pressed. Hack for now.
-        //if (Input.GetKey(Left) || Input.GetKey(Right) || Input.GetKey(Forward) 
-        //    || Input.GetKey(Backward) || Input.GetKey(StrafeLeft) || Input.GetKey(StrafeRight))
-        //    OwningGame.SendMessage("MoveTank", FrameNumberAndTankID, SendMessageOptions.DontRequireReceiver); 
-        //MAKE forward and rotate individual events
-            //madbrew : what about order on recieving end?
+        //madbrew : what about order on recieving end?
         MoveTank();
         HealStamina();
     }

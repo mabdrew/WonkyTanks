@@ -4,10 +4,11 @@ using UnityEngine;
 using TankMessages;
 
 
-public class GunController : MonoBehaviour {
+public class GunBody : MonoBehaviour {
 
     public GameObject OwningTank;
     private GameObject OwningGame;
+    public Camera GunCamera;
 
     public KeyCode Left;
     public KeyCode Right;
@@ -20,6 +21,7 @@ public class GunController : MonoBehaviour {
     private int DeviationX;
     private const int UpperDeviationLimit = 10;
     private const int LowerDeviationLimit = -2;
+    private KeyCode FireButton;
 
 	// Use this for initialization
 	void Start () {
@@ -33,11 +35,12 @@ public class GunController : MonoBehaviour {
         DeviationX = 0;
         DeltaY = 6.0f;
         GunRotateSpeed = 20f;
+        FireButton = KeyCode.LeftAlt;
 	}
 
     void MoveGunVertical(TankComponentMovementMsg msg)
     {   //
-        if (msg.TankID == OwningTank.GetComponent<PlayerController>().TankID)
+        if (msg.TankID == OwningTank.GetComponent<TankBody>().TankID)
         {
             if (msg.Direction)
             {
@@ -62,13 +65,13 @@ public class GunController : MonoBehaviour {
     {
         if (Input.GetKey(Up))
         {
-            TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<PlayerController>().TankID,
+            TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<TankBody>().TankID,
                                                             Time.frameCount, true);
             OwningGame.SendMessage("MoveGunVertical", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
         if (Input.GetKey(Down))
         {
-            TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<PlayerController>().TankID,
+            TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<TankBody>().TankID,
                                                 Time.frameCount, false);
             OwningGame.SendMessage("MoveGunVertical", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
@@ -76,14 +79,13 @@ public class GunController : MonoBehaviour {
 
     void MoveGunHorizontal(TankComponentMovementMsg msg)
     {
-        if(msg.TankID==OwningTank.GetComponent<PlayerController>().TankID)
+        if(msg.TankID==OwningTank.GetComponent<TankBody>().TankID)
         {
             if (msg.Direction)
             {
                 Vector3 EAng = transform.rotation.eulerAngles;
                 EAng.y += DeltaY;
                 transform.rotation = Quaternion.Euler(EAng);
-                //transform.Rotate(Vector3.forward, 5*GunRotateSpeed * Time.deltaTime);
             }
             else
             {   //madbrew : workaround. If I use the Rotate function with Vector3.forward, I get a Z axis rotation that rotates the gun
@@ -91,7 +93,6 @@ public class GunController : MonoBehaviour {
                 Vector3 EAng = transform.rotation.eulerAngles;
                 EAng.y -= DeltaY;
                 transform.rotation = Quaternion.Euler(EAng);
-                //transform.Rotate(Vector3.forward, -5 * GunRotateSpeed * Time.deltaTime);
             }
         }
     }
@@ -100,13 +101,13 @@ public class GunController : MonoBehaviour {
     {
         if(Input.GetKey(Left))
         {
-            TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<PlayerController>().TankID,
+            TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<TankBody>().TankID,
                                                             Time.frameCount, true);
             OwningGame.SendMessage("MoveGunHorizontal",msg,GameUtilities.DONT_CARE_RECIEVER);
         }
         if (Input.GetKey(Right))
         {
-            TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<PlayerController>().TankID,
+            TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<TankBody>().TankID,
                                                 Time.frameCount, false);
             OwningGame.SendMessage("MoveGunHorizontal", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
@@ -117,6 +118,27 @@ public class GunController : MonoBehaviour {
         CheckVerticalMove();
         CheckHorizontalMove();
     }
+
+    void LocalFireSomethingTest()
+    {   //prototype function. For testing purposes only
+        if(Input.GetKey(FireButton)){
+            Vector3 CirclePos = new Vector3();
+            CirclePos = transform.position + GunCamera.transform.forward;
+            
+            GameObject somecircle = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            somecircle.transform.position = CirclePos;
+        }
+    }
+
+    void CheckFireGun()
+    {   //for now, it defaults to bouncy. Later should add capability for multiple shot types.
+        if(Input.GetKey(FireButton))
+        {
+            CreateProjectileMsg msg = new CreateProjectileMsg(true, Time.frameCount, ShotType.Bouncy,
+                transform.position + GunCamera.transform.forward,transform.position);
+            OwningGame.SendMessage("CreateProjectile",msg, GameUtilities.DONT_CARE_RECIEVER);
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -125,5 +147,7 @@ public class GunController : MonoBehaviour {
         NewPos.y += 0.5f;//MAGIC NUMBER
 		transform.position = NewPos;
         MoveGun();
+        CheckFireGun();
+        //LocalFireSomethingTest();
 	}
 }

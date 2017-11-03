@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class GameUtilities
+static class GameUtilities
 {   //broad, useful functions for the game
 
     public static void FindGame(ref GameObject game_in)
@@ -25,7 +25,8 @@ class GameUtilities
 
 namespace TankMessages
 {
-    //madbrew : refactor into a single message type. A lot of these have identical data
+    enum ShotType { InvalidShotType = -1, Bouncy = 0 }
+
     class TankComponentMovementMsg
     {
         public TankComponentMovementMsg() { TankID = 0; FrameNo = 0; Direction = false; }
@@ -36,25 +37,32 @@ namespace TankMessages
         public int FrameNo;
     };
 
-    //class RotateTankMsg
-    //{
-    //    public RotateTankMsg() { TankID = 0; FrameNo = 0; Direction = false; }
-    //    public RotateTankMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
+    class CreateProjectileMsg
+    {
+        public CreateProjectileMsg()
+        {
+            PlayerFriendly = false;
+            FrameNo = 0;
+            TypeFired = ShotType.InvalidShotType;
+            InitialPosition = Vector3.zero;
+            DirectionReference = Vector3.zero;
+        }
 
-    //    public bool Direction;
-    //    public byte TankID;
-    //    public int FrameNo;
-    //};
+        public CreateProjectileMsg(bool pf, int fno, ShotType tf, Vector3 ip, Vector3 dr)
+        {
+            PlayerFriendly = pf;
+            FrameNo = fno;
+            TypeFired = tf;
+            InitialPosition = ip;
+            DirectionReference = dr;
+        }
 
-    //class StrafeTankMsg
-    //{
-    //    public StrafeTankMsg() { TankID = 0; FrameNo = 0; Direction = false; }
-    //    public StrafeTankMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
-
-    //    public bool Direction;
-    //    public byte TankID;
-    //    public int FrameNo;
-    //};
+        public bool PlayerFriendly;//whether or not the projectile can harm/affect players
+        public int FrameNo;
+        public ShotType TypeFired;
+        public Vector3 InitialPosition;//starting position of the projectile
+        public Vector3 DirectionReference;//A vector to use in conjuction with InitialPosition to create direction of projectile
+    }
 
     class DamageTankMsg
     {
@@ -70,24 +78,15 @@ namespace TankMessages
         public int FrameNo;
         public float Amount; 
     }
-
-    //class VertGunRotationMsg
-    //{
-    //    public VertGunRotationMsg() { TankID = 0; FrameNo = 0; Direction = false; }
-    //    public VertGunRotationMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
-
-    //    public bool Direction;
-    //    public byte TankID;
-    //    public int FrameNo;
-    //}
-
-    //class HorzGunRotationMsg
-    //{
-    //    public HorzGunRotationMsg() { TankID = 0; FrameNo = 0; Direction = false; }
-    //    public HorzGunRotationMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
-
-    //    public bool Direction;
-    //    public byte TankID;
-    //    public int FrameNo;
-    //}
 }//TankMessages
+
+namespace MapMessages
+{
+    class GetCollectableMsg
+    {
+        public GameObject collectableObj;
+        //public int FrameNo;
+
+        public GetCollectableMsg(GameObject collectable) { collectableObj = collectable; }
+    }
+}
