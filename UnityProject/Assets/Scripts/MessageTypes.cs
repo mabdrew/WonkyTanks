@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class GameUtilities
+static class GameUtilities
 {   //broad, useful functions for the game
 
     public static void FindGame(ref GameObject game_in)

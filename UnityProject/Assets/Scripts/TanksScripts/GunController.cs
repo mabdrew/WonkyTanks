@@ -119,16 +119,10 @@ public class GunController : MonoBehaviour {
         CheckHorizontalMove();
     }
 
-    void LocalFireSomething()
+    void LocalFireSomethingTest()
     {   //prototype function. For testing purposes only
         if(Input.GetKey(FireButton)){
             Vector3 CirclePos = new Vector3();
-            //var EAng = transform.rotation.eulerAngles;
-            //CirclePos.z = Mathf.Sin(EAng.x * (Mathf.PI) / 180f);
-            //CirclePos.y = Mathf.Cos(EAng.x * (Mathf.PI) / 180f);
-            //CirclePos.x = Mathf.Sin(EAng.z * (Mathf.PI) / 180f);
-            //CirclePos *= 2f;
-            //CirclePos += transform.position;
             CirclePos = transform.position + GunCamera.transform.forward;
             
 
@@ -144,6 +138,6 @@ public class GunController : MonoBehaviour {
         NewPos.y += 0.5f;//MAGIC NUMBER
 		transform.position = NewPos;
         MoveGun();
-        LocalFireSomething();
+        //LocalFireSomething();
 	}
 }
