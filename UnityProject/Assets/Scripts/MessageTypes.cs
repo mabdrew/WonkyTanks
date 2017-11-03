@@ -25,7 +25,7 @@ static class GameUtilities
 
 namespace TankMessages
 {
-    enum ShotType { Bouncy = 0 }
+    enum ShotType { InvalidShotType = -1, Bouncy = 0 }
 
     class TankComponentMovementMsg
     {
@@ -36,6 +36,33 @@ namespace TankMessages
         public byte TankID;
         public int FrameNo;
     };
+
+    class CreateProjectileMsg
+    {
+        public CreateProjectileMsg()
+        {
+            PlayerFriendly = false;
+            FrameNo = 0;
+            TypeFired = ShotType.InvalidShotType;
+            InitialPosition = Vector3.zero;
+            DirectionReference = Vector3.zero;
+        }
+
+        public CreateProjectileMsg(bool pf, int fno, ShotType tf, Vector3 ip, Vector3 dr)
+        {
+            PlayerFriendly = pf;
+            FrameNo = fno;
+            TypeFired = tf;
+            InitialPosition = ip;
+            DirectionReference = dr;
+        }
+
+        public bool PlayerFriendly;//whether or not the projectile can harm/affect players
+        public int FrameNo;
+        public ShotType TypeFired;
+        public Vector3 InitialPosition;//starting position of the projectile
+        public Vector3 DirectionReference;//A vector to use in conjuction with InitialPosition to create direction of projectile
+    }
 
     class DamageTankMsg
     {

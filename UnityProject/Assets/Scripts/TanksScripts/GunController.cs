@@ -125,9 +125,18 @@ public class GunController : MonoBehaviour {
             Vector3 CirclePos = new Vector3();
             CirclePos = transform.position + GunCamera.transform.forward;
             
-
             GameObject somecircle = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             somecircle.transform.position = CirclePos;
+        }
+    }
+
+    void CheckFireGun()
+    {   //for now, it defaults to bouncy. Later should add capability for multiple shot types.
+        if(Input.GetKey(FireButton))
+        {
+            CreateProjectileMsg msg = new CreateProjectileMsg(true, Time.frameCount, ShotType.Bouncy,
+                transform.position + GunCamera.transform.forward,transform.position);
+            OwningGame.SendMessage("CreateProjectile",msg, GameUtilities.DONT_CARE_RECIEVER);
         }
     }
 	
@@ -138,6 +147,7 @@ public class GunController : MonoBehaviour {
         NewPos.y += 0.5f;//MAGIC NUMBER
 		transform.position = NewPos;
         MoveGun();
-        //LocalFireSomething();
+        CheckFireGun();
+        //LocalFireSomethingTest();
 	}
 }
