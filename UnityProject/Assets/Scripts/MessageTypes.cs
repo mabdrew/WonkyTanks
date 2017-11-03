@@ -91,3 +91,14 @@ namespace TankMessages
     //    public int FrameNo;
     //}
 }//TankMessages
+
+namespace MapMessages
+{
+    class GetCollectableMsg
+    {
+        public GameObject collectableObj;
+        //public int FrameNo;
+
+        public GetCollectableMsg(GameObject collectable) { collectableObj = collectable; }
+    }
+}

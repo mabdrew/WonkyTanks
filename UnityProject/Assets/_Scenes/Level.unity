@@ -599,6 +599,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 394269072}
+  - component: {fileID: 394269073}
   m_Layer: 0
   m_Name: Map
   m_TagString: Map
@@ -624,6 +625,17 @@ Transform:
   m_Father: {fileID: 1859727489}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &394269073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 394269071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63266aa947686d143b5b2bbc339c53c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &406602902
 GameObject:
   m_ObjectHideFlags: 0
@@ -2074,8 +2086,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1786932190}
+  - component: {fileID: 1786932191}
   m_Layer: 0
-  m_Name: Collectables
+  m_Name: CollectableParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2096,6 +2109,17 @@ Transform:
   m_Father: {fileID: 394269072}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1786932191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1786932189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de6424978a48de48872f031beb97382, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1808459045 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4320646912511892, guid: a7e07a2aab3e98042bb7cda75528dbd5,
@@ -2350,7 +2374,6 @@ GameObject:
   - component: {fileID: 2136892570}
   - component: {fileID: 2136892569}
   - component: {fileID: 2136892568}
-  - component: {fileID: 2136892573}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2428,14 +2451,3 @@ Transform:
   m_Father: {fileID: 1086280646}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2136892573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2136892567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
