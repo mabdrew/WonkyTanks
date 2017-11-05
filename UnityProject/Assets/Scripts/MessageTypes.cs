@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 static class GameUtilities
 {   //broad, useful functions for the game
@@ -88,5 +89,26 @@ namespace MapMessages
         //public int FrameNo;
 
         public GetCollectableMsg(GameObject collectable) { collectableObj = collectable; }
+    }
+}
+
+namespace LevelMessages
+{
+    class LoadNextSceneMsg
+    {
+        public string SceneName;
+        public LoadSceneMode SceneModeType;
+
+        public LoadNextSceneMsg()
+        {
+            SceneName = "Title";
+            SceneModeType = LoadSceneMode.Single;
+        }
+
+        public LoadNextSceneMsg(string nextScene, LoadSceneMode nextSceneType)
+        {
+            SceneName = nextScene;
+            SceneModeType = nextSceneType;
+        }
     }
 }

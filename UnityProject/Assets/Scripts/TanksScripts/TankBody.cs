@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 //using UnityEngine.Time;
 using TankMessages;
+using LevelMessages;
 using System;
 
 
@@ -30,6 +31,8 @@ public class TankBody : MonoBehaviour {
     private float Stamina;
     private float health;
 
+    private bool isFinishActive;
+
     byte GetTankID()
     {
         return TankID;
@@ -51,6 +54,8 @@ public class TankBody : MonoBehaviour {
         StrafeSpeed = 2.0f;
         Stamina = 100.0f;
         health = 100.0f;
+
+        IsFinishActive = false;
     }
 
     void TurnTank(TankComponentMovementMsg msg) //rotate Left or Right
@@ -187,12 +192,41 @@ public class TankBody : MonoBehaviour {
         HealStamina();
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider theOther)
     {
-        if (other.gameObject.CompareTag("Finish"))
+        if (theOther.gameObject.CompareTag("Finish") && IsFinishActive == true)
         {
-            // Loads title screen.
-            SceneManager.LoadScene("Title", LoadSceneMode.Single);
+            LoadNextSceneMsg msg = new LoadNextSceneMsg("Title", LoadSceneMode.Single);
+            OwningGame.BroadcastMessage("LoadNext", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
     }
+
+    void LoadNext(LoadNextSceneMsg msg)
+    {
+        // Loads title screen.
+        SceneManager.LoadScene(msg.SceneName, msg.SceneModeType);
+    }
+
+
+
+    public bool IsFinishActive
+    {
+        get
+        {
+            return isFinishActive;
+        }
+
+        set
+        {
+            isFinishActive = value;
+        }
+    }
+
+    private void SetIsFinishActive(bool isActive)
+    {
+        IsFinishActive = isActive;
+    }
+
+
+
 }

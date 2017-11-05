@@ -43,6 +43,9 @@ public class Collectable : MonoBehaviour {
         {
             GetCollectableMsg msg = new GetCollectableMsg(collectableObject);
             OwningGame.BroadcastMessage("GetCollectable", msg, GameUtilities.DONT_CARE_RECIEVER); //make collectable disappear
+
+            //FinishPortalMsg finishMsg = new FinishPortalMsg();
+            
         }
     }
 
@@ -51,6 +54,7 @@ public class Collectable : MonoBehaviour {
         if (msg.collectableObj == collectableObject)
         {
             collectableObject.gameObject.SetActive(false);
+            OwningGame.BroadcastMessage("SetCollectablesLeft", GameUtilities.DONT_CARE_RECIEVER);
         }
     }
 }
