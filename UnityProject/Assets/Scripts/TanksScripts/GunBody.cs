@@ -134,7 +134,9 @@ public class GunBody : MonoBehaviour {
     {   //for now, it defaults to bouncy. Later should add capability for multiple shot types.
         if(Input.GetKey(FireButton))
         {
-            CreateProjectileMsg msg = new CreateProjectileMsg(true, Time.frameCount, ShotType.Bouncy,
+            CreateProjectileMsg msg = new CreateProjectileMsg(true, Time.frameCount,
+                OwningTank.GetComponent<TankBody>().TankID,
+                ShotType.Bouncy,
                 transform.position + GunCamera.transform.forward,transform.position);
             OwningGame.SendMessage("CreateProjectile",msg, GameUtilities.DONT_CARE_RECIEVER);
         }

@@ -43,15 +43,17 @@ namespace TankMessages
         {
             PlayerFriendly = false;
             FrameNo = 0;
+            TankID = 0;
             TypeFired = ShotType.InvalidShotType;
             InitialPosition = Vector3.zero;
             DirectionReference = Vector3.zero;
         }
 
-        public CreateProjectileMsg(bool pf, int fno, ShotType tf, Vector3 ip, Vector3 dr)
+        public CreateProjectileMsg(bool pf, int fno, byte tid, ShotType tf, Vector3 ip, Vector3 dr)
         {
             PlayerFriendly = pf;
             FrameNo = fno;
+            TankID = tid;
             TypeFired = tf;
             InitialPosition = ip;
             DirectionReference = dr;
@@ -59,6 +61,7 @@ namespace TankMessages
 
         public bool PlayerFriendly;//whether or not the projectile can harm/affect players
         public int FrameNo;
+        public byte TankID;
         public ShotType TypeFired;
         public Vector3 InitialPosition;//starting position of the projectile
         public Vector3 DirectionReference;//A vector to use in conjuction with InitialPosition to create direction of projectile
@@ -88,5 +91,51 @@ namespace MapMessages
         //public int FrameNo;
 
         public GetCollectableMsg(GameObject collectable) { collectableObj = collectable; }
+    }
+}
+
+namespace EnemyMessages
+{
+    enum EnemyType { InvalidEnemyType = -1, Guardian = 0, Chaser = 1 }
+
+    class DamageEnemyMsg
+    {
+        DamageEnemyMsg()
+        {
+            EType = EnemyType.InvalidEnemyType;
+            EnemyID = 0;
+            Amount = 0f;
+        }
+
+        DamageEnemyMsg(EnemyType et, byte eid, byte tid, float amt)
+        {
+            EType = et;
+            EnemyID = eid;
+            TankID = tid;
+            Amount = amt;
+        }
+
+        public EnemyType EType; 
+        public byte EnemyID;
+        public byte TankID;//the tank this damage is from
+        public float Amount;
+    }
+
+    class EnemyIDMsg
+    {
+        public EnemyIDMsg()
+        {
+            EnemyID=0;
+            EType = EnemyType.InvalidEnemyType;
+        }
+
+        public EnemyIDMsg(byte eid, EnemyType et)
+        {
+            EnemyID = eid;
+            EType = et;
+        }
+
+        public byte EnemyID;
+        public EnemyType EType; 
     }
 }
