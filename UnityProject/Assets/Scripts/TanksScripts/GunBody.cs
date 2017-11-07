@@ -22,6 +22,8 @@ public class GunBody : MonoBehaviour {
     private const int UpperDeviationLimit = 10;
     private const int LowerDeviationLimit = -2;
     private KeyCode FireButton;
+    int FrameFired;
+    const int FireWaitTime = 5;
 
 	// Use this for initialization
 	void Start () {
@@ -36,6 +38,7 @@ public class GunBody : MonoBehaviour {
         DeltaY = 6.0f;
         GunRotateSpeed = 20f;
         FireButton = KeyCode.LeftAlt;
+        FrameFired = Time.frameCount;
 	}
 
     void MoveGunVertical(TankComponentMovementMsg msg)
@@ -119,26 +122,31 @@ public class GunBody : MonoBehaviour {
         CheckHorizontalMove();
     }
 
+    bool CanFire() { return (Time.frameCount > FrameFired + FireWaitTime); }
+
     void LocalFireSomethingTest()
     {   //prototype function. For testing purposes only
-        if(Input.GetKey(FireButton)){
+        if (Input.GetKey(FireButton) && CanFire())
+        {
             Vector3 CirclePos = new Vector3();
             CirclePos = transform.position + GunCamera.transform.forward;
             
             GameObject somecircle = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             somecircle.transform.position = CirclePos;
+            FrameFired = Time.frameCount;
         }
     }
 
     void CheckFireGun()
     {   //for now, it defaults to bouncy. Later should add capability for multiple shot types.
-        if(Input.GetKey(FireButton))
+        if (Input.GetKey(FireButton) && CanFire())
         {
             CreateProjectileMsg msg = new CreateProjectileMsg(true, Time.frameCount,
                 OwningTank.GetComponent<TankBody>().TankID,
                 ShotType.Bouncy,
                 transform.position + GunCamera.transform.forward,transform.position);
             OwningGame.SendMessage("CreateProjectile",msg, GameUtilities.DONT_CARE_RECIEVER);
+            FrameFired = Time.frameCount;
         }
     }
 	

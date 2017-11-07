@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using EnemyMessages;
+
 public class Guardian : MonoBehaviour {
 
     GameObject OwningGame;
@@ -10,16 +11,22 @@ public class Guardian : MonoBehaviour {
     const float NoticeDistance = 5f;
     const float MaxAggro = 1000f;
     const float MinAggro = 0;
-    public const EnemyType EType = EnemyType.Guardian;
+    private const EnemyType EType = EnemyType.Guardian;
     public byte EnemyID;
     float Health;
+
+    int FrameFired;
+    const int FireWaitTime = 5;
 
     SortedDictionary<int, float> TankAggro;
     //map from TankID's to their associated aggro values
     GameObject[] players;
 
+    bool CanFire() { return (Time.frameCount > FrameFired + FireWaitTime); }
+
     void DamageEnemy(DamageEnemyMsg msg)
-    {
+    {   //madbrew : I don't think I need to worry about unity doing any behind the scenes multithreading
+            //and creating race conditions. If it does, I need to worry about making this thread safe.
         if(msg.EType == EType && msg.EnemyID == EnemyID)
         {
             Health -= msg.Amount;
@@ -80,6 +87,7 @@ public class Guardian : MonoBehaviour {
         GameUtilities.FindGame(ref OwningGame);
         TankAggro = new SortedDictionary<int, float>();
         Health = 100f;
+        FrameFired = Time.frameCount;
 	}
 	
 	// Update is called once per frame
