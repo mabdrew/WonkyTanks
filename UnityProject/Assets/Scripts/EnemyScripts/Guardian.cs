@@ -20,7 +20,7 @@ public class Guardian : MonoBehaviour {
 
     SortedDictionary<int, float> TankAggro;
     //map from TankID's to their associated aggro values
-    GameObject[] players;
+    GameObject[] Players;
 
     bool CanFire() { return (Time.frameCount > FrameFired + FireWaitTime); }
 
@@ -42,17 +42,21 @@ public class Guardian : MonoBehaviour {
     void AddAggro(float amt, byte tid)
     {
 
+        AssertAggroLimits();
     }
 
     void ReduceAggro(float amt, byte tid)
     {
 
+        AssertAggroLimits();
     }
 
     void FindMaxAggroPlayer()
     {   //needs to send a message for projectile only
         //find max aggro player. If their aggro > 1, look at then fire a projectile in their direction 
     
+        //always look at max aggro player
+        //if you can fire, send a create projectile message
         
     //example code from player gun *firing* a message off    
     //    void CheckFireGun()
@@ -88,6 +92,10 @@ public class Guardian : MonoBehaviour {
         TankAggro = new SortedDictionary<int, float>();
         Health = 100f;
         FrameFired = Time.frameCount;
+        Players = null;
+        GameUtilities.GetAllPlayers(ref Players);
+        if(Players!=null)
+            print("Guardian : found " + Players.Length.ToString() + " players");
 	}
 	
 	// Update is called once per frame

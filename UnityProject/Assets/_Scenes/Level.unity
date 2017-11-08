@@ -712,7 +712,7 @@ GameObject:
   - component: {fileID: 406602904}
   m_Layer: 0
   m_Name: TankOwner
-  m_TagString: Untagged
+  m_TagString: TankOwner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -961,6 +961,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TestPlayer: {fileID: 1086280645}
+  EnemyID: 0
 --- !u!1 &758091552
 GameObject:
   m_ObjectHideFlags: 0
