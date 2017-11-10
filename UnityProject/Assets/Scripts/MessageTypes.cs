@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class GameUtilities : MonoBehaviour//extends mono purely for the benefits of printing to the console
+class GameUtilities : MonoBehaviour//extends mono purely for the benefits of printing to the game console
 {   //broad, useful functions for the game
 
     public static void FindGame(ref GameObject game_in)
@@ -23,17 +23,15 @@ class GameUtilities : MonoBehaviour//extends mono purely for the benefits of pri
     {
         GameObject Game = null;
         FindGame(ref Game);
-        //GameObject Tanks=null;
+
         if(Game!=null)
         {
             GameObject Tanks = Game.transform.Find("Tanks").gameObject;
 
             int NoChildren = Tanks.transform.childCount;
             players_in = new GameObject[NoChildren];
-            print("NoChildren = " + NoChildren.ToString());
             for(int iChild=0;iChild<NoChildren;iChild++)
             {
-                //if(Tanks.transform.GetChild(iChild).gameObject.transform.GetChild)
                 players_in[iChild] = Tanks.transform.GetChild(iChild).gameObject.transform.Find("TankBody").gameObject;
             }
         }

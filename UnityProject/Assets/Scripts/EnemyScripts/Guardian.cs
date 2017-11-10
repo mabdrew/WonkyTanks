@@ -18,9 +18,22 @@ public class Guardian : MonoBehaviour {
     int FrameFired;
     const int FireWaitTime = 5;
 
-    SortedDictionary<int, float> TankAggro;
+    //ideally, this should just be a map from player references to aggro values.
+    SortedDictionary<byte, float> TankAggro;
     //map from TankID's to their associated aggro values
     GameObject[] Players;
+
+    GameObject FindPlayerFromID(byte tid)
+    {
+        foreach (var Player in Players)
+        {
+            if (tid == Player.GetComponent<TankBody>().TankID)
+            {
+                return Player;
+            }
+        }
+        return null;
+    }
 
     bool CanFire() { return (Time.frameCount > FrameFired + FireWaitTime); }
 
@@ -30,34 +43,49 @@ public class Guardian : MonoBehaviour {
         if(msg.EType == EType && msg.EnemyID == EnemyID)
         {
             Health -= msg.Amount;
-            //use the TankID from the message to increase associated player's aggro
+            float Aggro=0;
+            bool FoundPlayerAggro = TankAggro.TryGetValue(msg.TankID, out Aggro);
+            if(FoundPlayerAggro)
+            {
+                print("Found player " + msg.TankID.ToString() + " adding aggro");
+                Aggro += msg.Amount * 10;//MAGIC NUMBER
+                TankAggro[msg.TankID] = Aggro;
+            }
         }
     }
 
     void AssertAggroLimits()
     {
-        //for each player, assert aggro limits
+        foreach (var entry in TankAggro)
+        {
+            float Aggro = entry.Value;
+            if (Aggro > 1000f)
+                TankAggro[entry.Key] = 1000f;
+            else if (Aggro < 0f)
+                TankAggro[entry.Key] = 0f;
+        }
     }
     
-    void AddAggro(float amt, byte tid)
-    {
-
-        AssertAggroLimits();
-    }
-
-    void ReduceAggro(float amt, byte tid)
-    {
-
-        AssertAggroLimits();
-    }
-
-    void FindMaxAggroPlayer()
+    GameObject FindMaxAggroPlayer()
     {   //needs to send a message for projectile only
         //find max aggro player. If their aggro > 1, look at then fire a projectile in their direction 
     
         //always look at max aggro player
         //if you can fire, send a create projectile message
+        AssertAggroLimits();
+        float MaxAggro = 3f;
+        GameObject WorstPlayer = null;
         
+        foreach (var entry in TankAggro)
+        {
+            if(entry.Value>MaxAggro)
+            {
+                MaxAggro = entry.Value;
+                WorstPlayer = FindPlayerFromID(entry.Key);
+            }
+        }
+
+        return WorstPlayer;
     //example code from player gun *firing* a message off    
     //    void CheckFireGun()
     //{   //for now, it defaults to bouncy. Later should add capability for multiple shot types.
@@ -70,13 +98,58 @@ public class Guardian : MonoBehaviour {
     //        OwningGame.SendMessage("CreateProjectile",msg, GameUtilities.DONT_CARE_RECIEVER);
     //    }
     //}
-    
     }
 
-    bool IsDead()
+    bool WithInNoticeDistance(GameObject player)
     {
-        return Health <= 0f;
+        if (player != null)
+        {
+            if (player.transform != null)
+            {
+                Vector3 DistanceVector;
+
+                DistanceVector.x = transform.position.x - TestPlayer.transform.position.x;
+                DistanceVector.y = transform.position.y - TestPlayer.transform.position.y;
+                DistanceVector.z = transform.position.z - TestPlayer.transform.position.z;
+
+                float Distance = DistanceVector.magnitude;
+                return Distance < NoticeDistance;
+            }
+        }
+        return false;
     }
+
+    void PassiveUpdatePlayerAggro()
+    {   //look at each player's position, update their aggro according to whether or
+        //not they are in range of the guardian
+        foreach (var Player in Players)
+        {
+            float Aggro;
+            byte TankID = Player.GetComponent<TankBody>().TankID;
+            TankAggro.TryGetValue(TankID, out Aggro);
+
+            if (WithInNoticeDistance(Player))
+                Aggro += 10f;
+            else
+                Aggro -= 5f;
+
+            TankAggro[TankID] = Aggro;
+        }        
+    }
+
+    void AttackMaxAggroPlayer()
+    {   //Attack the max aggro player, if their aggro is greater than 3 (MAGIC NUMBER)
+        GameObject MaxAggroPlayer = FindMaxAggroPlayer();
+
+        if (MaxAggroPlayer == null)
+            return;
+
+        transform.LookAt(MaxAggroPlayer.transform);
+        //then broadcast message from game to create a projectile
+
+    }
+
+    bool IsDead() { return Health <= 0f; }
 
     void DestoryThisEnemy(EnemyIDMsg msg)
     {
@@ -89,7 +162,7 @@ public class Guardian : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         GameUtilities.FindGame(ref OwningGame);
-        TankAggro = new SortedDictionary<int, float>();
+        TankAggro = new SortedDictionary<byte, float>();
         Health = 100f;
         FrameFired = Time.frameCount;
         Players = null;
@@ -105,6 +178,9 @@ public class Guardian : MonoBehaviour {
             EnemyIDMsg  msg = new EnemyIDMsg(EnemyID, EType);
             OwningGame.BroadcastMessage("DestroyThisEnemy", msg ,GameUtilities.DONT_CARE_RECIEVER);
         }
+
+        PassiveUpdatePlayerAggro();
+        AttackMaxAggroPlayer();
 
 		//LookAtTestPlayer();
 	}
