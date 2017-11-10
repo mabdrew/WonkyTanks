@@ -12,10 +12,10 @@ public class Enemies : MonoBehaviour {
         GameUtilities.FindGame(ref OwningGame);
 	}
 
-    void DamageEnemy(DamageEnemyMsg msg)
-    {
-        BroadcastMessage("DamageEnemy", msg, GameUtilities.DONT_CARE_RECIEVER);
-    }
+    //void DamageEnemy(DamageEnemyMsg msg)
+    //{
+    //    gameObject.BroadcastMessage("DamageEnemy", msg, GameUtilities.DONT_CARE_RECIEVER);
+    //}
 	
 	// Update is called once per frame
 	void Update () {

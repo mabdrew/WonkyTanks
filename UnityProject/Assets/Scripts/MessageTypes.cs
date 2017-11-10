@@ -121,14 +121,14 @@ namespace EnemyMessages
 
     class DamageEnemyMsg
     {
-        DamageEnemyMsg()
+        public DamageEnemyMsg()
         {
             EType = EnemyType.InvalidEnemyType;
             EnemyID = GameUtilities.INVALID_ENEMY_ID;
             Amount = 0f;
         }
 
-        DamageEnemyMsg(EnemyType et, byte eid, byte tid, float amt)
+        public DamageEnemyMsg(EnemyType et, byte eid, byte tid, float amt)
         {
             EType = et;
             EnemyID = eid;

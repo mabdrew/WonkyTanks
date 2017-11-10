@@ -960,8 +960,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0a2f0dec9f182049acd4b97cc43792d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TestPlayer: {fileID: 1086280645}
   EnemyID: 0
+  TestPlayer: {fileID: 1086280645}
 --- !u!1 &758091552
 GameObject:
   m_ObjectHideFlags: 0
@@ -1661,6 +1661,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1262310951}
+  - component: {fileID: 1262310952}
   m_Layer: 0
   m_Name: Enemies
   m_TagString: Enemies
@@ -1682,6 +1683,17 @@ Transform:
   m_Father: {fileID: 1859727489}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1262310952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1262310950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09f919936d033d041840f3f4c4c94b8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1325384557
 GameObject:
   m_ObjectHideFlags: 0
@@ -2556,6 +2568,7 @@ MonoBehaviour:
   Right: 108
   Up: 105
   Down: 107
+  TestEnemyGuardian: {fileID: 697683087}
 --- !u!114 &2026292983
 MonoBehaviour:
   m_ObjectHideFlags: 0

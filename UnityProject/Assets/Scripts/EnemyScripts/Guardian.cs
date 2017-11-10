@@ -8,12 +8,10 @@ public class Guardian : MonoBehaviour {
 
     GameObject OwningGame;
 
-    public GameObject TestPlayer;//for testing purposes only
-
     const float NoticeDistance = 5f;
-    const float MaxAggro = 1000f;
+    const float MaxAggro = 10000f;
     const float MinAggro = 0;
-    const float DamageToAggroCoefficient = 10f;
+    const float DamageToAggroCoefficient = 20f;
     const float MinimumViableAggro = 3f;
     const float PassiveAggroUpTick = 10f;
     const float PassiveAggroDownTick = 5f;
@@ -73,15 +71,16 @@ public class Guardian : MonoBehaviour {
     GameObject FindMaxAggroPlayer()
     {   
         AssertAggroLimits();
-        float MaxAggro = MinimumViableAggro;
+        float RunningMaxAggro = MinimumViableAggro;
         GameObject WorstPlayer = null;
         
         foreach (var entry in TankAggro)
         {
-            if(entry.Value>MaxAggro)
+            if (entry.Value > RunningMaxAggro)
             {
-                MaxAggro = entry.Value;
+                RunningMaxAggro = entry.Value;
                 WorstPlayer = FindPlayerFromID(entry.Key);
+                print(RunningMaxAggro);
             }
         }
 
@@ -96,9 +95,9 @@ public class Guardian : MonoBehaviour {
             {
                 Vector3 DistanceVector;
 
-                DistanceVector.x = transform.position.x - TestPlayer.transform.position.x;
-                DistanceVector.y = transform.position.y - TestPlayer.transform.position.y;
-                DistanceVector.z = transform.position.z - TestPlayer.transform.position.z;
+                DistanceVector.x = transform.position.x - player.transform.position.x;
+                DistanceVector.y = transform.position.y - player.transform.position.y;
+                DistanceVector.z = transform.position.z - player.transform.position.z;
 
                 float Distance = DistanceVector.magnitude;
                 return Distance < NoticeDistance;
@@ -144,9 +143,9 @@ public class Guardian : MonoBehaviour {
 
     }
 
-    bool IsDead() { return Health <= 0f; }
+    bool IsDead() { print("Guardian Health = " + Health.ToString()); return Health <= 0f; }
 
-    void DestoryThisEnemy(EnemyIDMsg msg)
+    void DestroyThisEnemy(EnemyIDMsg msg)
     {
         if (msg.EType == EType && msg.EnemyID == EnemyID)
             Destroy(gameObject);
@@ -180,6 +179,9 @@ public class Guardian : MonoBehaviour {
 
     //testing functions. Mostly a reference for making message passing functions.
         //Will likely be removed later on.
+
+    public GameObject TestPlayer;//for testing purposes only
+
     void LookAtTestPlayer()
     {
         if (TestPlayer != null)

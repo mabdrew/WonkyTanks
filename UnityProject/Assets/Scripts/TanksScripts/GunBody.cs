@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TankMessages;
-
+using EnemyMessages;
 
 public class GunBody : MonoBehaviour {
 
@@ -124,19 +124,6 @@ public class GunBody : MonoBehaviour {
 
     bool CanFire() { return (Time.frameCount > FrameFired + FireWaitTime); }
 
-    void LocalFireSomethingTest()
-    {   //prototype function. For testing purposes only
-        if (Input.GetKey(FireButton) && CanFire())
-        {
-            Vector3 CirclePos = new Vector3();
-            CirclePos = transform.position + GunCamera.transform.forward;
-            
-            GameObject somecircle = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            somecircle.transform.position = CirclePos;
-            FrameFired = Time.frameCount;
-        }
-    }
-
     void CheckFireGun()
     {   //for now, it defaults to bouncy. Later should add capability for multiple shot types.
         if (Input.GetKey(FireButton) && CanFire())
@@ -159,5 +146,43 @@ public class GunBody : MonoBehaviour {
         MoveGun();
         CheckFireGun();
         //LocalFireSomethingTest();
+        DamageTestEnemyGuardian();
 	}
+
+    //functions for testing
+    void LocalFireSomethingTest()
+    {   //prototype function. For testing purposes only
+        if (Input.GetKey(FireButton) && CanFire())
+        {
+            Vector3 CirclePos = new Vector3();
+            CirclePos = transform.position + GunCamera.transform.forward;
+
+            GameObject somecircle = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            somecircle.transform.position = CirclePos;
+            FrameFired = Time.frameCount;
+        }
+    }
+
+    public GameObject TestEnemyGuardian;
+
+    public void DamageTestEnemyGuardian()
+    {
+        
+        if(TestEnemyGuardian!=null && Input.GetKey(KeyCode.P) && CanFire())
+        {
+            print("Attacken thha enermy!");
+        //public EnemyType EType; 
+        //public byte EnemyID;
+        //public byte TankID;//the tank this damage is from
+        //public float Amount;
+            DamageEnemyMsg msg= new DamageEnemyMsg();
+            msg.EnemyID = TestEnemyGuardian.GetComponent<Guardian>().EnemyID;
+            msg.TankID = OwningTank.GetComponent<TankBody>().TankID;
+            msg.EType = EnemyType.Guardian;
+            msg.Amount = 10f;
+            OwningGame.BroadcastMessage("DamageEnemy", msg, GameUtilities.DONT_CARE_RECIEVER);
+            FrameFired = Time.frameCount;
+        }
+    }
+
 }
