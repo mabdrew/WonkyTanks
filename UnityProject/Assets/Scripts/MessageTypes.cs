@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 class GameUtilities : MonoBehaviour//extends mono purely for the benefits of printing to the game console
-{   //broad, useful functions for the game
+{   //broad, useful functions and data for the game
 
     public static void FindGame(ref GameObject game_in)
     {   //finds the main game object
@@ -39,6 +39,8 @@ class GameUtilities : MonoBehaviour//extends mono purely for the benefits of pri
 
     public const SendMessageOptions DONT_CARE_RECIEVER = SendMessageOptions.DontRequireReceiver;
     public const SendMessageOptions DO_CARE_RECIEVER = SendMessageOptions.RequireReceiver;
+
+    public const byte INVALID_TANK_ID = 255;
 }
 
 namespace TankMessages
@@ -47,7 +49,7 @@ namespace TankMessages
 
     class TankComponentMovementMsg
     {
-        public TankComponentMovementMsg() { TankID = 0; FrameNo = 0; Direction = false; }
+        public TankComponentMovementMsg() { TankID = GameUtilities.INVALID_TANK_ID; FrameNo = 0; Direction = false; }
         public TankComponentMovementMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
 
         public bool Direction;
@@ -61,7 +63,7 @@ namespace TankMessages
         {
             PlayerFriendly = false;
             FrameNo = 0;
-            TankID = 0;
+            TankID = GameUtilities.INVALID_TANK_ID;
             TypeFired = ShotType.InvalidShotType;
             InitialPosition = Vector3.zero;
             DirectionReference = Vector3.zero;
@@ -87,7 +89,7 @@ namespace TankMessages
 
     class DamageTankMsg
     {
-        public DamageTankMsg() { TankID = 0; FrameNo = 0; Amount = 0.0f; }
+        public DamageTankMsg() { TankID = GameUtilities.INVALID_TANK_ID; FrameNo = 0; Amount = 0.0f; }
         public DamageTankMsg(byte tid, int fno, float amt)
         {
             TankID = tid;

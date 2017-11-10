@@ -133,9 +133,10 @@ public class Guardian : MonoBehaviour {
         transform.LookAt(MaxAggroPlayer.transform);
         if ( CanFire() )
         {
-            CreateProjectileMsg msg = new CreateProjectileMsg(false, Time.frameCount, 255, ShotType.Bouncy,
+            CreateProjectileMsg msg = new CreateProjectileMsg(false, Time.frameCount, GameUtilities.INVALID_TANK_ID,
+                ShotType.Bouncy,
                 transform.forward*1.5f,transform.forward);
-            OwningGame.SendMessage("CreateProjectile", msg, GameUtilities.DONT_CARE_RECIEVER);
+            OwningGame.BroadcastMessage("CreateProjectile", msg, GameUtilities.DONT_CARE_RECIEVER);
             FrameFired = Time.frameCount;
         }
 
