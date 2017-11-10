@@ -41,6 +41,7 @@ class GameUtilities : MonoBehaviour//extends mono purely for the benefits of pri
     public const SendMessageOptions DO_CARE_RECIEVER = SendMessageOptions.RequireReceiver;
 
     public const byte INVALID_TANK_ID = 255;
+    public const byte INVALID_ENEMY_ID = INVALID_TANK_ID;
 }
 
 namespace TankMessages
@@ -123,7 +124,7 @@ namespace EnemyMessages
         DamageEnemyMsg()
         {
             EType = EnemyType.InvalidEnemyType;
-            EnemyID = 0;
+            EnemyID = GameUtilities.INVALID_ENEMY_ID;
             Amount = 0f;
         }
 
@@ -145,7 +146,7 @@ namespace EnemyMessages
     {
         public EnemyIDMsg()
         {
-            EnemyID=0;
+            EnemyID = GameUtilities.INVALID_ENEMY_ID;
             EType = EnemyType.InvalidEnemyType;
         }
 

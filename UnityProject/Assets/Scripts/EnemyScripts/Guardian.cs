@@ -9,9 +9,15 @@ public class Guardian : MonoBehaviour {
     GameObject OwningGame;
 
     public GameObject TestPlayer;//for testing purposes only
+
     const float NoticeDistance = 5f;
     const float MaxAggro = 1000f;
     const float MinAggro = 0;
+    const float DamageToAggroCoefficient = 10f;
+    const float MinimumViableAggro = 3f;
+    const float PassiveAggroUpTick = 10f;
+    const float PassiveAggroDownTick = 5f;
+
     private const EnemyType EType = EnemyType.Guardian;
     public byte EnemyID;
     float Health;
@@ -27,12 +33,9 @@ public class Guardian : MonoBehaviour {
     GameObject FindPlayerFromID(byte tid)
     {
         foreach (var Player in Players)
-        {
             if (tid == Player.GetComponent<TankBody>().TankID)
-            {
                 return Player;
-            }
-        }
+
         return null;
     }
 
@@ -44,12 +47,12 @@ public class Guardian : MonoBehaviour {
         if(msg.EType == EType && msg.EnemyID == EnemyID)
         {
             Health -= msg.Amount;
-            float Aggro=0;
+            float Aggro = 0;
             bool FoundPlayerAggro = TankAggro.TryGetValue(msg.TankID, out Aggro);
             if(FoundPlayerAggro)
             {
                 print("Found player " + msg.TankID.ToString() + " adding aggro");
-                Aggro += msg.Amount * 10;//MAGIC NUMBER
+                Aggro += msg.Amount * DamageToAggroCoefficient;
                 TankAggro[msg.TankID] = Aggro;
             }
         }
@@ -60,17 +63,16 @@ public class Guardian : MonoBehaviour {
         foreach (var entry in TankAggro)
         {
             float Aggro = entry.Value;
-            if (Aggro > 1000f)
-                TankAggro[entry.Key] = 1000f;
-            else if (Aggro < 0f)
-                TankAggro[entry.Key] = 0f;
+            if (Aggro > MaxAggro)
+                TankAggro[entry.Key] = MaxAggro;
+            else if (Aggro < MinAggro)
+                TankAggro[entry.Key] = MinAggro;
         }
     }
     
     GameObject FindMaxAggroPlayer()
     {   
         AssertAggroLimits();
-        const float MinimumViableAggro = 3f;
         float MaxAggro = MinimumViableAggro;
         GameObject WorstPlayer = null;
         
@@ -115,9 +117,9 @@ public class Guardian : MonoBehaviour {
             TankAggro.TryGetValue(TankID, out Aggro);
 
             if (WithInNoticeDistance(Player))
-                Aggro += 10f;
+                Aggro += PassiveAggroUpTick;
             else
-                Aggro -= 5f;
+                Aggro -= PassiveAggroDownTick;
 
             TankAggro[TankID] = Aggro;
         }        
