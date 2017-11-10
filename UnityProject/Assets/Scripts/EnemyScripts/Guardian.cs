@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using EnemyMessages;
+using TankMessages;
 
 public class Guardian : MonoBehaviour {
 
@@ -145,7 +146,13 @@ public class Guardian : MonoBehaviour {
             return;
 
         transform.LookAt(MaxAggroPlayer.transform);
-        //then broadcast message from game to create a projectile
+        if ( CanFire() )
+        {
+            CreateProjectileMsg msg = new CreateProjectileMsg(false, Time.frameCount, 255, ShotType.Bouncy,
+                transform.forward*1.5f,transform.forward);
+            OwningGame.SendMessage("CreateProjectile", msg, GameUtilities.DONT_CARE_RECIEVER);
+            FrameFired = Time.frameCount;
+        }
 
     }
 
