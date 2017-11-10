@@ -68,13 +68,10 @@ public class Guardian : MonoBehaviour {
     }
     
     GameObject FindMaxAggroPlayer()
-    {   //needs to send a message for projectile only
-        //find max aggro player. If their aggro > 1, look at then fire a projectile in their direction 
-    
-        //always look at max aggro player
-        //if you can fire, send a create projectile message
+    {   
         AssertAggroLimits();
-        float MaxAggro = 3f;
+        const float MinimumViableAggro = 3f;
+        float MaxAggro = MinimumViableAggro;
         GameObject WorstPlayer = null;
         
         foreach (var entry in TankAggro)
@@ -87,18 +84,6 @@ public class Guardian : MonoBehaviour {
         }
 
         return WorstPlayer;
-    //example code from player gun *firing* a message off    
-    //    void CheckFireGun()
-    //{   //for now, it defaults to bouncy. Later should add capability for multiple shot types.
-    //    if(Input.GetKey(FireButton))
-    //    {
-    //        CreateProjectileMsg msg = new CreateProjectileMsg(true, Time.frameCount,
-    //            OwningTank.GetComponent<TankBody>().TankID,
-    //            ShotType.Bouncy,
-    //            transform.position + GunCamera.transform.forward,transform.position);
-    //        OwningGame.SendMessage("CreateProjectile",msg, GameUtilities.DONT_CARE_RECIEVER);
-    //    }
-    //}
     }
 
     bool WithInNoticeDistance(GameObject player)
@@ -163,8 +148,6 @@ public class Guardian : MonoBehaviour {
         if (msg.EType == EType && msg.EnemyID == EnemyID)
             Destroy(gameObject);
     }
-
-
 
 	// Use this for initialization
 	void Start () {
