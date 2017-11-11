@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TankMessages;
-
+using EnemyMessages;
 
 public class GunBody : MonoBehaviour {
 
@@ -22,6 +22,8 @@ public class GunBody : MonoBehaviour {
     private const int UpperDeviationLimit = 10;
     private const int LowerDeviationLimit = -2;
     private KeyCode FireButton;
+    int FrameFired;
+    const int FireWaitTime = 5;
 
 	// Use this for initialization
 	void Start () {
@@ -36,6 +38,7 @@ public class GunBody : MonoBehaviour {
         DeltaY = 6.0f;
         GunRotateSpeed = 20f;
         FireButton = KeyCode.LeftAlt;
+        FrameFired = Time.frameCount;
 	}
 
     void MoveGunVertical(TankComponentMovementMsg msg)
@@ -119,24 +122,18 @@ public class GunBody : MonoBehaviour {
         CheckHorizontalMove();
     }
 
-    void LocalFireSomethingTest()
-    {   //prototype function. For testing purposes only
-        if(Input.GetKey(FireButton)){
-            Vector3 CirclePos = new Vector3();
-            CirclePos = transform.position + GunCamera.transform.forward;
-            
-            GameObject somecircle = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            somecircle.transform.position = CirclePos;
-        }
-    }
+    bool CanFire() { return (Time.frameCount > FrameFired + FireWaitTime); }
 
     void CheckFireGun()
     {   //for now, it defaults to bouncy. Later should add capability for multiple shot types.
-        if(Input.GetKey(FireButton))
+        if (Input.GetKey(FireButton) && CanFire())
         {
-            CreateProjectileMsg msg = new CreateProjectileMsg(true, Time.frameCount, ShotType.Bouncy,
+            CreateProjectileMsg msg = new CreateProjectileMsg(true, Time.frameCount,
+                OwningTank.GetComponent<TankBody>().TankID,
+                ShotType.Bouncy,
                 transform.position + GunCamera.transform.forward,transform.position);
             OwningGame.SendMessage("CreateProjectile",msg, GameUtilities.DONT_CARE_RECIEVER);
+            FrameFired = Time.frameCount;
         }
     }
 	
@@ -149,5 +146,43 @@ public class GunBody : MonoBehaviour {
         MoveGun();
         CheckFireGun();
         //LocalFireSomethingTest();
+        DamageTestEnemyGuardian();
 	}
+
+    //functions for testing
+    void LocalFireSomethingTest()
+    {   //prototype function. For testing purposes only
+        if (Input.GetKey(FireButton) && CanFire())
+        {
+            Vector3 CirclePos = new Vector3();
+            CirclePos = transform.position + GunCamera.transform.forward;
+
+            GameObject somecircle = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            somecircle.transform.position = CirclePos;
+            FrameFired = Time.frameCount;
+        }
+    }
+
+    public GameObject TestEnemyGuardian;
+
+    public void DamageTestEnemyGuardian()
+    {
+        
+        if(TestEnemyGuardian!=null && Input.GetKey(KeyCode.P) && CanFire())
+        {
+            print("Attacken thha enermy!");
+        //public EnemyType EType; 
+        //public byte EnemyID;
+        //public byte TankID;//the tank this damage is from
+        //public float Amount;
+            DamageEnemyMsg msg= new DamageEnemyMsg();
+            msg.EnemyID = TestEnemyGuardian.GetComponent<Guardian>().EnemyID;
+            msg.TankID = OwningTank.GetComponent<TankBody>().TankID;
+            msg.EType = EnemyType.Guardian;
+            msg.Amount = 10f;
+            OwningGame.BroadcastMessage("DamageEnemy", msg, GameUtilities.DONT_CARE_RECIEVER);
+            FrameFired = Time.frameCount;
+        }
+    }
+
 }
