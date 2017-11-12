@@ -114,6 +114,13 @@ namespace MapMessages
 
         public GetCollectableMsg(GameObject collectable) { collectableObj = collectable; }
     }
+	class GetBulletMsg
+    {
+        public GameObject bulletObj;
+        //public int FrameNo;
+
+        public GetBulletMsg(GameObject bullet) { bulletObj = bullet; }
+    }
 }
 
 namespace LevelMessages
