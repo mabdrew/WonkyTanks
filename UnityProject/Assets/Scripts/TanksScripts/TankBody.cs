@@ -119,8 +119,6 @@ public class TankBody : MonoBehaviour {
     {
         UpdateBar msg = new UpdateBar(currentValue, minValue, maxValue, barID);
         OwningGame.BroadcastMessage("HandleBar", msg, GameUtilities.DONT_CARE_RECIEVER);
-
-        print(Stamina);
     }
 
 
@@ -178,6 +176,7 @@ public class TankBody : MonoBehaviour {
         if(dmsg.TankID==TankID)
         {
             health -= dmsg.Amount;
+            UpdateHealthOrStamina(health, 0.0f, 100.0f, 0);
         }
     }
 
