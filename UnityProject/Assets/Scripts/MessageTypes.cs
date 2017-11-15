@@ -182,3 +182,30 @@ namespace EnemyMessages
         public EnemyType EType; 
     }
 }
+
+namespace UIMessages
+{
+    class UpdateBar
+    {
+        public float currentValue;
+        public float minValue;
+        public float maxValue;
+        public int barID;
+
+        public UpdateBar()
+        {
+            currentValue = 100.0f;
+            minValue = 0.0f;
+            maxValue = 0.0f;
+            barID = 0;
+        }
+
+        public UpdateBar(float current, float min, float max, int id)
+        {
+            currentValue = current;
+            minValue = min;
+            maxValue = max;
+            barID = id;
+        }
+    }
+}
