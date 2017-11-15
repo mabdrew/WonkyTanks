@@ -196,7 +196,7 @@ namespace UIMessages
         {
             currentValue = 100.0f;
             minValue = 0.0f;
-            maxValue = 0.0f;
+            maxValue = 100.0f;
             barID = 0;
         }
 

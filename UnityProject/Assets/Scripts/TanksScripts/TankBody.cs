@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 //using UnityEngine.Time;
 using TankMessages;
 using LevelMessages;
+using UIMessages;
 using System;
 
 
@@ -99,6 +100,7 @@ public class TankBody : MonoBehaviour {
                 {
                     transform.position -= transform.right * Time.deltaTime * StrafeSpeed;
                     Stamina -= (2.0f + Math.Abs(Stamina / 100f) + .01f);
+                    UpdateHealthOrStamina(Stamina, 0.0f, 100.0f, 1);
                 }
             }
             else
@@ -107,9 +109,18 @@ public class TankBody : MonoBehaviour {
                 {
                     transform.position += transform.right * Time.deltaTime * StrafeSpeed;
                     Stamina -= (2.0f + Math.Abs(Stamina / 100f) + .01f);
+                    UpdateHealthOrStamina(Stamina, 0.0f, 100.0f, 1);
                 }
             }
         }
+    }
+
+    private void UpdateHealthOrStamina(float currentValue, float minValue, float maxValue, int barID)
+    {
+        UpdateBar msg = new UpdateBar(currentValue, minValue, maxValue, barID);
+        OwningGame.BroadcastMessage("HandleBar", msg, GameUtilities.DONT_CARE_RECIEVER);
+
+        print(Stamina);
     }
 
 
@@ -173,13 +184,22 @@ public class TankBody : MonoBehaviour {
     void HealStamina()
     {
         if (Stamina > 100.0f)
+        {
             Stamina = 100.0f;
+            UpdateHealthOrStamina(Stamina, 0.0f, 100.0f, 1);
+        }
+            
         else if (Stamina < 100.0f)
         {
             Stamina += Math.Abs(Stamina / 100f) + .01f;
+            UpdateHealthOrStamina(Stamina, 0.0f, 100.0f, 1);
         }
         if (Stamina < -5.0f)
+        {
             Stamina = 0.0f;
+            UpdateHealthOrStamina(Stamina, 0.0f, 100.0f, 1);
+        }
+            
         //print(Stamina);
     }
 
