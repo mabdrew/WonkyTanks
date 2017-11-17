@@ -41,8 +41,10 @@ public class Bar : MonoBehaviour
 
     private void SetBarValue(float value)
     {
+        int result = (((int)(value - 50)) + 50);
+
         string[] tmp = valueText.text.Split(':');
-        valueText.text = string.Format("{0}: {1:f2}", tmp[0], value);
+        valueText.text = string.Format("{0}: {1}", tmp[0], (result - (result % 10) ) );
 
     }
     private float Map(float current, float min, float max)
