@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 //using UnityEngine.Time;
 using TankMessages;
 using LevelMessages;
@@ -33,6 +34,8 @@ public class TankBody : MonoBehaviour {
     private float health;
 
     private bool isFinishActive;
+
+    [SerializeField] private Text isFinishActiveText;
 
     byte GetTankID()
     {
@@ -238,12 +241,22 @@ public class TankBody : MonoBehaviour {
         set
         {
             isFinishActive = value;
+            if(isFinishActive == true)
+            {
+                isFinishActiveText.gameObject.SetActive(true);
+                Invoke("DisableText", 2.5f);
+            }
         }
     }
 
     private void SetIsFinishActive(bool isActive)
     {
         IsFinishActive = isActive;
+    }
+
+    private void DisableText()
+    {
+        isFinishActiveText.gameObject.SetActive(false);
     }
 
 
