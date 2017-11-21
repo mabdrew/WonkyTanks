@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MapMessages;
+using UnityEngine.UI;
 
 public class FinishPortal : MonoBehaviour {
 
     //private GameObject[] Collectables;
     //private int amountOfCollectables;
+
+    public Text collectableText;
+
     private int collectablesLeft;
 
     private GameObject OwningGame;
@@ -44,6 +48,7 @@ public class FinishPortal : MonoBehaviour {
         set
         {
             collectablesLeft = value;
+            collectableText.text = "Dongles Left: " + CollectablesLeft.ToString();
         }
     }
 }

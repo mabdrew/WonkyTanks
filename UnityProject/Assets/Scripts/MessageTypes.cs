@@ -114,6 +114,13 @@ namespace MapMessages
 
         public GetCollectableMsg(GameObject collectable) { collectableObj = collectable; }
     }
+	class GetBulletMsg
+    {
+        public GameObject bulletObj;
+        //public int FrameNo;
+
+        public GetBulletMsg(GameObject bullet) { bulletObj = bullet; }
+    }
 }
 
 namespace LevelMessages
@@ -180,5 +187,32 @@ namespace EnemyMessages
 
         public byte EnemyID;
         public EnemyType EType; 
+    }
+}
+
+namespace UIMessages
+{
+    class UpdateBar
+    {
+        public float currentValue;
+        public float minValue;
+        public float maxValue;
+        public int barID;
+
+        public UpdateBar()
+        {
+            currentValue = 100.0f;
+            minValue = 0.0f;
+            maxValue = 100.0f;
+            barID = 0;
+        }
+
+        public UpdateBar(float current, float min, float max, int id)
+        {
+            currentValue = current;
+            minValue = min;
+            maxValue = max;
+            barID = id;
+        }
     }
 }

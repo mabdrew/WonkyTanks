@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 //using UnityEngine.Time;
 using TankMessages;
 using LevelMessages;
+using UIMessages;
 using System;
 
 
@@ -32,6 +34,8 @@ public class TankBody : MonoBehaviour {
     private float health;
 
     private bool isFinishActive;
+
+    [SerializeField] private Text isFinishActiveText;
 
     byte GetTankID()
     {
@@ -99,6 +103,7 @@ public class TankBody : MonoBehaviour {
                 {
                     transform.position -= transform.right * Time.deltaTime * StrafeSpeed;
                     Stamina -= (2.0f + Math.Abs(Stamina / 100f) + .01f);
+                    UpdateHealthOrStamina(Stamina, 0.0f, 100.0f, 1);
                 }
             }
             else
@@ -107,9 +112,16 @@ public class TankBody : MonoBehaviour {
                 {
                     transform.position += transform.right * Time.deltaTime * StrafeSpeed;
                     Stamina -= (2.0f + Math.Abs(Stamina / 100f) + .01f);
+                    UpdateHealthOrStamina(Stamina, 0.0f, 100.0f, 1);
                 }
             }
         }
+    }
+
+    private void UpdateHealthOrStamina(float currentValue, float minValue, float maxValue, int barID)
+    {
+        UpdateBar msg = new UpdateBar(currentValue, minValue, maxValue, barID);
+        OwningGame.BroadcastMessage("HandleBar", msg, GameUtilities.DONT_CARE_RECIEVER);
     }
 
 
@@ -167,19 +179,29 @@ public class TankBody : MonoBehaviour {
         if(dmsg.TankID==TankID)
         {
             health -= dmsg.Amount;
+            UpdateHealthOrStamina(health, 0.0f, 100.0f, 0);
         }
     }
 
     void HealStamina()
     {
         if (Stamina > 100.0f)
+        {
             Stamina = 100.0f;
+            UpdateHealthOrStamina(Stamina, 0.0f, 100.0f, 1);
+        }
+            
         else if (Stamina < 100.0f)
         {
             Stamina += Math.Abs(Stamina / 100f) + .01f;
+            UpdateHealthOrStamina(Stamina, 0.0f, 100.0f, 1);
         }
         if (Stamina < -5.0f)
+        {
             Stamina = 0.0f;
+            UpdateHealthOrStamina(Stamina, 0.0f, 100.0f, 1);
+        }
+            
         //print(Stamina);
     }
 
@@ -219,12 +241,22 @@ public class TankBody : MonoBehaviour {
         set
         {
             isFinishActive = value;
+            if(isFinishActive == true)
+            {
+                isFinishActiveText.gameObject.SetActive(true);
+                Invoke("DisableText", 2.5f);
+            }
         }
     }
 
     private void SetIsFinishActive(bool isActive)
     {
         IsFinishActive = isActive;
+    }
+
+    private void DisableText()
+    {
+        isFinishActiveText.gameObject.SetActive(false);
     }
 
 
