@@ -23,10 +23,7 @@ public class FinishPortal : MonoBehaviour {
         GameUtilities.FindGame(ref OwningGame);
     }
 
-    // Update is called once per frame
-    void Update() {
-        
-    }
+
 
     void SetCollectablesLeft()
     {
