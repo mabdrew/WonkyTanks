@@ -2,12 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using LevelMessages;
 
 public class Timer : MonoBehaviour {
 
-    private float totalTime = 120.0f;
+    [SerializeField] private float totalTime = 120.0f;
 
     [SerializeField] private Text TimerText;
+    [SerializeField] private Text FailureText;
+
+    private TankBody tankBody;
+
+    private GameObject OwningGame;
 
     public float TotalTime
     {
@@ -24,7 +31,8 @@ public class Timer : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-	}
+        GameUtilities.FindGame(ref OwningGame);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -33,16 +41,37 @@ public class Timer : MonoBehaviour {
 
         if(TotalTime <= 0.0f)
         {
-            //fail
+            FailLevel();
         }
         else
         {
-            TimerText.text = string.Format("{0}:{1:0.00}", (int)(TotalTime / 60), TotalTime % 60);
+            UpdateTimer();
         }
 	}
 
+    private void UpdateTimer()
+    {
+        TimerText.text = string.Format("{0}:{1:00.00}", (int)(TotalTime / 60), TotalTime % 60);
+    }
+
     private void FailLevel()
     {
+        OwningGame.BroadcastMessage("DisableMovement", GameUtilities.DONT_CARE_RECIEVER);
+        TimerText.text = "RIP";
+        FailureText.gameObject.SetActive(true);
+        Invoke("EndLevel", 5.0f);
 
+    }
+
+    private void EndLevel()
+    {
+        LoadNextSceneMsg msg = new LoadNextSceneMsg("Title", LoadSceneMode.Single);
+        OwningGame.BroadcastMessage("LoadNext", msg, GameUtilities.DONT_CARE_RECIEVER);
+    }
+
+    void LoadNext(LoadNextSceneMsg msg)
+    {
+        // Loads title screen.
+        SceneManager.LoadScene(msg.SceneName, msg.SceneModeType);
     }
 }
