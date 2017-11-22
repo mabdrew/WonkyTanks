@@ -260,5 +260,11 @@ public class TankBody : MonoBehaviour {
     }
 
 
-
+    void DisableMovement() //is there a better way to do this?
+    {
+        Forward = KeyCode.F;
+        Backward = KeyCode.F;
+        StrafeLeft = KeyCode.F;
+        StrafeRight = KeyCode.F;
+    }
 }
