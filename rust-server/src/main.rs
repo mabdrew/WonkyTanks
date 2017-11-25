@@ -45,7 +45,7 @@ impl std::fmt::Debug for ChannelState {
                 "participants",
                 &format_args!(
                     "{:x}",
-                    wonky_tanks_server::IterContentsDebug(||
+                    IterContentsDebug(||
                         self
                             .participants
                             .iter()
