@@ -160,6 +160,14 @@ impl Drop for WebsocketConnection {
             if let (capacity, 0) = {
                 let &mut ChannelState { ref mut participants, capacity } = entry.get_mut();
                 participants.retain(|target| !Rc::ptr_eq(target, sender));
+                if !participants.is_empty() {
+                    let data = format!("count: {}", participants.len());
+                    let (last, participants) = participants.split_last().unwrap();
+                    for participant in participants {
+                        drop(participant.unbounded_send(Packet::Text(data.clone())));
+                    }
+                    drop(last.unbounded_send(Packet::Text(data)));
+                }
                 (capacity, participants.len())
             } {
                 entry.remove_entry();
