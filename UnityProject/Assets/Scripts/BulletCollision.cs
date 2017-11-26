@@ -16,6 +16,7 @@ public class BulletCollision : MonoBehaviour {
 
     private GameObject OwningGame;
 	
+	
 	// Use this for initialization
 	void Start () 
 	{
@@ -33,9 +34,15 @@ public class BulletCollision : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		CheckTouchingWall();
+		//CheckTouchingWall(); this will be uncommented once messaging has been implemented in place of static collision detection
 	}
-	void CheckTouchingWall()
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.tag == "Walls")
+			gameObject.GetComponent<Rigidbody>().velocity = gameObject.transform.forward * -6;
+	}
+// Initial Template for messaging implementation, to be altered later
+/*	void CheckTouchingWall()
     {
         if (bulletCollider.bounds.Intersects(wallCollider.bounds)) //check for intersection with Walls
         {
@@ -50,5 +57,6 @@ public class BulletCollision : MonoBehaviour {
             bulletObject.gameObject.SetActive(false);
         }
     }
+*/
 }
 
