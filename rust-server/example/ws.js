@@ -4,6 +4,7 @@
     let input = document.getElementById('input');
     let encoder = new TextEncoder("utf-8");
     let decoder = new TextDecoder("utf-8");
+    let identity;
     ws.onopen = function() {
         log('debug', "Connected");
         input.style.visibility = 'visible';
@@ -21,6 +22,10 @@
     ws.onmessage = function(ev) {
         if ("string" === typeof ev.data) {
             log('meta', ev.data);
+            const IDENTITY_TOKEN = "identity: ";
+            if (ev.data.startsWith(IDENTITY_TOKEN)) {
+                identity = ev.data.substr(IDENTITY_TOKEN.length) + ": ";
+            }
         } else {
             let reader = new FileReader();
             reader.onload = (event) => log('text', decoder.decode(event.target.result));
@@ -29,8 +34,9 @@
     };
     input.onkeydown = function(ev) {
         if(ev.which === 13) {
-            ws.send(encoder.encode(input.value));
-            log('self', input.value);
+            let value = (identity || "") + input.value;
+            ws.send(encoder.encode(value));
+            log('self', value);
             input.value = '';
         }
     };
