@@ -4,7 +4,7 @@ extern crate tk_http;
 extern crate tk_listen;
 extern crate wonky_tanks_server;
 
-use std::cell::{RefCell, Cell};
+use std::cell::RefCell;
 use std::collections::hash_map::HashMap;
 use std::fmt::Write;
 use std::rc::Rc;
@@ -28,7 +28,6 @@ use wonky_tanks_server::*;
 const LOBBY: &'static str = "/";
 
 type SharedData = Rc<RefCell<HashMap<CountedString, ChannelState>>>;
-type TransientData = (SharedData, String);
 
 #[derive(Clone, Default)]
 pub struct ChannelState {
@@ -57,9 +56,9 @@ impl std::fmt::Debug for ChannelState {
     }
 }
 
-fn service<S>(directory: &Directory, data: &mut TransientData, req: Request, mut e: Encoder<S>) -> FutureResult<EncoderDone<S>, ServerError> {
+fn service<S>(directory: &Directory, token: &mut Option<String>, req: Request, mut e: Encoder<S>) -> FutureResult<EncoderDone<S>, ServerError> {
     if let Some(ws) = req.websocket_handshake() {
-        data.1.push_str(req.path());
+        *token = Some(req.path().to_string());
         e.status(Status::SwitchingProtocol);
         e.add_header("Connection", "upgrade").unwrap();
         e.add_header("Upgrade", "websocket").unwrap();
@@ -95,9 +94,8 @@ struct WebsocketConnection {
 }
 
 impl WebsocketConnection {
-    pub fn new(data: TransientData, sender: Rc<UnboundedSender<Packet>>) -> Self {
-        let (shared_data, token) = data;
-        let token: CountedString = token.into();
+    pub fn new(shared_data: SharedData, token: String, sender: Rc<UnboundedSender<Packet>>) -> Self {
+        let token: CountedString  = token.into();
         let mut data: String = Default::default();
         match match {
             let shared_data = &mut *shared_data.borrow_mut();
@@ -231,10 +229,10 @@ fn main() {
             let wcfg = wcfg.clone();
             let h2 = h1.clone();
 
-            let data: TransientData = (shared_data.clone(), Default::default());
-            let data = Rc::new(RefCell::new(data));
+            let shared_data = shared_data.clone();
+            let data = Rc::new(RefCell::new(None));
             let http_data = data.clone();
-            let websocket_data = Cell::new(Some(data));
+            let websocket_data = data;
 
             Proto::new(
                 socket,
@@ -242,8 +240,20 @@ fn main() {
                 BufferedDispatcher::new_with_websockets(
                     addr,
                     &h1,
-                    move |p1, p2|
-                        service(directory, &mut *http_data.borrow_mut(),p1, p2),
+                    move |p1, p2| {
+                        let mut http_data = http_data.borrow_mut();
+                        let http_data: &mut Option<String> = &mut http_data;
+                        if let Some(token) = http_data.take() {
+                            panic!("http initializer called twice: {}", token);
+                        }
+                        let ret = service(
+                            directory,
+                            http_data,
+                            p1,
+                            p2
+                        );
+                        ret
+                    },
                     move |outp, inp| {
                         let (sender, receiver) = unbounded();
                         let sender = Rc::new(sender);
@@ -252,7 +262,11 @@ fn main() {
                             inp,
                             receiver.map_err(move |e| format!("{:?} : stream closed", e)),
                             WebsocketConnection::new(
-                                Rc::try_unwrap(websocket_data.replace(None).unwrap()).unwrap().into_inner(),
+                                shared_data.clone(),
+                                websocket_data
+                                    .borrow_mut()
+                                    .take()
+                                    .expect("http initializer not called yet"),
                                 sender
                             ),
                             &wcfg,
