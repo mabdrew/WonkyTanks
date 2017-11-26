@@ -42,9 +42,15 @@
     };
 
     function log(type, message) {
+        let date = document.createElement('span');
+        date.appendChild(document.createTextNode(new Date().toLocaleString()));
+        date.className = "date";
+        let content = document.createElement('span');
+        content.appendChild(document.createTextNode(message));
         let red = document.createElement('div');
         red.className = type;
-        red.appendChild(document.createTextNode(message));
+        red.appendChild(date);
+        red.appendChild(content);
         mb.insertBefore(red, mb.childNodes[0]);
     }
 
