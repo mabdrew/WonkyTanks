@@ -32,6 +32,7 @@ type SharedData = Rc<RefCell<HashMap<CountedString, ChannelState>>>;
 #[derive(Clone, Default)]
 pub struct ChannelState {
     capacity: Option<u8>,
+    identities: usize,
     participants: Vec<Rc<UnboundedSender<Packet>>>,
 }
 
@@ -40,6 +41,7 @@ impl std::fmt::Debug for ChannelState {
         f
             .debug_struct("ChannelState")
             .field("capacity", &self.capacity)
+            .field("identities", &self.identities)
             .field(
                 "participants",
                 &format_args!(
@@ -102,7 +104,10 @@ impl WebsocketConnection {
             let shared_data = shared_data.entry(token.clone());
             #[cfg(debug_assertions)]
             println!("Previous data: {:?}", &shared_data);
-            let &mut ChannelState { ref mut participants, capacity } = shared_data.or_insert_with(Default::default);
+            let &mut ChannelState { ref mut participants, capacity, ref mut identities } = shared_data.or_insert_with(Default::default);
+            write!(data, "identity: {}", identities).unwrap();
+            drop(sender.unbounded_send(Packet::Text(data.clone())));
+            *identities += 1;
             participants.push(sender.clone());
             data.clear();
             write!(data, "count: {}", participants.len()).unwrap();
@@ -158,7 +163,7 @@ impl Drop for WebsocketConnection {
                     panic!("Bad state; expected {} to be occupied: {:?}", token, shared_data)
                 };
             if let (capacity, 0) = {
-                let &mut ChannelState { ref mut participants, capacity } = entry.get_mut();
+                let &mut ChannelState { ref mut participants, capacity, identities: _ } = entry.get_mut();
                 participants.retain(|target| !Rc::ptr_eq(target, sender));
                 if !participants.is_empty() {
                     let data = format!("count: {}", participants.len());
