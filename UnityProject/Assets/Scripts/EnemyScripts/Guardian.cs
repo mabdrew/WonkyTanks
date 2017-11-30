@@ -7,6 +7,7 @@ using TankMessages;
 public class Guardian : MonoBehaviour {
 
     GameObject OwningGame;
+	GameObject BulletSpawnLoc;
 
     const float NoticeDistance = 5f;
     const float MaxAggro = 10000f;
@@ -134,16 +135,32 @@ public class Guardian : MonoBehaviour {
         transform.LookAt(MaxAggroPlayer.transform);
         if ( CanFire() )
         {
+			Quaternion qt;
+			Vector3 pos;
+
+			if (BulletSpawnLoc != null) {
+				qt = BulletSpawnLoc.transform.rotation;
+				pos = BulletSpawnLoc.transform.position;
+			} 
+			else {
+				qt = new Quaternion ();
+				pos = Vector3.zero;
+			}
+
             CreateProjectileMsg msg = new CreateProjectileMsg(false, Time.frameCount, GameUtilities.INVALID_TANK_ID,
                 ShotType.Bouncy,
-                transform.forward*1.5f,transform.forward);
+				pos,qt);
             OwningGame.BroadcastMessage("CreateProjectile", msg, GameUtilities.DONT_CARE_RECIEVER);
             FrameFired = Time.frameCount;
         }
 
     }
 
-    bool IsDead() { print("Guardian Health = " + Health.ToString()); return Health <= 0f; }
+    bool IsDead() 
+	{
+		//print("Guardian Health = " + Health.ToString()); 
+		return Health <= 0f; 
+	}
 
     void DestroyThisEnemy(EnemyIDMsg msg)
     {
@@ -161,6 +178,11 @@ public class Guardian : MonoBehaviour {
         GameUtilities.GetAllPlayers(ref Players);
         if(Players!=null)
             print("Guardian : found " + Players.Length.ToString() + " players");
+		BulletSpawnLoc = gameObject.transform.Find ("BulletSpawn").gameObject;
+		if (BulletSpawnLoc != null)
+			print ("Guardian Found Bullet Spawn");
+		else
+			print ("Guardian DID NOT Find Bullet Spawn");
 	}
 	
 	// Update is called once per frame

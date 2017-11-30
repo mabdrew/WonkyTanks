@@ -8,6 +8,7 @@ public class GunBody : MonoBehaviour {
 
     public GameObject OwningTank;
     private GameObject OwningGame;
+	private GameObject BulletSpawnLoc;
     public Camera GunCamera;
 
     public KeyCode Left;
@@ -28,6 +29,13 @@ public class GunBody : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         GameUtilities.FindGame(ref OwningGame);
+		BulletSpawnLoc = gameObject.transform.Find("BulletSpawn").gameObject;
+
+		if (BulletSpawnLoc != null)
+			print ("Found Bullet spawn for player");
+		else
+			print ("Found Bullet spawn NOT for player");
+
         Left = KeyCode.H;
         Right = KeyCode.K;
 
@@ -37,7 +45,7 @@ public class GunBody : MonoBehaviour {
         DeviationX = 0;
         DeltaY = 6.0f;
         GunRotateSpeed = 20f;
-        FireButton = KeyCode.LeftAlt;
+		FireButton = KeyCode.Space;
         FrameFired = Time.frameCount;
 	}
 
@@ -128,12 +136,23 @@ public class GunBody : MonoBehaviour {
     {   //for now, it defaults to bouncy. Later should add capability for multiple shot types.
         if (Input.GetKey(FireButton) && CanFire())
         {
-            CreateProjectileMsg msg = new CreateProjectileMsg(true, Time.frameCount,
-                OwningTank.GetComponent<TankBody>().TankID,
-                ShotType.Bouncy,
-                transform.position + GunCamera.transform.forward,transform.position);
-            OwningGame.SendMessage("CreateProjectile",msg, GameUtilities.DONT_CARE_RECIEVER);
-            FrameFired = Time.frameCount;
+			Quaternion qt;
+			Vector3 pos;
+
+			if (BulletSpawnLoc != null) {
+				qt = BulletSpawnLoc.transform.rotation;
+				pos = BulletSpawnLoc.transform.position;
+			} 
+			else {
+				qt = new Quaternion ();
+				pos = Vector3.zero;
+			}
+
+			CreateProjectileMsg msg = new CreateProjectileMsg(false, Time.frameCount, GameUtilities.INVALID_TANK_ID,
+				ShotType.Bouncy,
+				pos,qt);
+			OwningGame.BroadcastMessage("CreateProjectile", msg, GameUtilities.DONT_CARE_RECIEVER);
+			FrameFired = Time.frameCount;
         }
     }
 	

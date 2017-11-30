@@ -67,26 +67,39 @@ namespace TankMessages
             FrameNo = 0;
             TankID = GameUtilities.INVALID_TANK_ID;
             TypeFired = ShotType.InvalidShotType;
-            InitialPosition = Vector3.zero;
-            DirectionReference = Vector3.zero;
+			xPos = yPos = zPos = xQuat = yQuat = zQuat = wQuat = 0f;
         }
 
-        public CreateProjectileMsg(bool pf, int fno, byte tid, ShotType tf, Vector3 ip, Vector3 dr)
+		public CreateProjectileMsg(bool pf, int fno, byte tid, ShotType tf, Vector3 ip, Quaternion rot)
         {
             PlayerFriendly = pf;
             FrameNo = fno;
             TankID = tid;
             TypeFired = tf;
-            InitialPosition = ip;
-            DirectionReference = dr;
+            
+			xPos = ip.x;
+			yPos = ip.y;
+			zPos = ip.z;
+
+			xQuat = rot.x;
+			yQuat = rot.y;
+			zQuat = rot.z;
+			wQuat = rot.w;
         }
 
         public bool PlayerFriendly;//whether or not the projectile can harm/affect players
         public int FrameNo;
         public byte TankID;
         public ShotType TypeFired;
-        public Vector3 InitialPosition;//starting position of the projectile
-        public Vector3 DirectionReference;//A vector to use in conjuction with InitialPosition to create direction of projectile
+
+		public float xPos;
+		public float yPos;
+		public float zPos;
+
+		public float xQuat;
+		public float yQuat;
+		public float zQuat;
+		public float wQuat;
     }
 
     class DamageTankMsg
