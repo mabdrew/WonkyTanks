@@ -128,18 +128,18 @@ namespace LevelMessages
     class LoadNextSceneMsg
     {
         public string SceneName;
-        public LoadSceneMode SceneModeType;
+        public int SceneModeType;
 
         public LoadNextSceneMsg()
         {
             SceneName = "Title";
-            SceneModeType = LoadSceneMode.Single;
+            SceneModeType = (int) LoadSceneMode.Single;
         }
 
         public LoadNextSceneMsg(string nextScene, LoadSceneMode nextSceneType)
         {
             SceneName = nextScene;
-            SceneModeType = nextSceneType;
+            SceneModeType = (int) nextSceneType;
         }
     }
 }

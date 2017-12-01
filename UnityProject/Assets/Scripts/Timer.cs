@@ -72,6 +72,6 @@ public class Timer : MonoBehaviour {
     void LoadNext(LoadNextSceneMsg msg)
     {
         // Loads title screen.
-        SceneManager.LoadScene(msg.SceneName, msg.SceneModeType);
+        SceneManager.LoadScene(msg.SceneName, (LoadSceneMode) msg.SceneModeType);
     }
 }
