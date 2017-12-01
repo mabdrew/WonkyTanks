@@ -53,10 +53,16 @@ public class WB : MonoBehaviour {
 
 		}
 
-		if (!PlayerFriendly)
-			Damage -= 2;//MAGIC NUMBER guardians are stupid so they have reduced penalty 
-		else
+		if (!PlayerFriendly){
+			Damage -= 2;//MAGIC NUMBER guardians are stupid so they have reduced penalty \
+			gameObject.GetComponent<MeshRenderer>().material.color /= 8;
+
+		}
+		else{
 			Damage /= 2;//MAGIC NUMBER so players can exploit bouncing shots too badly
+			gameObject.GetComponent<MeshRenderer>().material.color /= 8;
+
+		}
 	}
 
 	// Update is called once per frame

@@ -17,20 +17,25 @@ public class Projectiles : MonoBehaviour {
 		pos.y = msg.yPos;
 		pos.z = msg.zPos;
 
-		//GameObject OwningGame;
-		//public bool PlayerFriendly;
-		//public float Damage;
-		//public int NoCollisions;
-		//const int MaxNoCollisions = 5;
-
 		var wb = (GameObject)Instantiate(WonkyBullet, pos, qt);
 		wb.GetComponent<WB> ().PlayerFriendly = msg.PlayerFriendly;
 
-		if(!msg.PlayerFriendly)
-			wb.GetComponent<WB> ().Damage = 10f;//MAGIC NUMBER
-		else
-			wb.GetComponent<WB> ().Damage = 10f;//MAGIC NUMBER
+		Color color = new Color ();
 
+		if(!msg.PlayerFriendly){
+			wb.GetComponent<WB> ().Damage = 10f;//MAGIC NUMBER
+			color.r = 255;
+			color.g = 0;
+			color.b = 0;
+		}
+		else{
+			wb.GetComponent<WB> ().Damage = 10f;//MAGIC NUMBER
+			color.r = 255;
+			color.g = 150;
+			color.b = 0;
+		}
+
+		wb.GetComponent<MeshRenderer> ().material.color = color;
 		wb.GetComponent<WB> ().NoCollisions = 0;
 		wb.GetComponent<WB> ().CreatingPLayer = msg.TankID;
 
