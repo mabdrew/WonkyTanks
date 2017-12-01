@@ -24,9 +24,10 @@ public class GunBody : MonoBehaviour {
     private const int LowerDeviationLimit = -2;
     private KeyCode FireButton;
     int FrameFired;
-    const int FireWaitTime = 5;
+    const int FireFrameWait = 10;
 
 	// Use this for initialization
+
 	void Start () {
         GameUtilities.FindGame(ref OwningGame);
 		BulletSpawnLoc = gameObject.transform.Find("BulletSpawn").gameObject;
@@ -130,7 +131,7 @@ public class GunBody : MonoBehaviour {
         CheckHorizontalMove();
     }
 
-    bool CanFire() { return (Time.frameCount > FrameFired + FireWaitTime); }
+    bool CanFire() { return (Time.frameCount > FrameFired + FireFrameWait); }
 
     void CheckFireGun()
     {   //for now, it defaults to bouncy. Later should add capability for multiple shot types.
@@ -148,7 +149,7 @@ public class GunBody : MonoBehaviour {
 				pos = Vector3.zero;
 			}
 
-			CreateProjectileMsg msg = new CreateProjectileMsg(false, Time.frameCount, GameUtilities.INVALID_TANK_ID,
+			CreateProjectileMsg msg = new CreateProjectileMsg(true, Time.frameCount, GameUtilities.INVALID_TANK_ID,
 				ShotType.Bouncy,
 				pos,qt);
 			OwningGame.BroadcastMessage("CreateProjectile", msg, GameUtilities.DONT_CARE_RECIEVER);

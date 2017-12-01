@@ -159,7 +159,7 @@ namespace LevelMessages
 
 namespace EnemyMessages
 {
-    enum EnemyType { InvalidEnemyType = -1, Guardian = 0, Chaser = 1 }
+    public enum EnemyType { InvalidEnemyType = -1, Guardian = 0, Chaser = 1 }
 
     class DamageEnemyMsg
     {

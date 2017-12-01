@@ -17,7 +17,22 @@ public class Projectiles : MonoBehaviour {
 		pos.y = msg.yPos;
 		pos.z = msg.zPos;
 
+		//GameObject OwningGame;
+		//public bool PlayerFriendly;
+		//public float Damage;
+		//public int NoCollisions;
+		//const int MaxNoCollisions = 5;
+
 		var wb = (GameObject)Instantiate(WonkyBullet, pos, qt);
+		wb.GetComponent<WB> ().PlayerFriendly = msg.PlayerFriendly;
+
+		if(!msg.PlayerFriendly)
+			wb.GetComponent<WB> ().Damage = 10f;//MAGIC NUMBER
+		else
+			wb.GetComponent<WB> ().Damage = 110f;//MAGIC NUMBER
+
+		wb.GetComponent<WB> ().NoCollisions = 0;
+		wb.GetComponent<WB> ().CreatingPLayer = msg.TankID;
 
 		// Add velocity to the bullet
 		wb.GetComponent<Rigidbody>().velocity = wb.transform.forward * VelocityCoeff;

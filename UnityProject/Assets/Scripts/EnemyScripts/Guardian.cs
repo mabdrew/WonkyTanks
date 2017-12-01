@@ -22,7 +22,12 @@ public class Guardian : MonoBehaviour {
     float Health;
 
     int FrameFired;
-    const int FireWaitTime = 5;
+    const int FireFrameWait = 20;
+
+	public EnemyType GetEnemyType()
+	{
+		return EType;
+	}
 
     //ideally, this should just be a map from player references to aggro values.
     SortedDictionary<byte, float> TankAggro;
@@ -38,7 +43,7 @@ public class Guardian : MonoBehaviour {
         return null;
     }
 
-    bool CanFire() { return (Time.frameCount > FrameFired + FireWaitTime); }
+    bool CanFire() { return (Time.frameCount > FrameFired + FireFrameWait); }
 
     void DamageEnemy(DamageEnemyMsg msg)
     {   //madbrew : I don't think I need to worry about unity doing any behind the scenes multithreading

@@ -1749,6 +1749,18 @@ Prefab:
       propertyPath: m_Name
       value: Guardian
       objectReference: {fileID: 0}
+    - target: {fileID: 1237091341578886, guid: 17253d94b9613a44eb91e062a6f0e40c, type: 2}
+      propertyPath: m_TagString
+      value: Enemies
+      objectReference: {fileID: 0}
+    - target: {fileID: 1822142589510148, guid: 17253d94b9613a44eb91e062a6f0e40c, type: 2}
+      propertyPath: m_TagString
+      value: Enemies
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619274483451610, guid: 17253d94b9613a44eb91e062a6f0e40c, type: 2}
+      propertyPath: m_TagString
+      value: Enemies
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17253d94b9613a44eb91e062a6f0e40c, type: 2}
   m_IsPrefabParent: 0
@@ -4218,6 +4230,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00e4c5184ef5e1849b6e37b3df134bbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalTime: 15
+  totalTime: 120
   TimerText: {fileID: 239796542}
   FailureText: {fileID: 1892901742}

@@ -37,7 +37,7 @@ public class TankBody : MonoBehaviour {
 
     [SerializeField] private Text isFinishActiveText;
 
-    byte GetTankID()
+    public byte GetTankID()
     {
         return TankID;
     }
