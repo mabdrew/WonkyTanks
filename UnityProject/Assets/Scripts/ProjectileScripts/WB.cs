@@ -11,6 +11,7 @@ public class WB : MonoBehaviour {
 	public float Damage;
 	public int NoCollisions;
 	const int MaxNoCollisions = 5;
+	const int PlayerCollisionPenalty = 3;//reduce number of max collisions for player projectiles
 	public byte CreatingPLayer;
 
 	// Use this for initialization
@@ -22,7 +23,7 @@ public class WB : MonoBehaviour {
 
 	void OnCollisionEnter (Collision collision)
 	{
-		if (NoCollisions > MaxNoCollisions)
+		if ( (NoCollisions > MaxNoCollisions && !PlayerFriendly) || ( (NoCollisions > MaxNoCollisions - PlayerCollisionPenalty) && PlayerFriendly ) )
 			Destroy (gameObject);
 		NoCollisions++;
 		if (collision.transform.CompareTag ("Player")) {
