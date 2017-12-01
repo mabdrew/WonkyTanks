@@ -6,8 +6,8 @@ using TankMessages;
 public class Projectiles : MonoBehaviour {
 
 	public GameObject WonkyBullet;//right now hard coded to wb, should generalize in the future
-	private const float BulletLifeSpan = 3f;//later on, these should vary contingent upon bullet type
-	private const float VelocityCoeff = 24f;
+	private const float BulletLifeSpanScalar = 2f;//later on, these should vary contingent upon bullet type
+	private const float VelocityCoeff = 18f;
 
 	void CreateProjectile(CreateProjectileMsg msg)
 	{
@@ -38,7 +38,10 @@ public class Projectiles : MonoBehaviour {
 		wb.GetComponent<Rigidbody>().velocity = wb.transform.forward * VelocityCoeff;
 
 		// Destroy the bullet after 2 seconds
-		Destroy(wb, BulletLifeSpan);
+		if(!msg.PlayerFriendly)
+			Destroy(wb, BulletLifeSpanScalar*1);
+		else
+			Destroy(wb, BulletLifeSpanScalar*0.75f);
 	}
 
 	// Use this for initialization
