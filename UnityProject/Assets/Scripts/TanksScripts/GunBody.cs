@@ -24,7 +24,7 @@ public class GunBody : MonoBehaviour {
     private const int LowerDeviationLimit = -2;
     private KeyCode FireButton;
     int FrameFired;
-    const int FireFrameWait = 10;
+    const int FireFrameWait = 20;
 
 	// Use this for initialization
 
@@ -44,8 +44,8 @@ public class GunBody : MonoBehaviour {
         Down = KeyCode.J;
 
         DeviationX = 0;
-        DeltaY = 6.0f;
-        GunRotateSpeed = 20f;
+        DeltaY = 4.0f;
+        GunRotateSpeed = 12f;
 		FireButton = KeyCode.Space;
         FrameFired = Time.frameCount;
 	}
@@ -111,13 +111,13 @@ public class GunBody : MonoBehaviour {
 
     void CheckHorizontalMove() 
     {
-        if(Input.GetKey(Left))
+        if(Input.GetKey(Right))
         {
             TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<TankBody>().TankID,
                                                             Time.frameCount, true);
             OwningGame.SendMessage("MoveGunHorizontal",msg,GameUtilities.DONT_CARE_RECIEVER);
         }
-        if (Input.GetKey(Right))
+        if (Input.GetKey(Left))
         {
             TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<TankBody>().TankID,
                                                 Time.frameCount, false);
@@ -149,7 +149,7 @@ public class GunBody : MonoBehaviour {
 				pos = Vector3.zero;
 			}
 
-			CreateProjectileMsg msg = new CreateProjectileMsg(true, Time.frameCount, GameUtilities.INVALID_TANK_ID,
+			CreateProjectileMsg msg = new CreateProjectileMsg(true, Time.frameCount, OwningTank.GetComponent<TankBody>().GetTankID(),
 				ShotType.Bouncy,
 				pos,qt);
 			OwningGame.BroadcastMessage("CreateProjectile", msg, GameUtilities.DONT_CARE_RECIEVER);
@@ -204,5 +204,4 @@ public class GunBody : MonoBehaviour {
             FrameFired = Time.frameCount;
         }
     }
-
 }

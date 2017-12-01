@@ -9,7 +9,7 @@ public class Guardian : MonoBehaviour {
     GameObject OwningGame;
 	GameObject BulletSpawnLoc;
 
-    const float NoticeDistance = 5f;
+    const float NoticeDistance = 7f;
     const float MaxAggro = 10000f;
     const float MinAggro = 0;
     const float DamageToAggroCoefficient = 20f;
@@ -22,7 +22,7 @@ public class Guardian : MonoBehaviour {
     float Health;
 
     int FrameFired;
-    const int FireFrameWait = 20;
+    const int FireFrameWait = 15;
 
 	public EnemyType GetEnemyType()
 	{
@@ -46,8 +46,7 @@ public class Guardian : MonoBehaviour {
     bool CanFire() { return (Time.frameCount > FrameFired + FireFrameWait); }
 
     void DamageEnemy(DamageEnemyMsg msg)
-    {   //madbrew : I don't think I need to worry about unity doing any behind the scenes multithreading
-            //and creating race conditions. If it does, I need to worry about making this thread safe.
+    {   
         if(msg.EType == EType && msg.EnemyID == EnemyID)
         {
             Health -= msg.Amount;

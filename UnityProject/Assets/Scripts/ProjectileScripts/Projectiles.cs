@@ -29,7 +29,7 @@ public class Projectiles : MonoBehaviour {
 		if(!msg.PlayerFriendly)
 			wb.GetComponent<WB> ().Damage = 10f;//MAGIC NUMBER
 		else
-			wb.GetComponent<WB> ().Damage = 110f;//MAGIC NUMBER
+			wb.GetComponent<WB> ().Damage = 10f;//MAGIC NUMBER
 
 		wb.GetComponent<WB> ().NoCollisions = 0;
 		wb.GetComponent<WB> ().CreatingPLayer = msg.TankID;
