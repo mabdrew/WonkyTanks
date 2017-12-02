@@ -111,8 +111,8 @@ impl WebsocketConnection {
             participants.push(sender.clone());
             data.clear();
             write!(data, "count: {}", participants.len()).unwrap();
-            let (last, participants) = participants.split_last().unwrap();
-            for participant in participants {
+            let (last, participants_sans_last) = participants.split_last().unwrap();
+            for participant in participants_sans_last {
                 drop(participant.unbounded_send(Packet::Text(data.clone())));
             }
             drop(last.unbounded_send(Packet::Text(data.clone())));
@@ -123,6 +123,19 @@ impl WebsocketConnection {
             (Some(capacity), count) if count == capacity as usize && count != 1 => Some(false),
             _ => None,
         } {
+            _ if &*token.0 == LOBBY => {
+                for (channel, state)in shared_data.try_borrow().unwrap().iter() {
+                    if &*channel.0 == LOBBY { continue }
+                    if let Some(capacity) = state.capacity {
+                        if state.participants.len() >= capacity as usize {
+                            continue
+                        }
+                    }
+                    data.clear();
+                    write!(data, "{}: {}", "+", channel).unwrap();
+
+                }
+            },
             Some(toggle) => {
                 if let Some(lobby) = shared_data.try_borrow().unwrap().get(LOBBY) {
                     data.clear();
@@ -134,7 +147,7 @@ impl WebsocketConnection {
                     drop(last.unbounded_send(Packet::Text(data)));
                 }
             },
-            None => {},
+            _ => {},
         }
         #[cfg(debug_assertions)]
         println!("Created connection: {:x}/{}", (&sender) as &UnboundedSender<_> as *const _ as usize, token);
