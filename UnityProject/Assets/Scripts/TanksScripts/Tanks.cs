@@ -19,7 +19,7 @@ public class Tanks : MonoBehaviour {
             Children[iChild] = gameObject.transform.GetChild(iChild).gameObject;
         }
 	}
-
+	/*
     //madbrew : is there a better way than implementing each of these functions? some sort of auto-forward, maybe?
     void StrafeTank(TankComponentMovementMsg msg)
     {
@@ -50,7 +50,7 @@ public class Tanks : MonoBehaviour {
         foreach (var child in Children)
             child.SendMessage("MoveGunVertical", msg, GameUtilities.DONT_CARE_RECIEVER);
     }
-
+	*/
    
 	// Update is called once per frame
 	void Update () {

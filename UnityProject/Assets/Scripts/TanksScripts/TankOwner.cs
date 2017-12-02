@@ -18,7 +18,7 @@ public class TankOwner : MonoBehaviour {
             Children[iChild] = gameObject.transform.GetChild(iChild).gameObject;
         }
 	}
-
+	/*
     void StrafeTank(TankComponentMovementMsg msg)
     {
         foreach (var child in Children)
@@ -48,7 +48,7 @@ public class TankOwner : MonoBehaviour {
         foreach (var child in Children)
             child.SendMessage("MoveGunVertical", msg, GameUtilities.DONT_CARE_RECIEVER);
     }
-
+	*/
 	// Update is called once per frame
 	void Update () {
 		

@@ -79,13 +79,13 @@ public class GunBody : MonoBehaviour {
         {
             TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<TankBody>().TankID,
                                                             Time.frameCount, true);
-            OwningGame.SendMessage("MoveGunVertical", msg, GameUtilities.DONT_CARE_RECIEVER);
+            OwningGame.BroadcastMessage("MoveGunVertical", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
         if (Input.GetKey(Down))
         {
             TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<TankBody>().TankID,
                                                 Time.frameCount, false);
-            OwningGame.SendMessage("MoveGunVertical", msg, GameUtilities.DONT_CARE_RECIEVER);
+            OwningGame.BroadcastMessage("MoveGunVertical", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
     }
 
@@ -115,13 +115,13 @@ public class GunBody : MonoBehaviour {
         {
             TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<TankBody>().TankID,
                                                             Time.frameCount, true);
-            OwningGame.SendMessage("MoveGunHorizontal",msg,GameUtilities.DONT_CARE_RECIEVER);
+            OwningGame.BroadcastMessage("MoveGunHorizontal",msg,GameUtilities.DONT_CARE_RECIEVER);
         }
         if (Input.GetKey(Left))
         {
             TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<TankBody>().TankID,
                                                 Time.frameCount, false);
-            OwningGame.SendMessage("MoveGunHorizontal", msg, GameUtilities.DONT_CARE_RECIEVER);
+            OwningGame.BroadcastMessage("MoveGunHorizontal", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
     }
 

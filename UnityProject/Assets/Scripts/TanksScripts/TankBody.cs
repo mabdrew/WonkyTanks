@@ -132,12 +132,12 @@ public class TankBody : MonoBehaviour {
         if(Input.GetKey(Forward))
         {   //forward
             TankComponentMovementMsg msg = new TankComponentMovementMsg(TankID, CurrentFrame, true);
-            OwningGame.SendMessage("MoveTank", msg, GameUtilities.DONT_CARE_RECIEVER);
+            OwningGame.BroadcastMessage("MoveTank", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
         if(Input.GetKey(Backward))
         {   //backward
             TankComponentMovementMsg msg = new TankComponentMovementMsg(TankID, CurrentFrame, false);
-            OwningGame.SendMessage("MoveTank", msg, GameUtilities.DONT_CARE_RECIEVER);
+            OwningGame.BroadcastMessage("MoveTank", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
     }
 
@@ -146,12 +146,12 @@ public class TankBody : MonoBehaviour {
         if (Input.GetKey(Left))
         {
             TankComponentMovementMsg msg = new TankComponentMovementMsg(TankID, CurrentFrame, true);
-            OwningGame.SendMessage("TurnTank", msg, GameUtilities.DONT_CARE_RECIEVER);
+            OwningGame.BroadcastMessage("TurnTank", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
         if (Input.GetKey(Right))
         {
             TankComponentMovementMsg msg = new TankComponentMovementMsg(TankID, CurrentFrame, true);
-            OwningGame.SendMessage("TurnTank", msg, GameUtilities.DONT_CARE_RECIEVER);
+            OwningGame.BroadcastMessage("TurnTank", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
     }
 
@@ -160,12 +160,12 @@ public class TankBody : MonoBehaviour {
         if (Input.GetKey(StrafeLeft))
         {
             TankComponentMovementMsg msg = new TankComponentMovementMsg(TankID, CurrentFrame, true);
-            OwningGame.SendMessage("StrafeTank",msg,GameUtilities.DONT_CARE_RECIEVER);
+            OwningGame.BroadcastMessage("StrafeTank",msg,GameUtilities.DONT_CARE_RECIEVER);
         }
         if (Input.GetKey(StrafeRight))
         {
             TankComponentMovementMsg msg = new TankComponentMovementMsg(TankID, CurrentFrame, false);
-            OwningGame.SendMessage("StrafeTank", msg, GameUtilities.DONT_CARE_RECIEVER);
+            OwningGame.BroadcastMessage("StrafeTank", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
     }
 
