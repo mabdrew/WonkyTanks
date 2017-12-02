@@ -36,19 +36,19 @@ public class WebsockAdaptor : MonoBehaviour {
 		string[] id_data_pair = data.Split (new char[]{','}, 2);
 		switch (int.Parse(id_data_pair[0])) {
 		case MoveGunVerticalID:
-			OwningGame.SendMessage ("MoveGunVertical", ReconstructTankComponentMovementMsg (id_data_pair [1]));
+			OwningGame.BroadcastMessage ("MoveGunVertical", ReconstructTankComponentMovementMsg (id_data_pair [1]));
 			break;
 		case MoveGunHorizontalID:
-			OwningGame.SendMessage ("MoveGunHorizontal", ReconstructTankComponentMovementMsg (id_data_pair [1]));
+			OwningGame.BroadcastMessage ("MoveGunHorizontal", ReconstructTankComponentMovementMsg (id_data_pair [1]));
 			break;
 		case MoveTankID:
-			OwningGame.SendMessage ("MoveTank", ReconstructTankComponentMovementMsg (id_data_pair [1]));
+			OwningGame.BroadcastMessage ("MoveTank", ReconstructTankComponentMovementMsg (id_data_pair [1]));
 			break;
 		case TurnTankID:
-			OwningGame.SendMessage ("TurnTank", ReconstructTankComponentMovementMsg (id_data_pair [1]));
+			OwningGame.BroadcastMessage ("TurnTank", ReconstructTankComponentMovementMsg (id_data_pair [1]));
 			break;
 		case StrafeTankID:
-			OwningGame.SendMessage ("StrafeTank", ReconstructTankComponentMovementMsg (id_data_pair [1]));
+			OwningGame.BroadcastMessage ("StrafeTank", ReconstructTankComponentMovementMsg (id_data_pair [1]));
 			break;
 		default:
 			// No-op?
