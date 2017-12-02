@@ -35,9 +35,11 @@ public class TankBody : MonoBehaviour {
 
     private bool isFinishActive;
 
+    [SerializeField] private Text FailureText;
+
     [SerializeField] private Text isFinishActiveText;
 
-    byte GetTankID()
+    public byte GetTankID()
     {
         return TankID;
     }
@@ -214,6 +216,35 @@ public class TankBody : MonoBehaviour {
         HealStamina();
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Semicolon))
+        {
+            DamageTankMsg msg = new DamageTankMsg(0, CurrentFrame, 20.0f);
+            OwningGame.BroadcastMessage("DamageTank", msg, GameUtilities.DONT_CARE_RECIEVER);
+        }
+
+        if(health <= 0.0f)
+        {
+            FailLevel();
+        }
+
+    }
+
+    private void FailLevel()
+    {
+        OwningGame.BroadcastMessage("DisableMovement", GameUtilities.DONT_CARE_RECIEVER);
+        FailureText.gameObject.SetActive(true);
+        Invoke("EndLevel", 5.0f);
+
+    }
+
+    private void EndLevel()
+    {
+        LoadNextSceneMsg msg = new LoadNextSceneMsg("Title", LoadSceneMode.Single);
+        OwningGame.BroadcastMessage("LoadNext", msg, GameUtilities.DONT_CARE_RECIEVER);
+    }
+
     void OnTriggerEnter(Collider theOther)
     {
         if (theOther.gameObject.CompareTag("Finish") && IsFinishActive == true)
@@ -226,7 +257,7 @@ public class TankBody : MonoBehaviour {
     void LoadNext(LoadNextSceneMsg msg)
     {
         // Loads title screen.
-        SceneManager.LoadScene(msg.SceneName, msg.SceneModeType);
+        SceneManager.LoadScene(msg.SceneName, (LoadSceneMode) msg.SceneModeType);
     }
 
 
