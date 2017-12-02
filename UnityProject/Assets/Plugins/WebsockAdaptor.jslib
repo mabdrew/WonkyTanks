@@ -24,7 +24,7 @@ WebsockAdaptorStart: function() {
 			}
 		}
 	};
-	var room = commons.room = new WebSocket("ws://" + location.host + "/example");
+	var room = commons.room = new WebSocket("ws://" + location.host + "/" + location.hash);
 	room.onopen = function() {
 		// FIXME
 	};
