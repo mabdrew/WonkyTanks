@@ -45,7 +45,7 @@ WebsockAdaptorStart: function() {
 WebsockAdaptorSend: function(str_ptr) {
 	var str = Pointer_stringify(str_ptr);
 	console.log("Sending:: " + str_ptr);
-	commons.room.send(new Blob(str,  { encoding: "UTF-8" } ));
+	commons.room.send(new Blob([str],  { encoding: "UTF-8" } ));
 }
 };
 
