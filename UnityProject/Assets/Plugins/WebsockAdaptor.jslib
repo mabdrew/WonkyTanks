@@ -36,6 +36,7 @@ WebsockAdaptorStart: function() {
 		} else {
 			var reader = new FileReader();
 			reader.addEventListener("loadend", function() {
+				console.log("Receiving:: " + reader.result);
 				SendMessage('Network_Manager', 'ReceivePacket', reader.result);
 			});
 			reader.readAsText(ev.data, "UTF-8");
@@ -44,7 +45,7 @@ WebsockAdaptorStart: function() {
 },
 WebsockAdaptorSend: function(str_ptr) {
 	var str = Pointer_stringify(str_ptr);
-	console.log("Sending:: " + str_ptr);
+	console.log("Sending:: " + str);
 	commons.room.send(new Blob([str],  { encoding: "UTF-8" } ));
 }
 };
