@@ -34,7 +34,7 @@ public class Game : MonoBehaviour {
 
         FrameSwitched = Time.frameCount;
 	}
-
+	/*
     //TANKSTUFF
     //madbrew : is there a better way than implementing each of these functions? some sort of auto-forward, maybe?
     void MoveTank(TankComponentMovementMsg fno_tid)
@@ -97,7 +97,7 @@ public class Game : MonoBehaviour {
         }
     }
     //ENDTANKSTUFF
-    
+	*/
     void SwitchCameraLocal()
     {   //on the LOCAL game instance, switch the active camera
 
