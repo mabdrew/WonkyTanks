@@ -54,6 +54,7 @@ namespace TankMessages
         public TankComponentMovementMsg() { TankID = GameUtilities.INVALID_TANK_ID; FrameNo = 0; Direction = false; }
         public TankComponentMovementMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
 
+        public bool external = false;
         public bool Direction;
         public byte TankID;
         public int FrameNo;

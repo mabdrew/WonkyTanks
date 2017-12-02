@@ -58,32 +58,48 @@ public class WebsockAdaptor : MonoBehaviour {
 
 	private const int MoveGunVerticalID = 1;
 	void MoveGunVertical(TankComponentMovementMsg msg) {
+		if (msg.external) {
+			return;
+		}
 		WebsockAdaptorSend (DeconstructTankComponentMovementMsg(MoveGunVerticalID, msg));
 	}
 
 	private const int MoveGunHorizontalID = MoveGunVerticalID + 1;
 	void MoveGunHorizontal(TankComponentMovementMsg msg) {
+		if (msg.external) {
+			return;
+		}
 		WebsockAdaptorSend (DeconstructTankComponentMovementMsg(MoveGunHorizontalID, msg));
 	}
 
 	private const int TurnTankID = MoveGunHorizontalID + 1;
 	void TurnTank(TankComponentMovementMsg msg) {
+		if (msg.external) {
+			return;
+		}
 		WebsockAdaptorSend (DeconstructTankComponentMovementMsg(TurnTankID, msg));
 	}
 
 	private const int MoveTankID = TurnTankID + 1;
 	void MoveTank(TankComponentMovementMsg msg) {
+		if (msg.external) {
+			return;
+		}
 		WebsockAdaptorSend (DeconstructTankComponentMovementMsg(MoveTankID, msg));
 	}
 
 	private const int StrafeTankID = MoveTankID + 1;
 	void StrafeTank(TankComponentMovementMsg msg) {
+		if (msg.external) {
+			return;
+		}
 		WebsockAdaptorSend (DeconstructTankComponentMovementMsg(StrafeTankID, msg));
 	}
 
 	static TankComponentMovementMsg ReconstructTankComponentMovementMsg(string message) {
 		string[] parts = message.Split (new char[]{','});
 		TankComponentMovementMsg msg = new TankComponentMovementMsg ();
+		msg.external = true;
 		msg.Direction = bool.Parse (parts [0]);
 		msg.FrameNo = int.Parse (parts [1]);
 		msg.TankID = byte.Parse (parts [2]);
