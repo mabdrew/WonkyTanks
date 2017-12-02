@@ -2,14 +2,10 @@
 $commons: {},
 $game: {},
 
-// SendMessage('Game', 'FunctionName', ...);
-
 WebsockAdaptorStart: function() {
 	var path = window.location.pathname;
 	path = path.substr(0, path.lastIndexOf("/") + 1);
 	var lobby = commons.lobby = new WebSocket("ws://" + location.host + path);
-	var encoder = commons.encoder.new TextEncoder("utf-8");
-	var decoder = commons.decoder.new TextDecoder("utf-8");
 	lobby.onopen = function() {
 		// FIXME
 	};
@@ -20,11 +16,11 @@ WebsockAdaptorStart: function() {
 		if ("string" === typeof ev.data) {
 			var ADD_CHANNEL_TOKEN = "+: ";
 			if (ev.data.startsWith(ADD_CHANNEL_TOKEN)) {
-				SendMessage('Game', 'NewChannel', ev.data.substr(ADD_CHANNEL_TOKEN.length));
+				SendMessage('Network_Manager', 'NewChannel', ev.data.substr(ADD_CHANNEL_TOKEN.length));
 			}
 			var REMOVE_CHANNEL_TOKEN = "-: ";
 			if (ev.data.startsWith(REMOVE_CHANNEL_TOKEN)) {
-				SendMessage('Game', 'RemoveChannel', ev.data.substr(REMOVE_CHANNEL_TOKEN.length));
+				SendMessage('Network_Manager', 'RemoveChannel', ev.data.substr(REMOVE_CHANNEL_TOKEN.length));
 			}
 		}
 	};
@@ -38,20 +34,19 @@ WebsockAdaptorStart: function() {
 	room.onmessage = function(ev) {
 		if ("string" === typeof ev.data) {
 		} else {
-			let reader = new FileReader();
-			reader.onload = function (event) {
-				SendMessage('Game', 'ReceivePacket', decoder.decode(event.target.result));
-			}
-			reader.readAsArrayBuffer(ev.data)
+			var reader = new FileReader();
+			reader.addEventListener("loadend", function() {
+				SendMessage('Network_Manager', 'ReceivePacket', reader.result);
+			});
+			reader.readAsText(ev.data, "UTF-8");
 		}
 	};
 },
-
 WebsockAdaptorSend: function(str_ptr) {
-	let str = Pointer_stringify(str_ptr);
-	commons.room.send(encoder.encode(str));
+	var str = Pointer_stringify(str_ptr);
+	console.log("Sending:: " + str_ptr);
+	commons.room.send(new Blob(str,  { encoding: "UTF-8" } ));
 }
-
 };
 
 autoAddDeps(LibraryWebsockAdaptor, '$commons');
