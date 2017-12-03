@@ -49,7 +49,7 @@ namespace TankMessages
 {
     enum ShotType { InvalidShotType = -1, Bouncy = 0 }
 
-	class BaseMsg
+	abstract class BaseMsg
 	{
 		public bool external;
 		public BaseMsg(){ external = false; }
