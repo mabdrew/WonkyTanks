@@ -49,18 +49,23 @@ namespace TankMessages
 {
     enum ShotType { InvalidShotType = -1, Bouncy = 0 }
 
-    class TankComponentMovementMsg
-    {
-        public TankComponentMovementMsg() { TankID = GameUtilities.INVALID_TANK_ID; FrameNo = 0; Direction = false; }
-        public TankComponentMovementMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
+	class BaseMsg
+	{
+		public bool external;
+		public BaseMsg(){ external = false; }
+	}
 
-        public bool external = false;
+	class TankComponentMovementMsg : BaseMsg
+    {
+		public TankComponentMovementMsg() { TankID = GameUtilities.INVALID_TANK_ID; FrameNo = 0; Direction = false; external = false; }
+		public TankComponentMovementMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; external = false; }
+
         public bool Direction;
         public byte TankID;
         public int FrameNo;
     };
 
-    class CreateProjectileMsg
+	class CreateProjectileMsg : BaseMsg
     {
         public CreateProjectileMsg()
         {
@@ -69,6 +74,7 @@ namespace TankMessages
             TankID = GameUtilities.INVALID_TANK_ID;
             TypeFired = ShotType.InvalidShotType;
 			xPos = yPos = zPos = xQuat = yQuat = zQuat = wQuat = 0f;
+			external = false;
         }
 
 		public CreateProjectileMsg(bool pf, int fno, byte tid, ShotType tf, Vector3 ip, Quaternion rot)
@@ -86,6 +92,7 @@ namespace TankMessages
 			yQuat = rot.y;
 			zQuat = rot.z;
 			wQuat = rot.w;
+			external = false;
         }
 
         public bool PlayerFriendly;//whether or not the projectile can harm/affect players
@@ -103,14 +110,15 @@ namespace TankMessages
 		public float wQuat;
     }
 
-    class DamageTankMsg
+	class DamageTankMsg : BaseMsg
     {
-        public DamageTankMsg() { TankID = GameUtilities.INVALID_TANK_ID; FrameNo = 0; Amount = 0.0f; }
+		public DamageTankMsg() { TankID = GameUtilities.INVALID_TANK_ID; FrameNo = 0; Amount = 0.0f; external = false; }
         public DamageTankMsg(byte tid, int fno, float amt)
         {
             TankID = tid;
             FrameNo = fno;
             Amount = amt;
+			external = false;
         }
 
         public byte TankID;
@@ -118,9 +126,9 @@ namespace TankMessages
         public float Amount; 
     }
 
-	class SyncTankPositionMsg
+	class SyncTankPositionMsg : BaseMsg
 	{
-		SyncTankPositionMsg(){}
+		SyncTankPositionMsg(){ external = false; }
 
 		public int NetID;
 		public int TankID;
@@ -138,25 +146,27 @@ namespace TankMessages
 
 namespace MapMessages
 {
-    class GetCollectableMsg
+	using TankMessages;
+	class GetCollectableMsg : BaseMsg
     {
         public GameObject collectableObj;
         //public int FrameNo;
 
-        public GetCollectableMsg(GameObject collectable) { collectableObj = collectable; }
+		public GetCollectableMsg(GameObject collectable) { collectableObj = collectable; external = false; }
     }
-	class GetBulletMsg
+	class GetBulletMsg : BaseMsg
     {
         public GameObject bulletObj;
         //public int FrameNo;
 
-        public GetBulletMsg(GameObject bullet) { bulletObj = bullet; }
+		public GetBulletMsg(GameObject bullet) { bulletObj = bullet; external = false; }
     }
 }
 
 namespace LevelMessages
 {
-    class LoadNextSceneMsg
+	using TankMessages;
+	class LoadNextSceneMsg : BaseMsg
     {
         public string SceneName;
         public int SceneModeType;
@@ -165,27 +175,31 @@ namespace LevelMessages
         {
             SceneName = "Title";
             SceneModeType = (int) LoadSceneMode.Single;
+			external = false;
         }
 
         public LoadNextSceneMsg(string nextScene, LoadSceneMode nextSceneType)
         {
             SceneName = nextScene;
             SceneModeType = (int) nextSceneType;
+			external = false;
         }
     }
 }
 
 namespace EnemyMessages
 {
+	using TankMessages;
     public enum EnemyType { InvalidEnemyType = -1, Guardian = 0, Chaser = 1 }
 
-    class DamageEnemyMsg
+	class DamageEnemyMsg : BaseMsg
     {
         public DamageEnemyMsg()
         {
             EType = EnemyType.InvalidEnemyType;
             EnemyID = GameUtilities.INVALID_ENEMY_ID;
             Amount = 0f;
+			external = false;
         }
 
         public DamageEnemyMsg(EnemyType et, byte eid, byte tid, float amt)
@@ -194,6 +208,7 @@ namespace EnemyMessages
             EnemyID = eid;
             TankID = tid;
             Amount = amt;
+			external = false;
         }
 
         public EnemyType EType; 
@@ -202,18 +217,20 @@ namespace EnemyMessages
         public float Amount;
     }
 
-    class EnemyIDMsg
+	class EnemyIDMsg : BaseMsg
     {
         public EnemyIDMsg()
         {
             EnemyID = GameUtilities.INVALID_ENEMY_ID;
             EType = EnemyType.InvalidEnemyType;
+			external = false;
         }
 
         public EnemyIDMsg(byte eid, EnemyType et)
         {
             EnemyID = eid;
             EType = et;
+			external = false;
         }
 
         public byte EnemyID;
@@ -223,7 +240,8 @@ namespace EnemyMessages
 
 namespace UIMessages
 {
-    class UpdateBar
+	using TankMessages;
+	class UpdateBar : BaseMsg
     {
         public float currentValue;
         public float minValue;
@@ -236,6 +254,7 @@ namespace UIMessages
             minValue = 0.0f;
             maxValue = 100.0f;
             barID = 0;
+			external = false;
         }
 
         public UpdateBar(float current, float min, float max, int id)
@@ -244,6 +263,7 @@ namespace UIMessages
             minValue = min;
             maxValue = max;
             barID = id;
+			external = false;
         }
     }
 }
