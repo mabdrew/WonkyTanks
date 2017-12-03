@@ -121,12 +121,11 @@ namespace TankMessages
 
 namespace MapMessages
 {
-    class GetCollectableMsg
+    class SetCollectableMsg
     {
-        public GameObject collectableObj;
+        //public GameObject collectableObj;
         //public int FrameNo;
-
-        public GetCollectableMsg(GameObject collectable) { collectableObj = collectable; }
+        public bool external = false;
     }
 	class GetBulletMsg
     {

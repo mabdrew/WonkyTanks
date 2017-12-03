@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
 using TankMessages;
+using MapMessages;
 
 
 public class WebsockAdaptor : MonoBehaviour {
@@ -50,6 +51,10 @@ public class WebsockAdaptor : MonoBehaviour {
 		case StrafeTankID:
 			OwningGame.BroadcastMessage ("StrafeTank", ReconstructTankComponentMovementMsg (id_data_pair [1]));
 			break;
+        case SetCollectablesLeftID:
+            OwningGame.BroadcastMessage("SetCollectablesLeft", ReconstructTankComponentMovementMsg(id_data_pair[1]));
+            break;
+
 		default:
 			// No-op?
 			break;
@@ -96,7 +101,18 @@ public class WebsockAdaptor : MonoBehaviour {
 		WebsockAdaptorSend (DeconstructTankComponentMovementMsg(StrafeTankID, msg));
 	}
 
-	static TankComponentMovementMsg ReconstructTankComponentMovementMsg(string message) {
+    private const int SetCollectablesLeftID = StrafeTankID + 1;
+    void SetCollectablesLeft(SetCollectableMsg msg)
+    {
+        if (msg.external)
+        {
+            return;
+        }
+
+        WebsockAdaptorSend(SetCollectablesLeftID.ToString() );
+    }
+
+    static TankComponentMovementMsg ReconstructTankComponentMovementMsg(string message) {
 		string[] parts = message.Split (new char[]{','});
 		TankComponentMovementMsg msg = new TankComponentMovementMsg ();
 		msg.external = true;
