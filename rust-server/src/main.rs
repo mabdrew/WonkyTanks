@@ -98,24 +98,28 @@ struct WebsocketConnection {
 impl WebsocketConnection {
     pub fn new(shared_data: SharedData, token: String, sender: Rc<UnboundedSender<Packet>>) -> Self {
         let token: CountedString  = token.into();
-        let mut data: String = Default::default();
         match match {
             let shared_data = &mut *shared_data.borrow_mut();
             let shared_data = shared_data.entry(token.clone());
             #[cfg(debug_assertions)]
             println!("Previous data: {:?}", &shared_data);
             let &mut ChannelState { ref mut participants, capacity, ref mut identities } = shared_data.or_insert_with(Default::default);
+
+            let mut data: String = Default::default();
             write!(data, "identity: {}", identities).unwrap();
             drop(sender.unbounded_send(Packet::Text(data.clone())));
+
             *identities += 1;
             participants.push(sender.clone());
+
             data.clear();
             write!(data, "count: {}", participants.len()).unwrap();
+
             let (last, participants_sans_last) = participants.split_last().unwrap();
             for participant in participants_sans_last {
                 drop(participant.unbounded_send(Packet::Text(data.clone())));
             }
-            drop(last.unbounded_send(Packet::Text(data.clone())));
+            drop(last.unbounded_send(Packet::Text(data)));
             (capacity, participants.len())
         } {
             (Some(capacity), 1) if 1 < capacity => Some(true),
@@ -131,15 +135,16 @@ impl WebsocketConnection {
                             continue
                         }
                     }
-                    data.clear();
+                    let mut data: String = Default::default();
                     write!(data, "{}: {}", "+", channel).unwrap();
-
+                    drop(sender.unbounded_send(Packet::Text(data)));
                 }
             },
             Some(toggle) => {
                 if let Some(lobby) = shared_data.try_borrow().unwrap().get(LOBBY) {
-                    data.clear();
+                    let mut data: String = Default::default();
                     write!(data, "{}: {}", if toggle { "+" } else { "-" }, token).unwrap();
+
                     let (last, participants) = lobby.participants.split_last().unwrap();
                     for participant in participants {
                         drop(participant.unbounded_send(Packet::Text(data.clone())));
