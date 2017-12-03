@@ -984,7 +984,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 406602903}
-  - component: {fileID: 406602904}
   m_Layer: 0
   m_Name: TankOwner
   m_TagString: TankOwner
@@ -1007,17 +1006,6 @@ Transform:
   m_Father: {fileID: 758091553}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &406602904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 406602902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41154cb7dd997404b98a2f38fd772151, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &470923301 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4320646912511892, guid: a7e07a2aab3e98042bb7cda75528dbd5,
@@ -1933,7 +1921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerSpeed: 5
-  RotateSpeed: 5
+  RotateSpeed: 120
   StrafeSpeed: 10
   Forward: 119
   Backward: 115

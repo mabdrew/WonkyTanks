@@ -32,7 +32,7 @@ public class TankBody : MonoBehaviour {
 
     private float Stamina;
     private float health;
-
+	private float TankRot;
     private bool isFinishActive;
 
     [SerializeField] private Text FailureText;
@@ -53,7 +53,7 @@ public class TankBody : MonoBehaviour {
         Right = KeyCode.D;
         StrafeLeft = KeyCode.Z;
         StrafeRight = KeyCode.X;
-
+		TankRot = 0f;
         //on start up find your parent game
         GameUtilities.FindGame(ref OwningGame);
 
@@ -69,12 +69,14 @@ public class TankBody : MonoBehaviour {
         if(msg.TankID==TankID)
         {
             if(msg.Direction)
-            {
-                transform.Rotate(0.0f, Input.GetAxis("Horizontal") * RotateSpeed, 0.0f);
+            {	
+				print ("Dooper");
+				transform.Rotate (Vector3.up, RotateSpeed * Time.deltaTime);
             }
             else
             {
-                transform.Rotate(0.0f, Input.GetAxis("Horizontal") * RotateSpeed, 0.0f);
+				print ("Flooper");
+				transform.Rotate (Vector3.up, -RotateSpeed * Time.deltaTime);
             }
         }
     }
@@ -145,7 +147,7 @@ public class TankBody : MonoBehaviour {
     {
         if (Input.GetKey(Left))
         {
-            TankComponentMovementMsg msg = new TankComponentMovementMsg(TankID, CurrentFrame, true);
+            TankComponentMovementMsg msg = new TankComponentMovementMsg(TankID, CurrentFrame, false);
             OwningGame.BroadcastMessage("TurnTank", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
         if (Input.GetKey(Right))
