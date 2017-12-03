@@ -69,15 +69,9 @@ public class TankBody : MonoBehaviour {
         if(msg.TankID==TankID)
         {
             if(msg.Direction)
-            {	
-				print ("Dooper");
 				transform.Rotate (Vector3.up, RotateSpeed * Time.deltaTime);
-            }
             else
-            {
-				print ("Flooper");
 				transform.Rotate (Vector3.up, -RotateSpeed * Time.deltaTime);
-            }
         }
     }
 
