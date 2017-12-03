@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Runtime.InteropServices;
 using TankMessages;
 using EnemyMessages;
-
+using LevelMessages;
 
 public class WebsockAdaptor : MonoBehaviour {
 
@@ -82,6 +82,7 @@ public class WebsockAdaptor : MonoBehaviour {
 		if (msg.external) {
 			return;
 		}
+		print ("Called MoveGunHorizontal on WebsockAdaptor");
 		WebsockAdaptorSend (DeconstructTankComponentMovementMsg(MoveGunHorizontalID, msg));
 	}
 
@@ -127,7 +128,7 @@ public class WebsockAdaptor : MonoBehaviour {
 //		public float wQuat;
 		if(!msg.external){
 		string DeconMsg = "";
-			DeconMsg += msg.PlayerFriendly.ToString () + "," + msg.FrameNo.ToString () + "," + msg.TankID.ToString () + "," + ((int)msg.TypeFired).ToString ()
+			DeconMsg += CreateProjectileID.ToString() + "," + msg.PlayerFriendly.ToString () + "," + msg.FrameNo.ToString () + "," + msg.TankID.ToString () + "," + ((int)msg.TypeFired).ToString ()
 			+ "," + msg.xPos.ToString () + "," + msg.yPos.ToString () + "," + msg.zPos.ToString () + "," + msg.xQuat.ToString () + "," + msg.yQuat.ToString ()
 				+ "," + msg.zQuat.ToString () + "," + msg.wQuat.ToString();
 			WebsockAdaptorSend (DeconMsg);
@@ -143,7 +144,7 @@ public class WebsockAdaptor : MonoBehaviour {
 
 		if (!msg.external) {
 			string DeconMsg = "";
-			DeconMsg += msg.Amount.ToString() + "," + msg.FrameNo.ToString() + "," + msg.TankID.ToString();
+			DeconMsg += DamageTankID.ToString() + "," + msg.Amount.ToString() + "," + msg.FrameNo.ToString() + "," + msg.TankID.ToString();
 			WebsockAdaptorSend(DeconMsg);
 		}
 	}
@@ -157,7 +158,7 @@ public class WebsockAdaptor : MonoBehaviour {
 		//	public float Amount;
 		if (!msg.external) {
 			string DeconMsg = "";
-			DeconMsg += ((int)msg.EType).ToString() + "," + msg.EnemyID.ToString() + "," + msg.TankID.ToString() + "," + msg.Amount.ToString();
+			DeconMsg += DamageEnemyID.ToString() + "," + ((int)msg.EType).ToString() + "," + msg.EnemyID.ToString() + "," + msg.TankID.ToString() + "," + msg.Amount.ToString();
 			WebsockAdaptorSend(DeconMsg);
 		}
 	}
@@ -169,7 +170,7 @@ public class WebsockAdaptor : MonoBehaviour {
 //		public EnemyType EType; 
 		if (!msg.external) {
 			string DeconMsg = "";
-			DeconMsg += msg.EnemyID.ToString () + "," + ((int)msg.EType).ToString ();
+			DeconMsg += EnemyIDMsgID.ToString() + "," + msg.EnemyID.ToString () + "," + ((int)msg.EType).ToString ();
 			WebsockAdaptorSend(DeconMsg);
 		}
 	}
