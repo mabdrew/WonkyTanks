@@ -52,7 +52,7 @@ public class WebsockAdaptor : MonoBehaviour {
 			OwningGame.BroadcastMessage ("StrafeTank", ReconstructTankComponentMovementMsg (id_data_pair [1]));
 			break;
         case SetCollectablesLeftID:
-            OwningGame.BroadcastMessage("SetCollectablesLeft", ReconstructTankComponentMovementMsg(id_data_pair[1]));
+            OwningGame.BroadcastMessage("SetCollectablesLeft", ReconstructSetCollectableMsg (id_data_pair[1]));
             break;
 
 		default:
@@ -121,6 +121,16 @@ public class WebsockAdaptor : MonoBehaviour {
 		msg.TankID = byte.Parse (parts [2]);
 		return msg;
 	}
+
+    static SetCollectableMsg ReconstructSetCollectableMsg(string message)
+    {
+        string[] parts = message.Split(new char[] { ',' });
+
+        SetCollectableMsg msg = new SetCollectableMsg();
+        msg.external = true;
+
+        return msg;
+    }
 
 	static string DeconstructTankComponentMovementMsg(int id, TankComponentMovementMsg msg) {
 		return
