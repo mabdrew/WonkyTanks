@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
 using TankMessages;
+using EnemyMessages;
 
 
 public class WebsockAdaptor : MonoBehaviour {
@@ -51,7 +52,16 @@ public class WebsockAdaptor : MonoBehaviour {
 			OwningGame.BroadcastMessage ("StrafeTank", ReconstructTankComponentMovementMsg (id_data_pair [1]), GameUtilities.DONT_CARE_RECIEVER);
 			break;
 		case CreateProjectileID:
-			OwningGame.BroadcastMessage ("CreateProjectile", ReconstructTankCreateProjectileMsg (id_data_pair [1]), GameUtilities.DONT_CARE_RECIEVER);
+			OwningGame.BroadcastMessage ("CreateProjectile", ReconstructCreateProjectileMsg (id_data_pair [1]), GameUtilities.DONT_CARE_RECIEVER);
+			break;
+		case DamageTankID:
+			OwningGame.BroadcastMessage ("DamageTank", ReconstructDamageTankMsg (id_data_pair[1]), GameUtilities.DONT_CARE_RECIEVER);
+			break;
+		case DamageEnemyID:
+			OwningGame.BroadcastMessage ("DamageEnemy", ReconstructDamageEnemyMsg (id_data_pair [1]), GameUtilities.DONT_CARE_RECIEVER);
+			break;
+		case EnemyIDMsgID: //Quite possibly, the best name of any variable ever forever in all time and universes
+			OwningGame.BroadcastMessage("DestroyThisEnemy", ReconstructEnemyIDMsg (id_data_pair[1]), GameUtilities.DONT_CARE_RECIEVER);
 			break;
 		default:
 			// No-op?
@@ -124,7 +134,87 @@ public class WebsockAdaptor : MonoBehaviour {
 		}
 	}
 
-	static CreateProjectileMsg ReconstructTankCreateProjectileMsg(string message)
+	private const int DamageTankID = CreateProjectileID + 1;
+	void DamageTank(DamageTankMsg msg)
+	{
+//		public byte TankID;
+//		public int FrameNo;
+//		public float Amount;
+
+		if (!msg.external) {
+			string DeconMsg = "";
+			DeconMsg += msg.Amount.ToString() + "," + msg.FrameNo.ToString() + "," + msg.TankID.ToString();
+			WebsockAdaptorSend(DeconMsg);
+		}
+	}
+
+	private const int DamageEnemyID = DamageTankID + 1;
+	void DamageEnemy(DamageEnemyMsg msg)
+	{
+		//	public EnemyType EType; 
+		//	public byte EnemyID;
+		//	public byte TankID;//the tank this damage is from
+		//	public float Amount;
+		if (!msg.external) {
+			string DeconMsg = "";
+			DeconMsg += ((int)msg.EType).ToString() + "," + msg.EnemyID.ToString() + "," + msg.TankID.ToString() + "," + msg.Amount.ToString();
+			WebsockAdaptorSend(DeconMsg);
+		}
+	}
+
+	private const int EnemyIDMsgID = DamageEnemyID + 1;
+	void DestroyThisEnemy(EnemyIDMsg msg)
+	{
+//		public byte EnemyID;
+//		public EnemyType EType; 
+		if (!msg.external) {
+			string DeconMsg = "";
+			DeconMsg += msg.EnemyID.ToString () + "," + ((int)msg.EType).ToString ();
+			WebsockAdaptorSend(DeconMsg);
+		}
+	}
+
+	static EnemyIDMsg ReconstructEnemyIDMsg(string message)
+	{
+		string[] parts = message.Split (new char[]{','});
+		EnemyIDMsg msg = new EnemyIDMsg ();
+		msg.external = true;
+
+		msg.EnemyID = byte.Parse (parts [0]);
+		int ET = int.Parse (parts [1]);
+		msg.EType = (EnemyType)ET;
+
+		return msg;
+	}
+
+	static DamageEnemyMsg ReconstructDamageEnemyMsg(string message)
+	{
+		string[] parts = message.Split (new char[]{','});
+		DamageEnemyMsg msg = new DamageEnemyMsg ();
+		msg.external = true;
+		int ET = int.Parse (parts[0]);
+		msg.EType = (EnemyType)ET;
+		msg.EnemyID = byte.Parse (parts[1]);
+		msg.TankID = byte.Parse (parts [2]);
+		msg.Amount = float.Parse (parts [3]);
+
+		return msg;
+	}
+
+
+	static DamageTankMsg ReconstructDamageTankMsg(string message)
+	{
+		string[] parts = message.Split (new char[]{','});
+		DamageTankMsg msg = new DamageTankMsg ();
+		msg.external = true;
+		msg.Amount = float.Parse (parts[0]);
+		msg.FrameNo = int.Parse (parts [1]);
+		msg.TankID = byte.Parse (parts [2]);
+
+		return msg;
+	}
+
+	static CreateProjectileMsg ReconstructCreateProjectileMsg(string message)
 	{
 		string[] parts = message.Split (new char[]{','});
 		CreateProjectileMsg msg = new CreateProjectileMsg ();
