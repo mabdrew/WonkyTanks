@@ -54,7 +54,9 @@ public class WebsockAdaptor : MonoBehaviour {
         case SetCollectablesLeftID:
             OwningGame.BroadcastMessage("SetCollectablesLeft", ReconstructSetCollectableMsg (id_data_pair[1]));
             break;
-
+        case SetIsFinishActiveID:
+            OwningGame.BroadcastMessage("SetIsFinishActive", ReconstructSetIsFinishActiveMsg(id_data_pair[1])); 
+            break;
 		default:
 			// No-op?
 			break;
@@ -112,6 +114,20 @@ public class WebsockAdaptor : MonoBehaviour {
         WebsockAdaptorSend(SetCollectablesLeftID.ToString() );
     }
 
+    private const int SetIsFinishActiveID = SetCollectablesLeftID + 1;
+    private void SetIsFinishActive(IsFinishActiveMsg msg)
+    {
+        if (msg.external)
+        {
+            return;
+        }
+
+        string deconstructedMsg = SetIsFinishActiveID
+            + "," + msg.isActive;
+
+        WebsockAdaptorSend(deconstructedMsg);
+    }
+
     static TankComponentMovementMsg ReconstructTankComponentMovementMsg(string message) {
 		string[] parts = message.Split (new char[]{','});
 		TankComponentMovementMsg msg = new TankComponentMovementMsg ();
@@ -128,6 +144,18 @@ public class WebsockAdaptor : MonoBehaviour {
 
         SetCollectableMsg msg = new SetCollectableMsg();
         msg.external = true;
+
+        return msg;
+    }
+
+    static IsFinishActiveMsg ReconstructSetIsFinishActiveMsg(string message)
+    {
+
+        string[] parts = message.Split(new char[] { ',' });
+
+        IsFinishActiveMsg msg = new IsFinishActiveMsg();
+        msg.external = true;
+        msg.isActive = bool.Parse( parts[0] );
 
         return msg;
     }
