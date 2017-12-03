@@ -117,6 +117,23 @@ namespace TankMessages
         public int FrameNo;
         public float Amount; 
     }
+
+	class SyncTankPositionMsg
+	{
+		SyncTankPositionMsg(){}
+
+		public int NetID;
+		public int TankID;
+
+		public float xPos;
+		public float yPos;
+		public float zPos;
+
+		public float xQuat;
+		public float yQuat;
+		public float zQuat;
+		public float wQuat;
+	}
 }//TankMessages
 
 namespace MapMessages

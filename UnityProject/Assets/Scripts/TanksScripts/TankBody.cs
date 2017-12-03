@@ -96,6 +96,21 @@ public class TankBody : MonoBehaviour {
         }
     }
 
+	void SyncTankPosition(SyncTankPositionMsg msg)
+	{	//uses quaternion and position info to set tank transform
+		if (msg.TankID == TankID) {
+			Vector3 NewPos;
+			Quaternion NewRot = new Quaternion (msg.xQuat,msg.yQuat,msg.zQuat,msg.wQuat);
+
+			NewPos.x = msg.xPos;
+			NewPos.y = msg.yPos;
+			NewPos.z = msg.zPos;
+
+			transform.position = NewPos;
+			transform.rotation = NewRot;
+		}
+	}
+
     void StrafeTank(TankComponentMovementMsg msg)
     {   
         //dir tid, fno
