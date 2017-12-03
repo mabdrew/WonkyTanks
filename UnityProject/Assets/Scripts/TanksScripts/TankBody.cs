@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using TankMessages;
 using LevelMessages;
 using UIMessages;
+using MapMessages;
 using System;
 
 
@@ -282,9 +283,9 @@ public class TankBody : MonoBehaviour {
         }
     }
 
-    private void SetIsFinishActive(bool isActive)
+    private void SetIsFinishActive(IsFinishActiveMsg msg)
     {
-        IsFinishActive = isActive;
+        IsFinishActive = msg.isActive;
     }
 
     private void DisableText()

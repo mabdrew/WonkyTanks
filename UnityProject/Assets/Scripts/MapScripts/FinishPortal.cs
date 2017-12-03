@@ -31,7 +31,8 @@ public class FinishPortal : MonoBehaviour {
 
         if (CollectablesLeft <= 0)
         {
-            OwningGame.BroadcastMessage("SetIsFinishActive", true, GameUtilities.DONT_CARE_RECIEVER);
+            IsFinishActiveMsg msg = new IsFinishActiveMsg(true);
+            OwningGame.BroadcastMessage("SetIsFinishActive", msg, GameUtilities.DONT_CARE_RECIEVER);
         }
     }
 

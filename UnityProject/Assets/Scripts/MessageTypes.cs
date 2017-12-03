@@ -127,6 +127,23 @@ namespace MapMessages
         //public int FrameNo;
         public bool external = false;
     }
+
+    class IsFinishActiveMsg
+    {
+        public bool external = false;
+        public bool isActive;
+
+        public IsFinishActiveMsg()
+        {
+            isActive = false;
+        }
+
+        public IsFinishActiveMsg(bool active)
+        {
+            isActive = active;
+        }
+    }
+
 	class GetBulletMsg
     {
         public GameObject bulletObj;
