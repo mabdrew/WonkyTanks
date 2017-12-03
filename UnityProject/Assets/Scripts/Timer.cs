@@ -68,10 +68,4 @@ public class Timer : MonoBehaviour {
         LoadNextSceneMsg msg = new LoadNextSceneMsg("Title", LoadSceneMode.Single);
         OwningGame.BroadcastMessage("LoadNext", msg, GameUtilities.DONT_CARE_RECIEVER);
     }
-
-    void LoadNext(LoadNextSceneMsg msg)
-    {
-        // Loads title screen.
-        SceneManager.LoadScene(msg.SceneName, (LoadSceneMode) msg.SceneModeType);
-    }
 }
