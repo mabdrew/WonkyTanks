@@ -38,7 +38,7 @@ function onClose(socket) {
     }
 }
 
-function onError() {
+function onError(e) {
     hide();
     log('warning', 'ERROR: ' + e);
 }
