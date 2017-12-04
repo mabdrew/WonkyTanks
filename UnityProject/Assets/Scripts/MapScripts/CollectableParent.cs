@@ -9,6 +9,11 @@ public class CollectableParent : MonoBehaviour {
 	[SerializeField] private Text collectableText;
 	private string displayedText = "Dongles Left: ";
 
+	void Start() //this is driving me insane
+	{
+	}
+
+
 	void UpdateCollectableText(UpdateCollectableTextMsg msg)	{
 
 		collectableText.text = displayedText + msg.collectablesLeft;

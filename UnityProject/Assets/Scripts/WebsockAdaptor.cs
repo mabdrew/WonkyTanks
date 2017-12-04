@@ -65,7 +65,10 @@ public class WebsockAdaptor : MonoBehaviour {
 			OwningGame.BroadcastMessage("DestroyThisEnemy", ReconstructEnemyIDMsg (id_data_pair[1]), GameUtilities.DONT_CARE_RECIEVER);
 			break;
 		case SetIsFinishActiveID:
-			OwningGame.BroadcastMessage("SetIsFinishActive", ReconstructSetIsFinishActiveMsg(id_data_pair[1]));
+			OwningGame.BroadcastMessage("SetIsFinishActive", ReconstructSetIsFinishActiveMsg(id_data_pair[1]), GameUtilities.DONT_CARE_RECIEVER);
+			break;
+		case UpdateCollectableTextID:
+			OwningGame.BroadcastMessage("UpdateCollectableText", ReconstructUpdateCollectableTextMsg(id_data_pair[1]), GameUtilities.DONT_CARE_RECIEVER);
 			break;
 		default:
 			// No-op?
@@ -281,8 +284,8 @@ public class WebsockAdaptor : MonoBehaviour {
 	}
 
 	private const int UpdateCollectableTextID = SetIsFinishActiveID + 1;
-	void UpdateCollectableText(UpdateCollectableTextMsg msg)	{
-
+	void UpdateCollectableText(UpdateCollectableTextMsg msg)
+	{
 		if (msg.External)
 		{
 			return;
@@ -292,17 +295,17 @@ public class WebsockAdaptor : MonoBehaviour {
 			UpdateCollectableTextID
 			+ "," + msg.collectablesLeft;
 
-		WebsockAdaptorSend (deconstructedMsg);
+		WebsockAdaptorSend(deconstructedMsg);
 	}
 
-	static UpdateCollectableTextMsg ReconstructUpdateCollectableText(string message)
+	static UpdateCollectableTextMsg ReconstructUpdateCollectableTextMsg(string message)
 	{
 
 		string[] parts = message.Split(new char[] { ',' });
 
-		UpdateCollectableTextMsg msg = new UpdateCollectableTextMsg ();
+		UpdateCollectableTextMsg msg = new UpdateCollectableTextMsg();
 		msg.External = true;
-		msg.collectablesLeft = int.Parse (parts [0]);
+		msg.collectablesLeft = int.Parse( parts[0] );
 
 		return msg;
 	}
