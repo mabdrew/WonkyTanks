@@ -177,6 +177,16 @@ namespace MapMessages
             isActive = active;
         }
     }
+
+	class UpdateCollectableTextMsg : BaseMsg
+	{
+		public int collectablesLeft;
+
+		public UpdateCollectableTextMsg(int collectables = 0)
+		{
+			collectablesLeft = collectables;
+		}
+	}
 }
 
 namespace LevelMessages

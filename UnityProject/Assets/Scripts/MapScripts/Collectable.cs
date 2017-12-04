@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MapMessages;
+using UnityEngine.UI;
 
 public class Collectable : MonoBehaviour {
 
@@ -11,8 +12,9 @@ public class Collectable : MonoBehaviour {
     private Collider playerCollider;
     private Collider collectableCollider;
 
-    private GameObject OwningGame;
+    private static GameObject OwningGame;
 
+	static int collectablesLeft;
 
     // Use this for initialization
     void Start()
@@ -27,6 +29,8 @@ public class Collectable : MonoBehaviour {
             collectableCollider = collectableObject.GetComponent<Collider>(); //get collider for intersection detection
 
         GameUtilities.FindGame(ref OwningGame);
+
+		CollectablesLeft = GameObject.FindGameObjectsWithTag("Collectable").Length; //total and remaining collectables set to # collectables in game
     }
 
     // Update is called once per frame
@@ -42,6 +46,31 @@ public class Collectable : MonoBehaviour {
                                                                           //player and collectables don't collide with each other
         {
             // GetCollectable();
+			collectableObject.SetActive(false);
+			CollectablesLeft--;
+
+
+			if (CollectablesLeft <= 0)
+			{
+				IsFinishActiveMsg msg = new IsFinishActiveMsg(true);
+				OwningGame.BroadcastMessage("SetIsFinishActive", msg, GameUtilities.DONT_CARE_RECIEVER);
+			}
         }
     }
+
+	private static int CollectablesLeft
+	{
+		get
+		{
+			return collectablesLeft;
+		}
+
+		set
+		{
+			collectablesLeft = value;
+
+			UpdateCollectableTextMsg msg = new UpdateCollectableTextMsg (CollectablesLeft);
+			OwningGame.BroadcastMessage ("UpdateCollectableText", msg, GameUtilities.DONT_CARE_RECIEVER);
+		}
+	}
 }

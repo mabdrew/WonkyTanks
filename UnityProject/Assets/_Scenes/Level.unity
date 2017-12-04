@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657886, g: 0.4964127, b: 0.57481724, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -2916,7 +2916,6 @@ GameObject:
   - component: {fileID: 1460397480}
   - component: {fileID: 1460397483}
   - component: {fileID: 1460397484}
-  - component: {fileID: 1460397485}
   m_Layer: 0
   m_Name: Finish Portal
   m_TagString: Finish
@@ -3014,18 +3013,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1460397485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1460397478}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e190e60809418fe4b824bdf22e26de42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  collectableText: {fileID: 1422391472}
 --- !u!4 &1470152879 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4514572289203928, guid: 137da33f7ca0ecd439f3fd2ffff35f10,
@@ -3478,6 +3465,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1786932190}
+  - component: {fileID: 1786932191}
   m_Layer: 0
   m_Name: CollectableParent
   m_TagString: Untagged
@@ -3502,6 +3490,18 @@ Transform:
   m_Father: {fileID: 394269072}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1786932191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1786932189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7feaf34fb8a82fb468d10c0cb0268fa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectableText: {fileID: 1422391472}
 --- !u!4 &1808459045 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4320646912511892, guid: a7e07a2aab3e98042bb7cda75528dbd5,
