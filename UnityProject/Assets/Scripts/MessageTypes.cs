@@ -182,7 +182,12 @@ namespace MapMessages
 	{
 		public int collectablesLeft;
 
-		public UpdateCollectableTextMsg(int collectables = 0)
+		public UpdateCollectableTextMsg()
+		{
+			collectablesLeft = 0;
+		}
+
+		public UpdateCollectableTextMsg(int collectables)
 		{
 			collectablesLeft = collectables;
 		}
