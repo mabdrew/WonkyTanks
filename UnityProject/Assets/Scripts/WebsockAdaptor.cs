@@ -279,4 +279,32 @@ public class WebsockAdaptor : MonoBehaviour {
 
 		return msg;
 	}
+
+	private const int UpdateCollectableTextID = SetIsFinishActiveID + 1;
+	void UpdateCollectableText(UpdateCollectableTextMsg msg)	{
+
+		if (msg.External)
+		{
+			return;
+		}
+
+		string deconstructedMsg =
+			UpdateCollectableTextID
+			+ "," + msg.collectablesLeft;
+
+		WebsockAdaptorSend (deconstructedMsg);
+	}
+
+	static UpdateCollectableTextMsg ReconstructUpdateCollectableText(string message)
+	{
+
+		string[] parts = message.Split(new char[] { ',' });
+
+		UpdateCollectableTextMsg msg = new UpdateCollectableTextMsg ();
+		msg.External = true;
+		msg.collectablesLeft = int.Parse (parts [0]);
+
+		return msg;
+	}
+
 }
