@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using TankMessages;
 using LevelMessages;
 using UIMessages;
+using MapMessages;
 using System;
 
 
@@ -69,15 +70,9 @@ public class TankBody : MonoBehaviour {
         if(msg.TankID==TankID)
         {
             if(msg.Direction)
-            {	
-				print ("Dooper");
 				transform.Rotate (Vector3.up, RotateSpeed * Time.deltaTime);
-            }
             else
-            {
-				print ("Flooper");
 				transform.Rotate (Vector3.up, -RotateSpeed * Time.deltaTime);
-            }
         }
     }
 
@@ -95,6 +90,21 @@ public class TankBody : MonoBehaviour {
             }
         }
     }
+
+	void SyncTankPosition(SyncTankPositionMsg msg)
+	{	//uses quaternion and position info to set tank transform
+		if (msg.TankID == TankID) {
+			Vector3 NewPos;
+			Quaternion NewRot = new Quaternion (msg.xQuat,msg.yQuat,msg.zQuat,msg.wQuat);
+
+			NewPos.x = msg.xPos;
+			NewPos.y = msg.yPos;
+			NewPos.z = msg.zPos;
+
+			transform.position = NewPos;
+			transform.rotation = NewRot;
+		}
+	}
 
     void StrafeTank(TankComponentMovementMsg msg)
     {   
@@ -282,9 +292,9 @@ public class TankBody : MonoBehaviour {
         }
     }
 
-    private void SetIsFinishActive(bool isActive)
+    private void SetIsFinishActive(IsFinishActiveMsg msg)
     {
-        IsFinishActive = isActive;
+        IsFinishActive = msg.isActive;
     }
 
     private void DisableText()

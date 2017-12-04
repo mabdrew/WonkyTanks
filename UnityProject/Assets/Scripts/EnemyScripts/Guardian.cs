@@ -54,7 +54,7 @@ public class Guardian : MonoBehaviour {
             bool FoundPlayerAggro = TankAggro.TryGetValue(msg.TankID, out Aggro);
             if(FoundPlayerAggro)
             {
-                print("Found player " + msg.TankID.ToString() + " adding aggro");
+//                print("Found player " + msg.TankID.ToString() + " adding aggro");
                 Aggro += msg.Amount * DamageToAggroCoefficient;
                 TankAggro[msg.TankID] = Aggro;
             }
@@ -85,7 +85,7 @@ public class Guardian : MonoBehaviour {
             {
                 RunningMaxAggro = entry.Value;
                 WorstPlayer = FindPlayerFromID(entry.Key);
-                print(RunningMaxAggro);
+//                print(RunningMaxAggro);
             }
         }
 

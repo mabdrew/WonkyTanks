@@ -47,20 +47,32 @@ class GameUtilities : MonoBehaviour//extends mono purely for the benefits of pri
 
 namespace TankMessages
 {
+	using WonkyMessages;
     enum ShotType { InvalidShotType = -1, Bouncy = 0 }
 
-    class TankComponentMovementMsg
-    {
-        public TankComponentMovementMsg() { TankID = GameUtilities.INVALID_TANK_ID; FrameNo = 0; Direction = false; }
-        public TankComponentMovementMsg(byte tid, int fno, bool direction) { TankID = tid; FrameNo = fno; Direction = direction; }
+	class TankComponentMovementMsg : BaseMsg
+	{
+	
+		public TankComponentMovementMsg()
+		{
+			TankID = GameUtilities.INVALID_TANK_ID;
+			FrameNo = 0;
+			Direction = false;
+		}
 
-        public bool external = false;
-        public bool Direction;
-        public byte TankID;
-        public int FrameNo;
-    };
+		public TankComponentMovementMsg(byte tid, int fno, bool direction)
+		{
+			TankID = tid;
+			FrameNo = fno;
+			Direction = direction;
+		}
 
-    class CreateProjectileMsg
+		public bool Direction;
+		public byte TankID;
+		public int FrameNo;
+	};
+
+    class CreateProjectileMsg : BaseMsg
     {
         public CreateProjectileMsg()
         {
@@ -68,24 +80,24 @@ namespace TankMessages
             FrameNo = 0;
             TankID = GameUtilities.INVALID_TANK_ID;
             TypeFired = ShotType.InvalidShotType;
-			xPos = yPos = zPos = xQuat = yQuat = zQuat = wQuat = 0f;
+            xPos = yPos = zPos = xQuat = yQuat = zQuat = wQuat = 0f;
         }
 
-		public CreateProjectileMsg(bool pf, int fno, byte tid, ShotType tf, Vector3 ip, Quaternion rot)
+        public CreateProjectileMsg(bool pf, int fno, byte tid, ShotType tf, Vector3 ip, Quaternion rot)
         {
             PlayerFriendly = pf;
             FrameNo = fno;
             TankID = tid;
             TypeFired = tf;
             
-			xPos = ip.x;
-			yPos = ip.y;
-			zPos = ip.z;
+            xPos = ip.x;
+            yPos = ip.y;
+            zPos = ip.z;
 
-			xQuat = rot.x;
-			yQuat = rot.y;
-			zQuat = rot.z;
-			wQuat = rot.w;
+            xQuat = rot.x;
+            yQuat = rot.y;
+            zQuat = rot.z;
+            wQuat = rot.w;
         }
 
         public bool PlayerFriendly;//whether or not the projectile can harm/affect players
@@ -93,19 +105,24 @@ namespace TankMessages
         public byte TankID;
         public ShotType TypeFired;
 
-		public float xPos;
-		public float yPos;
-		public float zPos;
+        public float xPos;
+        public float yPos;
+        public float zPos;
 
-		public float xQuat;
-		public float yQuat;
-		public float zQuat;
-		public float wQuat;
+        public float xQuat;
+        public float yQuat;
+        public float zQuat;
+        public float wQuat;
     }
 
-    class DamageTankMsg
+    class DamageTankMsg : BaseMsg
     {
-        public DamageTankMsg() { TankID = GameUtilities.INVALID_TANK_ID; FrameNo = 0; Amount = 0.0f; }
+        public DamageTankMsg() { 
+            TankID = GameUtilities.INVALID_TANK_ID;
+            FrameNo = 0; 
+            Amount = 0.0f;
+        }
+
         public DamageTankMsg(byte tid, int fno, float amt)
         {
             TankID = tid;
@@ -117,29 +134,55 @@ namespace TankMessages
         public int FrameNo;
         public float Amount; 
     }
+
+	class SyncTankPositionMsg : BaseMsg
+	{
+		public int NetID;
+		public int TankID;
+
+		public float xPos;
+		public float yPos;
+		public float zPos;
+
+		public float xQuat;
+		public float yQuat;
+		public float zQuat;
+		public float wQuat;
+	}
 }//TankMessages
+
+namespace WonkyMessages
+{
+	class BaseMsg
+	{
+		public bool External = false;
+	}
+}
 
 namespace MapMessages
 {
-    class GetCollectableMsg
-    {
-        public GameObject collectableObj;
-        //public int FrameNo;
+    using Messages;
 
-        public GetCollectableMsg(GameObject collectable) { collectableObj = collectable; }
-    }
-	class GetBulletMsg
+    class IsFinishActiveMsg : BaseMsg
     {
-        public GameObject bulletObj;
-        //public int FrameNo;
+        public bool isActive;
 
-        public GetBulletMsg(GameObject bullet) { bulletObj = bullet; }
+        public IsFinishActiveMsg()
+        {
+            isActive = false;
+        }
+
+        public IsFinishActiveMsg(bool active)
+        {
+            isActive = active;
+        }
     }
 }
 
 namespace LevelMessages
 {
-    class LoadNextSceneMsg
+    using TankMessages;
+    class LoadNextSceneMsg : BaseMsg
     {
         public string SceneName;
         public int SceneModeType;
@@ -160,9 +203,10 @@ namespace LevelMessages
 
 namespace EnemyMessages
 {
+	using WonkyMessages;
     public enum EnemyType { InvalidEnemyType = -1, Guardian = 0, Chaser = 1 }
 
-    class DamageEnemyMsg
+	class DamageEnemyMsg : BaseMsg
     {
         public DamageEnemyMsg()
         {
@@ -185,7 +229,7 @@ namespace EnemyMessages
         public float Amount;
     }
 
-    class EnemyIDMsg
+	class EnemyIDMsg : BaseMsg
     {
         public EnemyIDMsg()
         {
@@ -206,7 +250,8 @@ namespace EnemyMessages
 
 namespace UIMessages
 {
-    class UpdateBar
+	using WonkyMessages;
+	class UpdateBar : BaseMsg
     {
         public float currentValue;
         public float minValue;

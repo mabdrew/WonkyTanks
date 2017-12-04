@@ -48,6 +48,8 @@ public class Collectable : MonoBehaviour {
     void GetCollectable(/*(GetCollectableMsg msg*/)
     {       
         collectableObject.gameObject.SetActive(false);
-        OwningGame.BroadcastMessage("SetCollectablesLeft", GameUtilities.DONT_CARE_RECIEVER);
+
+        SetCollectableMsg msg = new SetCollectableMsg();
+        OwningGame.BroadcastMessage("SetCollectablesLeft", msg, GameUtilities.DONT_CARE_RECIEVER);
     }
 }
