@@ -48,7 +48,7 @@ class GameUtilities : MonoBehaviour//extends mono purely for the benefits of pri
 namespace TankMessages
 {
 	using WonkyMessages;
-    enum ShotType { InvalidShotType = -1, Bouncy = 0 }
+	enum ShotType { InvalidShotType = -1, Bouncy = 0 }
 
 	class TankComponentMovementMsg : BaseMsg
 	{
@@ -161,7 +161,7 @@ namespace WonkyMessages
 
 namespace MapMessages
 {
-    using Messages;
+    using WonkyMessages;
 
     class IsFinishActiveMsg : BaseMsg
     {
@@ -181,7 +181,7 @@ namespace MapMessages
 
 namespace LevelMessages
 {
-    using TankMessages;
+    using WonkyMessages;
     class LoadNextSceneMsg : BaseMsg
     {
         public string SceneName;
@@ -203,10 +203,10 @@ namespace LevelMessages
 
 namespace EnemyMessages
 {
-	using WonkyMessages;
+    using WonkyMessages;
     public enum EnemyType { InvalidEnemyType = -1, Guardian = 0, Chaser = 1 }
 
-	class DamageEnemyMsg : BaseMsg
+    class DamageEnemyMsg : BaseMsg
     {
         public DamageEnemyMsg()
         {
@@ -229,7 +229,7 @@ namespace EnemyMessages
         public float Amount;
     }
 
-	class EnemyIDMsg : BaseMsg
+    class EnemyIDMsg : BaseMsg
     {
         public EnemyIDMsg()
         {
@@ -250,8 +250,8 @@ namespace EnemyMessages
 
 namespace UIMessages
 {
-	using WonkyMessages;
-	class UpdateBar : BaseMsg
+    using WonkyMessages;
+    class UpdateBar : BaseMsg
     {
         public float currentValue;
         public float minValue;
