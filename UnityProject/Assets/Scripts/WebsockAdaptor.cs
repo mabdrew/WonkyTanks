@@ -253,7 +253,7 @@ public class WebsockAdaptor : MonoBehaviour {
 		return msg;
 	}
 
-	private const int SetIsFinishActiveID = DestroyThisEnemeyID + 1;
+	private const int SetIsFinishActiveID = DestroyThisEnemyID + 1;
 	private void SetIsFinishActive(IsFinishActiveMsg msg)
 	{
 		if (msg.External)

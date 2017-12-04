@@ -41,15 +41,7 @@ public class Collectable : MonoBehaviour {
         if (collectableCollider.bounds.Intersects(playerCollider.bounds)) //check for intersection with Player
                                                                           //player and collectables don't collide with each other
         {
-            GetCollectable();
+            // GetCollectable();
         }
-    }
-
-    void GetCollectable(/*(GetCollectableMsg msg*/)
-    {       
-        collectableObject.gameObject.SetActive(false);
-
-        SetCollectableMsg msg = new SetCollectableMsg();
-        OwningGame.BroadcastMessage("SetCollectablesLeft", msg, GameUtilities.DONT_CARE_RECIEVER);
     }
 }
