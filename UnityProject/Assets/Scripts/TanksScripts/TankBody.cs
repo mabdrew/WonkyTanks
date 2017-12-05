@@ -135,7 +135,7 @@ public class TankBody : MonoBehaviour {
     private void UpdateHealthOrStamina(float currentValue, float minValue, float maxValue, int barID)
     {
         UpdateBar msg = new UpdateBar(currentValue, minValue, maxValue, barID);
-        OwningGame.BroadcastMessage("HandleBar", msg, GameUtilities.DONT_CARE_RECIEVER);
+        GameUtilities.Broadcast ("HandleBar", msg);
     }
 
 
@@ -144,12 +144,12 @@ public class TankBody : MonoBehaviour {
         if(Input.GetKey(Forward))
         {   //forward
             TankComponentMovementMsg msg = new TankComponentMovementMsg(TankID, CurrentFrame, true);
-            OwningGame.BroadcastMessage("MoveTank", msg, GameUtilities.DONT_CARE_RECIEVER);
+            GameUtilities.Broadcast ("MoveTank", msg);
         }
         if(Input.GetKey(Backward))
         {   //backward
             TankComponentMovementMsg msg = new TankComponentMovementMsg(TankID, CurrentFrame, false);
-            OwningGame.BroadcastMessage("MoveTank", msg, GameUtilities.DONT_CARE_RECIEVER);
+            GameUtilities.Broadcast ("MoveTank", msg);
         }
     }
 
@@ -158,12 +158,12 @@ public class TankBody : MonoBehaviour {
         if (Input.GetKey(Left))
         {
             TankComponentMovementMsg msg = new TankComponentMovementMsg(TankID, CurrentFrame, false);
-            OwningGame.BroadcastMessage("TurnTank", msg, GameUtilities.DONT_CARE_RECIEVER);
+            GameUtilities.Broadcast ("TurnTank", msg);
         }
         if (Input.GetKey(Right))
         {
             TankComponentMovementMsg msg = new TankComponentMovementMsg(TankID, CurrentFrame, true);
-            OwningGame.BroadcastMessage("TurnTank", msg, GameUtilities.DONT_CARE_RECIEVER);
+            GameUtilities.Broadcast ("TurnTank", msg);
         }
     }
 
@@ -172,12 +172,12 @@ public class TankBody : MonoBehaviour {
         if (Input.GetKey(StrafeLeft))
         {
             TankComponentMovementMsg msg = new TankComponentMovementMsg(TankID, CurrentFrame, true);
-            OwningGame.BroadcastMessage("StrafeTank",msg,GameUtilities.DONT_CARE_RECIEVER);
+            GameUtilities.Broadcast ("StrafeTank", msg);
         }
         if (Input.GetKey(StrafeRight))
         {
             TankComponentMovementMsg msg = new TankComponentMovementMsg(TankID, CurrentFrame, false);
-            OwningGame.BroadcastMessage("StrafeTank", msg, GameUtilities.DONT_CARE_RECIEVER);
+            GameUtilities.Broadcast ("StrafeTank", msg);
         }
     }
 
@@ -233,7 +233,7 @@ public class TankBody : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Semicolon))
         {
             DamageTankMsg msg = new DamageTankMsg(0, CurrentFrame, 20.0f);
-            OwningGame.BroadcastMessage("DamageTank", msg, GameUtilities.DONT_CARE_RECIEVER);
+            GameUtilities.Broadcast ("DamageTank", msg);
         }
 
         if(health <= 0.0f)
@@ -245,7 +245,7 @@ public class TankBody : MonoBehaviour {
 
     private void FailLevel()
     {
-        OwningGame.BroadcastMessage("DisableMovement", GameUtilities.DONT_CARE_RECIEVER);
+        GameUtilities.Broadcast("DisableMovement", "");
         FailureText.gameObject.SetActive(true);
         Invoke("EndLevel", 5.0f);
 
@@ -253,7 +253,7 @@ public class TankBody : MonoBehaviour {
 
     private void EndLevel()
     {
-        OwningGame.BroadcastMessage("LoadNext", new LoadNextSceneMsg(SceneName.Title), GameUtilities.DONT_CARE_RECIEVER);
+        GameUtilities.Broadcast ("LoadNext", new LoadNextSceneMsg(SceneName.Title));
     }
 
     void OnTriggerEnter(Collider theOther)
@@ -293,7 +293,7 @@ public class TankBody : MonoBehaviour {
     }
 
 
-    void DisableMovement() //is there a better way to do this?
+    void DisableMovement(string emptyMessage) //is there a better way to do this?
     {
         Forward = KeyCode.F;
         Backward = KeyCode.F;

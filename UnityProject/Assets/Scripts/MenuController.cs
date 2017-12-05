@@ -19,12 +19,9 @@ public class MenuController : MonoBehaviour {
 
 	public void StartGame()
 	{
-		GameObject OwningGame = null;
-		GameUtilities.FindGame(ref OwningGame);
-		OwningGame.BroadcastMessage(
+		GameUtilities.Broadcast(
 			"LoadNext",
-			new LoadNextSceneMsg(SceneName.Level),
-			GameUtilities.DONT_CARE_RECIEVER
+			new LoadNextSceneMsg(SceneName.Level)
 		);
 	}
 }

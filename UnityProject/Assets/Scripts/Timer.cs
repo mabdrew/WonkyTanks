@@ -56,7 +56,7 @@ public class Timer : MonoBehaviour {
 
     private void FailLevel()
     {
-        OwningGame.BroadcastMessage("DisableMovement", GameUtilities.DONT_CARE_RECIEVER);
+        GameUtilities.Broadcast ("DisableMovement", "");
         TimerText.text = "RIP";
         FailureText.gameObject.SetActive(true);
         Invoke("EndLevel", 5.0f);
@@ -65,10 +65,9 @@ public class Timer : MonoBehaviour {
 
     private void EndLevel()
     {
-        OwningGame.BroadcastMessage(
-            "LoadNext", 
-            new LoadNextSceneMsg(SceneName.Title),
-            GameUtilities.DONT_CARE_RECIEVER
+        GameUtilities.Broadcast (
+            "LoadNext",
+            new LoadNextSceneMsg(SceneName.Title)
         );
     }
 }

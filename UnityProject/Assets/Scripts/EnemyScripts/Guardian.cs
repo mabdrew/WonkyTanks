@@ -151,10 +151,15 @@ public class Guardian : MonoBehaviour {
 				pos = Vector3.zero;
 			}
 
-            CreateProjectileMsg msg = new CreateProjectileMsg(false, Time.frameCount, GameUtilities.INVALID_TANK_ID,
+            CreateProjectileMsg msg = new CreateProjectileMsg(
+                false,
+                Time.frameCount,
+                GameUtilities.INVALID_TANK_ID,
                 ShotType.Bouncy,
-				pos,qt);
-            OwningGame.BroadcastMessage("CreateProjectile", msg, GameUtilities.DONT_CARE_RECIEVER);
+                pos,
+                qt
+            );
+            GameUtilities.Broadcast ("CreateProjectile", msg);
             FrameFired = Time.frameCount;
         }
 
@@ -194,7 +199,7 @@ public class Guardian : MonoBehaviour {
         if (IsDead())
         {   
             EnemyIDMsg  msg = new EnemyIDMsg(EnemyID, EType);
-            OwningGame.BroadcastMessage("DestroyThisEnemy", msg ,GameUtilities.DONT_CARE_RECIEVER);
+            GameUtilities.Broadcast ("DestroyThisEnemy", msg);
         }
 
         PassiveUpdatePlayerAggro();

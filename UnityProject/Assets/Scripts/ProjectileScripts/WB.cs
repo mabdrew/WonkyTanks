@@ -34,7 +34,7 @@ public class WB : MonoBehaviour {
 				msg.FrameNo = Time.frameCount;
 				msg.TankID = collision.transform.gameObject.GetComponent<TankBody>().GetTankID();
 
-				OwningGame.BroadcastMessage ("DamageTank", msg, GameUtilities.DONT_CARE_RECIEVER);
+				GameUtilities.Broadcast ("DamageTank", msg);
 				Destroy (gameObject);
 			}
 		} 
@@ -47,7 +47,7 @@ public class WB : MonoBehaviour {
 				msg.EType = collision.transform.parent.gameObject.GetComponent<Guardian>().GetEnemyType();
 				msg.EnemyID = collision.transform.parent.gameObject.GetComponent<Guardian>().EnemyID;
 
-				OwningGame.BroadcastMessage ("DamageEnemy", msg, GameUtilities.DONT_CARE_RECIEVER);
+				GameUtilities.Broadcast ("DamageEnemy", msg);
 				Destroy (gameObject);
 			}
 

@@ -53,7 +53,7 @@ public class Collectable : MonoBehaviour {
 			if (CollectablesLeft <= 0)
 			{
 				IsFinishActiveMsg msg = new IsFinishActiveMsg(true);
-				OwningGame.BroadcastMessage("SetIsFinishActive", msg, GameUtilities.DONT_CARE_RECIEVER);
+				GameUtilities.Broadcast ("SetIsFinishActive", msg);
 			}
         }
     }
@@ -70,7 +70,7 @@ public class Collectable : MonoBehaviour {
 			collectablesLeft = value;
 
 			UpdateCollectableTextMsg msg = new UpdateCollectableTextMsg (CollectablesLeft);
-			OwningGame.BroadcastMessage ("UpdateCollectableText", msg, GameUtilities.DONT_CARE_RECIEVER);
+			GameUtilities.Broadcast ("UpdateCollectableText", msg);
 		}
 	}
 }

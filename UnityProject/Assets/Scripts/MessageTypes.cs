@@ -6,6 +6,13 @@ using UnityEngine.SceneManagement;
 class GameUtilities : MonoBehaviour//extends mono purely for the benefits of printing to the game console
 {   //broad, useful functions and data for the game
 
+	public static void Broadcast(string name, object msg)
+	{
+		foreach (var item in SceneManager.GetActiveScene().GetRootGameObjects()) {
+			item.BroadcastMessage (name, msg, SendMessageOptions.DontRequireReceiver);
+		}
+	}
+
     public static void FindGame(ref GameObject game_in)
     {   //finds the main game object
         var RootGMs = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();

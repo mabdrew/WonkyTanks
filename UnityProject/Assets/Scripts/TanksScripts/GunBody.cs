@@ -79,13 +79,13 @@ public class GunBody : MonoBehaviour {
         {
             TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<TankBody>().TankID,
                                                             Time.frameCount, true);
-            OwningGame.BroadcastMessage("MoveGunVertical", msg, GameUtilities.DONT_CARE_RECIEVER);
+            GameUtilities.Broadcast ("MoveGunVertical", msg);
         }
         if (Input.GetKey(Down))
         {
             TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<TankBody>().TankID,
                                                 Time.frameCount, false);
-            OwningGame.BroadcastMessage("MoveGunVertical", msg, GameUtilities.DONT_CARE_RECIEVER);
+            GameUtilities.Broadcast ("MoveGunVertical", msg);
         }
     }
 
@@ -115,13 +115,13 @@ public class GunBody : MonoBehaviour {
         {
             TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<TankBody>().TankID,
                                                             Time.frameCount, true);
-            OwningGame.BroadcastMessage("MoveGunHorizontal",msg,GameUtilities.DONT_CARE_RECIEVER);
+            GameUtilities.Broadcast ("MoveGunHorizontal", msg);
         }
         if (Input.GetKey(Left))
         {
             TankComponentMovementMsg msg = new TankComponentMovementMsg(OwningTank.GetComponent<TankBody>().TankID,
                                                 Time.frameCount, false);
-            OwningGame.BroadcastMessage("MoveGunHorizontal", msg, GameUtilities.DONT_CARE_RECIEVER);
+            GameUtilities.Broadcast ("MoveGunHorizontal", msg);
         }
     }
 
@@ -152,7 +152,7 @@ public class GunBody : MonoBehaviour {
 			CreateProjectileMsg msg = new CreateProjectileMsg(true, Time.frameCount, OwningTank.GetComponent<TankBody>().GetTankID(),
 				ShotType.Bouncy,
 				pos,qt);
-			OwningGame.BroadcastMessage("CreateProjectile", msg, GameUtilities.DONT_CARE_RECIEVER);
+			GameUtilities.Broadcast ("CreateProjectile", msg);
 			FrameFired = Time.frameCount;
         }
     }
@@ -200,7 +200,7 @@ public class GunBody : MonoBehaviour {
             msg.TankID = OwningTank.GetComponent<TankBody>().TankID;
             msg.EType = EnemyType.Guardian;
             msg.Amount = 10f;
-            OwningGame.BroadcastMessage("DamageEnemy", msg, GameUtilities.DONT_CARE_RECIEVER);
+            GameUtilities.Broadcast ("DamageEnemy", msg);
             FrameFired = Time.frameCount;
         }
     }

@@ -45,40 +45,40 @@ public class WebsockAdaptor : MonoBehaviour {
 		string payload = data_pair[1];
 		switch (int.Parse(descriminator)) {
 		case LoadNextID:
-			OwningGame.BroadcastMessage ("LoadNext", ReconstructLoadNextSceneMsg (payload), GameUtilities.DONT_CARE_RECIEVER);
+			GameUtilities.Broadcast ("LoadNext", ReconstructLoadNextSceneMsg (payload));
 			break;
 		case MoveGunVerticalID:
-			OwningGame.BroadcastMessage ("MoveGunVertical", ReconstructTankComponentMovementMsg (payload), GameUtilities.DONT_CARE_RECIEVER);
+			GameUtilities.Broadcast ("MoveGunVertical", ReconstructTankComponentMovementMsg (payload));
 			break;
 		case MoveGunHorizontalID:
-			OwningGame.BroadcastMessage ("MoveGunHorizontal", ReconstructTankComponentMovementMsg (payload), GameUtilities.DONT_CARE_RECIEVER);
+			GameUtilities.Broadcast ("MoveGunHorizontal", ReconstructTankComponentMovementMsg (payload));
 			break;
 		case MoveTankID:
-			OwningGame.BroadcastMessage ("MoveTank", ReconstructTankComponentMovementMsg (payload), GameUtilities.DONT_CARE_RECIEVER);
+			GameUtilities.Broadcast ("MoveTank", ReconstructTankComponentMovementMsg (payload));
 			break;
 		case TurnTankID:
-			OwningGame.BroadcastMessage ("TurnTank", ReconstructTankComponentMovementMsg (payload), GameUtilities.DONT_CARE_RECIEVER);
+			GameUtilities.Broadcast ("TurnTank", ReconstructTankComponentMovementMsg (payload));
 			break;
 		case StrafeTankID:
-			OwningGame.BroadcastMessage ("StrafeTank", ReconstructTankComponentMovementMsg (payload), GameUtilities.DONT_CARE_RECIEVER);
+			GameUtilities.Broadcast ("StrafeTank", ReconstructTankComponentMovementMsg (payload));
 			break;
 		case CreateProjectileID:
-			OwningGame.BroadcastMessage ("CreateProjectile", ReconstructCreateProjectileMsg (payload), GameUtilities.DONT_CARE_RECIEVER);
+			GameUtilities.Broadcast ("CreateProjectile", ReconstructCreateProjectileMsg (payload));
 			break;
 		case DamageTankID:
-			OwningGame.BroadcastMessage ("DamageTank", ReconstructDamageTankMsg (payload), GameUtilities.DONT_CARE_RECIEVER);
+			GameUtilities.Broadcast ("DamageTank", ReconstructDamageTankMsg (payload));
 			break;
 		case DamageEnemyID:
-			OwningGame.BroadcastMessage ("DamageEnemy", ReconstructDamageEnemyMsg (payload), GameUtilities.DONT_CARE_RECIEVER);
+			GameUtilities.Broadcast ("DamageEnemy", ReconstructDamageEnemyMsg (payload));
 			break;
 		case DestroyThisEnemyID:
-			OwningGame.BroadcastMessage ("DestroyThisEnemy", ReconstructEnemyIDMsg (payload), GameUtilities.DONT_CARE_RECIEVER);
+			GameUtilities.Broadcast ("DestroyThisEnemy", ReconstructEnemyIDMsg (payload));
 			break;
 		case SetIsFinishActiveID:
-				OwningGame.BroadcastMessage ("SetIsFinishActive", ReconstructSetIsFinishActiveMsg (payload), GameUtilities.DONT_CARE_RECIEVER);
+			GameUtilities.Broadcast ("SetIsFinishActive", ReconstructSetIsFinishActiveMsg(payload));
 			break;
 		case UpdateCollectableTextID:
-			OwningGame.BroadcastMessage ("UpdateCollectableText", ReconstructUpdateCollectableTextMsg (payload), GameUtilities.DONT_CARE_RECIEVER);
+			GameUtilities.Broadcast ("UpdateCollectableText", ReconstructUpdateCollectableTextMsg (payload));
 			break;
 		default:
 			// No-op?
