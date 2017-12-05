@@ -7,21 +7,42 @@ using TankMessages;
 using MapMessages;
 using EnemyMessages;
 using LevelMessages;
+using UIMessages;
 
 public class WebsockAdaptor : MonoBehaviour {
+	public static WebsockAdaptor Instance { get; private set; }
+
+	#if UNITY_WEBGL && !UNITY_EDITOR
 
 	[DllImport("__Internal")]
 	private static extern void WebsockAdaptorStart();
 	[DllImport("__Internal")]
 	private static extern void WebsockAdaptorSend(string msg);
 
-	// Use this for initialization
-	void Start () {
-		WebsockAdaptorStart ();
+	#else
+
+	private static void WebsockAdaptorStart() {
+		// No-op
 	}
 
+	private static void WebsockAdaptorSend(string msg) {
+		// No-op
+	}
+
+	#endif
+
 	void Awake() {
-		DontDestroyOnLoad(gameObject);
+		if (Instance == this) {
+			// This should never trigger
+			return;
+		}
+		if (Instance != null) {
+			Destroy (this.gameObject);
+			return;
+		}
+		WebsockAdaptorStart ();
+		Instance = this;
+		DontDestroyOnLoad (gameObject);
 	}
 	
 	// Update is called once per frame
@@ -126,7 +147,6 @@ public class WebsockAdaptor : MonoBehaviour {
 		if (msg.External) {
 			return;
 		}
-		print ("Called MoveGunHorizontal on WebsockAdaptor");
 		WebsockAdaptorSend (DeconstructTankComponentMovementMsg(MoveGunHorizontalID, msg));
 	}
 
@@ -347,4 +367,14 @@ public class WebsockAdaptor : MonoBehaviour {
 		return msg;
 	}
 
+	// ================
+	// IGNORED MESSAGES
+	// ================
+	void HandleBar (UpdateBar msg) {
+		// No-op
+	}
+
+	void DisableMovement (string msg) {
+		// No-op?
+	}
 }

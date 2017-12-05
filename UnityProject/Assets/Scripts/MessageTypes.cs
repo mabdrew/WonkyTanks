@@ -11,6 +11,7 @@ class GameUtilities : MonoBehaviour//extends mono purely for the benefits of pri
 		foreach (var item in SceneManager.GetActiveScene().GetRootGameObjects()) {
 			item.BroadcastMessage (name, msg, SendMessageOptions.DontRequireReceiver);
 		}
+		WebsockAdaptor.Instance.SendMessage (name, msg);
 	}
 
     public static void FindGame(ref GameObject game_in)
