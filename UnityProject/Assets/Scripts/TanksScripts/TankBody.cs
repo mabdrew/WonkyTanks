@@ -253,26 +253,16 @@ public class TankBody : MonoBehaviour {
 
     private void EndLevel()
     {
-        LoadNextSceneMsg msg = new LoadNextSceneMsg("Title", LoadSceneMode.Single);
-        OwningGame.BroadcastMessage("LoadNext", msg, GameUtilities.DONT_CARE_RECIEVER);
+        OwningGame.BroadcastMessage("LoadNext", new LoadNextSceneMsg(SceneName.Title), GameUtilities.DONT_CARE_RECIEVER);
     }
 
     void OnTriggerEnter(Collider theOther)
     {
         if (theOther.gameObject.CompareTag("Finish") && IsFinishActive == true)
         {
-            LoadNextSceneMsg msg = new LoadNextSceneMsg("Title", LoadSceneMode.Single);
-            OwningGame.BroadcastMessage("LoadNext", msg, GameUtilities.DONT_CARE_RECIEVER);
+            EndLevel ();
         }
     }
-
-    void LoadNext(LoadNextSceneMsg msg)
-    {
-        // Loads title screen.
-        SceneManager.LoadScene(msg.SceneName, (LoadSceneMode) msg.SceneModeType);
-    }
-
-
 
     public bool IsFinishActive
     {

@@ -33,9 +33,9 @@ public class Timer : MonoBehaviour {
     void Start () {
         GameUtilities.FindGame(ref OwningGame);
     }
-	
-	// Update is called once per frame
-	void Update () {
+    
+    // Update is called once per frame
+    void Update () {
 
         TotalTime -= Time.deltaTime;
 
@@ -47,7 +47,7 @@ public class Timer : MonoBehaviour {
         {
             UpdateTimer();
         }
-	}
+    }
 
     private void UpdateTimer()
     {
@@ -65,7 +65,10 @@ public class Timer : MonoBehaviour {
 
     private void EndLevel()
     {
-        LoadNextSceneMsg msg = new LoadNextSceneMsg("Title", LoadSceneMode.Single);
-        OwningGame.BroadcastMessage("LoadNext", msg, GameUtilities.DONT_CARE_RECIEVER);
+        OwningGame.BroadcastMessage(
+            "LoadNext", 
+            new LoadNextSceneMsg(SceneName.Title),
+            GameUtilities.DONT_CARE_RECIEVER
+        );
     }
 }

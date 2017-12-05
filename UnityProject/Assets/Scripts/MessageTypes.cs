@@ -196,24 +196,24 @@ namespace MapMessages
 
 namespace LevelMessages
 {
-    using WonkyMessages;
-    class LoadNextSceneMsg : BaseMsg
-    {
-        public string SceneName;
-        public int SceneModeType;
+	using WonkyMessages;
 
-        public LoadNextSceneMsg()
-        {
-            SceneName = "Title";
-            SceneModeType = (int) LoadSceneMode.Single;
-        }
+	enum SceneName {
+		Title,
+		Level,
+	}
 
-        public LoadNextSceneMsg(string nextScene, LoadSceneMode nextSceneType)
-        {
-            SceneName = nextScene;
-            SceneModeType = (int) nextSceneType;
-        }
-    }
+	class LoadNextSceneMsg : BaseMsg
+	{
+		public SceneName SceneName = SceneName.Title;
+
+		public LoadNextSceneMsg() {}
+
+		public LoadNextSceneMsg(SceneName sceneName)
+		{
+			SceneName = sceneName;
+		}
+	}
 }
 
 namespace EnemyMessages
